@@ -1,0 +1,16 @@
+set(GMock_GIT_URL https://github.com/google/googletest.git)
+set(GMock_GIT_TAG master)
+set(GMock_UPDATE_DISCONNECTED 1)
+
+set(GMOCK_INCLUDE_DIRS "" CACHE STRING "" FORCE)
+set(GMOCK_INCLUDE_DIR "" CACHE INTERNAL "")
+
+set(GMOCK_LIBRARIES gmock CACHE STRING "" FORCE)
+set(GMOCK_LIBRARY gmock CACHE INTERNAL "")
+set(GMOCK_LIBRARY_DEBUG gmock CACHE INTERNAL "")
+
+set(GMOCK_MAIN_LIBRARIES gmock_main CACHE STRING "" FORCE)
+set(GMOCK_MAIN_LIBRARY gmock_main CACHE INTERNAL "")
+set(GMOCK_MAIN_LIBRARY_DEBUG gmock_main CACHE INTERNAL "")
+
+set(gtest_disable_pthreads ON CACHE INTERNAL "")

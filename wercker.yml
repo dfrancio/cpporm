@@ -1,0 +1,61 @@
+# This references an Ubuntu container from the Docker Hub
+# https://cloud.docker.com/_/repository/docker/dsfalker/
+box:
+    id: dsfalker/fmp2
+    username: $USERNAME
+    password: $PASSWORD
+    tag: latest
+
+# You can also use services such as databases. Read more on our dev center:
+# http://devcenter.wercker.com/docs/services/index.html
+# services:
+    # - postgres
+    # http://devcenter.wercker.com/docs/services/postgresql.html
+
+    # - mongo
+    # http://devcenter.wercker.com/docs/services/mongodb.html
+
+# This is the build pipeline
+build:
+    steps:
+        - script:
+            name: configure
+            code: >
+                cmake -G Ninja
+                -DCMAKE_BUILD_TYPE=Release
+                -DBUILD_SHARED_LIBS=OFF
+                -DBUILD_TESTS=ON
+                -Bbuild/Release -H.
+        - script:
+            name: build
+            cwd: build/Release
+            code: ninja
+        - script:
+            name: test
+            cwd: build/Release
+            code: ctest
+        - script:
+            name: clean
+            code: rm -rf build/Release
+
+# This is the deploy pipeline
+deploy:
+    steps:
+        - script:
+            name: configure
+            code: >
+                cmake -G Ninja
+                -DCMAKE_BUILD_TYPE=Release
+                -Bbuild/Release -H.
+        - script:
+            name: build
+            cwd: build/Release
+            code: ninja
+        - script:
+            name: install
+            cwd: build/Release
+            code: DESTDIR=$WERCKER_OUTPUT_DIR ninja install
+        - script:
+            name: clean
+            code: rm -rf build/Release
+

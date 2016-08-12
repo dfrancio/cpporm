@@ -1,0 +1,94 @@
+#pragma once
+
+// C library includes
+#include <cassert>
+#include <cstring>
+
+// C++ library includes
+#include <algorithm>
+#include <chrono>
+#include <functional>
+#include <list>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <stack>
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+// Internal library includes
+#include <cpporm/export.h>
+
+#define @PROJECT_NAME_UPPERCASE@_VERSION "@PROJECT_VERSION@"
+#define @PROJECT_NAME_UPPERCASE@_USE_DUAL_ABI @CONF_USE_DUAL_ABI@
+
+#if !@PROJECT_NAME_UPPERCASE@_USE_DUAL_ABI
+// Ignore any pre-defined value of @PROJECT_NAME_UPPERCASE@_USE_CXX11_ABI
+#undef @PROJECT_NAME_UPPERCASE@_USE_CXX11_ABI
+#endif
+
+#ifndef @PROJECT_NAME_UPPERCASE@_USE_CXX11_ABI
+#define @PROJECT_NAME_UPPERCASE@_USE_CXX11_ABI 1
+#endif
+
+#if @PROJECT_NAME_UPPERCASE@_USE_CXX11_ABI
+// Macros for ABI tag attributes.
+#ifndef @PROJECT_NAME_UPPERCASE@_ABI_TAG_CXX11
+#if __GNUC__ && !(__llvm__ || __clang__)
+#define @PROJECT_NAME_UPPERCASE@_ABI_TAG_CXX11 __attribute((__abi_tag__("cxx11")))
+#else
+#define @PROJECT_NAME_UPPERCASE@_ABI_TAG_CXX11
+#endif
+#endif
+#define @PROJECT_NAME_UPPERCASE@_NAMESPACE_CXX11 __cxx11::
+#define @PROJECT_NAME_UPPERCASE@_BEGIN_NAMESPACE_CXX11 \
+    inline namespace __cxx11 \
+    {
+#define @PROJECT_NAME_UPPERCASE@_END_NAMESPACE_CXX11 }
+#define @PROJECT_NAME_UPPERCASE@_DEFAULT_ABI_TAG @PROJECT_NAME_UPPERCASE@_ABI_TAG_CXX11
+#else
+#define @PROJECT_NAME_UPPERCASE@_NAMESPACE_CXX11
+#define @PROJECT_NAME_UPPERCASE@_BEGIN_NAMESPACE_CXX11
+#define @PROJECT_NAME_UPPERCASE@_END_NAMESPACE_CXX11
+#define @PROJECT_NAME_UPPERCASE@_DEFAULT_ABI_TAG
+#endif
+
+#define @PROJECT_NAME_UPPERCASE@_BEGIN_NAMESPACE \
+    namespace @PROJECT_NAME@ \
+    { \
+    @PROJECT_NAME_UPPERCASE@_BEGIN_NAMESPACE_CXX11
+#define @PROJECT_NAME_UPPERCASE@_END_NAMESPACE \
+    @PROJECT_NAME_UPPERCASE@_END_NAMESPACE_CXX11 \
+    }
+
+#define @PROJECT_NAME_UPPERCASE@_BEGIN_SUB_NAMESPACE(name) \
+    @PROJECT_NAME_UPPERCASE@_BEGIN_NAMESPACE \
+    namespace name \
+    {
+#define @PROJECT_NAME_UPPERCASE@_END_SUB_NAMESPACE \
+    } \
+    @PROJECT_NAME_UPPERCASE@_END_NAMESPACE
+
+#define @PROJECT_NAME_UPPERCASE@_BEGIN_SUB_SUB_NAMESPACE(name1, name2) \
+    @PROJECT_NAME_UPPERCASE@_BEGIN_SUB_NAMESPACE(name1) \
+    namespace name2 \
+    {
+#define @PROJECT_NAME_UPPERCASE@_END_SUB_SUB_NAMESPACE \
+    } \
+    @PROJECT_NAME_UPPERCASE@_END_SUB_NAMESPACE
+
+#define @PROJECT_NAME_UPPERCASE@_VISIBILITY_DEFAULT __attribute((visibility("default")))
+
+/*! \brief Namespace @PROJECT_NAME@ */
+namespace @PROJECT_NAME@
+{
+#if @PROJECT_NAME_UPPERCASE@_USE_CXX11_ABI
+/*! \brief Namespace __cxx11 */
+inline namespace __cxx11 @PROJECT_NAME_UPPERCASE@_ABI_TAG_CXX11
+{
+}
+#endif
+}
