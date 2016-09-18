@@ -801,20 +801,14 @@ const std::string ImplementationEntityWriter::cRegisterEntityWithFactory
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineEntityMethods
-    = "\n"
-      "cpporm::Entity *%1%::Clone() const\n"
-      "{\n"
+    = "cpporm::Entity *%1%::Clone() const {\n"
       "    return new %1%(*this);\n"
       "}\n"
-      "\n"
-      "const std::string &%1%::GetName() const\n"
-      "{\n"
+      "const std::string &%1%::GetName() const {\n"
       "    static const std::string cName = \"%1%\";\n"
       "    return cName;\n"
       "}\n"
-      "\n"
-      "const cpporm::PropertyMap &%1%::GetProperties() const\n"
-      "{\n"
+      "const cpporm::PropertyMap &%1%::GetProperties() const {\n"
       "    static const cpporm::PropertyMap cMap = {%2%};\n"
       "    return cMap;\n"
       "}\n";
@@ -823,9 +817,7 @@ const std::string ImplementationEntityWriter::cDefineEntityMethods
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineEntityAttributes
-    = "\n"
-      "const cpporm::AttributeMap &%1%::GetAttributes() const\n"
-      "{\n"
+    = "const cpporm::AttributeMap &%1%::GetAttributes() const {\n"
       "    static const cpporm::AttributeMap cMap = {%2%};\n"
       "    return cMap;\n"
       "}\n";
@@ -834,9 +826,7 @@ const std::string ImplementationEntityWriter::cDefineEntityAttributes
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineEntityIndices
-    = "\n"
-      "const cpporm::IndexMap &%1%::GetIndices() const\n"
-      "{\n"
+    = "const cpporm::IndexMap &%1%::GetIndices() const {\n"
       "    static const cpporm::IndexMap cMap = {%2%};\n"
       "    return cMap;\n"
       "}\n";
@@ -845,9 +835,7 @@ const std::string ImplementationEntityWriter::cDefineEntityIndices
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineEntityRelationships
-    = "\n"
-      "const cpporm::RelationshipMap &%1%::GetRelationships() const\n"
-      "{\n"
+    = "const cpporm::RelationshipMap &%1%::GetRelationships() const {\n"
       "    static const cpporm::RelationshipMap cMap = {%2%};\n"
       "    return cMap;\n"
       "}\n";
@@ -878,27 +866,19 @@ const std::string ImplementationEntityWriter::cMapRelationship
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineAttribute
-    = "\n"
-      "const std::string &%1%::_attribute_%2%::GetName() const\n"
-      "{\n"
+    = "const std::string &%1%::_attribute_%2%::GetName() const {\n"
       "    static const std::string cName = \"%2%\";\n"
       "    return cName;\n"
       "}\n"
-      "\n"
-      "const cpporm::PropertyMap &%1%::_attribute_%2%::GetProperties() const\n"
-      "{\n"
+      "const cpporm::PropertyMap &%1%::_attribute_%2%::GetProperties() const {\n"
       "    static const cpporm::PropertyMap cMap = {%3%};\n"
       "    return cMap;\n"
       "}\n"
-      "\n"
-      "%1%::_attribute_%2% &%1%::_attribute_%2%::operator=(const Attribute &other)\n"
-      "{\n"
+      "%1%::_attribute_%2% &%1%::_attribute_%2%::operator=(const Attribute &other) {\n"
       "    mValue = other.Get();\n"
       "    return *this;\n"
       "}\n"
-      "\n"
-      "%1%::_attribute_%2% &%1%::_attribute_%2%::operator=(const std::string &value)\n"
-      "{\n"
+      "%1%::_attribute_%2% &%1%::_attribute_%2%::operator=(const std::string &value) {\n"
       "    mValue = value;\n"
       "    return *this;\n"
       "}\n";
@@ -907,63 +887,44 @@ const std::string ImplementationEntityWriter::cDefineAttribute
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineIndex
-    = "\n"
-      "const std::string &%1%::_index_%2%::GetName() const\n"
-      "{\n"
+    = "const std::string &%1%::_index_%2%::GetName() const {\n"
       "    static const std::string cName = \"%2%\";\n"
       "    return cName;\n"
       "}\n"
-      "\n"
-      "const cpporm::PropertyMap &%1%::_index_%2%::GetProperties() const\n"
-      "{\n"
+      "const cpporm::PropertyMap &%1%::_index_%2%::GetProperties() const {\n"
       "    static const cpporm::PropertyMap cMap = {%3%};\n"
       "    return cMap;\n"
       "}\n"
-      "\n"
-      "const cpporm::AttributeMap &%1%::_index_%2%::GetAttributes() const\n"
-      "{\n"
+      "const cpporm::AttributeMap &%1%::_index_%2%::GetAttributes() const {\n"
       "    static const cpporm::AttributeMap cMap = {%4%};\n"
       "    return cMap;\n"
       "}\n"
-      "\n"
       "%1%::_index_%2% %1%::%2%;\n";
 
 /*!
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineRelationship
-    = "\n"
-      "const std::string &%1%::_relationship_%2%::GetName() const\n"
-      "{\n"
+    = "const std::string &%1%::_relationship_%2%::GetName() const {\n"
       "    static const std::string cName = \"%2%\";\n"
       "    return cName;\n"
       "}\n"
-      "\n"
-      "const cpporm::PropertyMap &%1%::_relationship_%2%::GetProperties() const\n"
-      "{\n"
+      "const cpporm::PropertyMap &%1%::_relationship_%2%::GetProperties() const {\n"
       "    return %7%::%3%.GetProperties();\n"
       "}\n"
-      "\n"
-      "const std::vector<std::string> &%1%::_relationship_%2%::GetForeignKeyNames() const\n"
-      "{\n"
+      "const std::vector<std::string> &%1%::_relationship_%2%::GetForeignKeyNames() const {\n"
       "    static const std::vector<std::string> cNames = {%4%};\n"
       "    return cNames;\n"
       "}\n"
-      "\n"
-      "const std::vector<std::string> &%1%::_relationship_%2%::GetReferencedNames() const\n"
-      "{\n"
+      "const std::vector<std::string> &%1%::_relationship_%2%::GetReferencedNames() const {\n"
       "    static const std::vector<std::string> cNames = {%5%};\n"
       "    return cNames;\n"
       "}\n"
-      "\n"
-      "const std::string &%1%::_relationship_%2%::GetReciprocalName() const\n"
-      "{\n"
+      "const std::string &%1%::_relationship_%2%::GetReciprocalName() const {\n"
       "    static const std::string cName = \"%6%\";\n"
       "    return cName;\n"
       "}\n"
-      "\n"
-      "cpporm::Entity &%1%::_relationship_%2%::GetPrototype() const\n"
-      "{\n"
+      "cpporm::Entity &%1%::_relationship_%2%::GetPrototype() const {\n"
       "    static %1% cEntity;\n"
       "    return cEntity;\n"
       "}\n";
@@ -972,9 +933,7 @@ const std::string ImplementationEntityWriter::cDefineRelationship
  * \details
  */
 const std::string ImplementationEntityWriter::cDefineToOneRelationship
-    = "\n"
-      "%3% *%1%::_relationship_%2%::operator->()\n"
-      "{\n"
+    = "%3% *%1%::_relationship_%2%::operator->() {\n"
       "    return Get<%3%>();\n"
       "}\n";
 

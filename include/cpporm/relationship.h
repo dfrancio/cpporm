@@ -63,6 +63,34 @@ public:
      */
     virtual const std::vector<std::string> &GetReferencedNames() const = 0;
 
+protected:
+    /*!
+     * \brief Befriend class Entity
+     */
+    friend class Entity;
+
+    /*!
+     * \brief Befriend class ToOneRelationship
+     */
+    friend class ToOneRelationship;
+
+    /*!
+     * \brief Befriend class ToManyRelationship
+     */
+    friend class ToManyRelationship;
+
+    /*!
+     * \brief Get reciprocal name
+     * \return The relationship reciprocal name
+     */
+    virtual const std::string &GetReciprocalName() const = 0;
+
+    /*!
+     * \brief Get prototype
+     * \return The related type prototype
+     */
+    virtual Entity &GetPrototype() const = 0;
+
     /*!
      * \brief Unrelate
      */
@@ -77,19 +105,6 @@ public:
      * \brief Dissolve
      */
     virtual void Dissolve();
-
-protected:
-    /*!
-     * \brief Get reciprocal name
-     * \return The relationship reciprocal name
-     */
-    virtual const std::string &GetReciprocalName() const = 0;
-
-    /*!
-     * \brief Get prototype
-     * \return The related type prototype
-     */
-    virtual Entity &GetPrototype() const = 0;
 
     /*!
      * \brief Get session
@@ -123,16 +138,6 @@ class CPPORM_EXPORT ToOneRelationship : public Relationship, private std::shared
     using Relationship::Relationship;
 
 public:
-    /*!
-     * \brief Invalidate
-     */
-    void Invalidate() override;
-
-    /*!
-     * \brief Unrelate
-     */
-    void Unrelate() override;
-
     /*!
      * \brief operator bool
      */
@@ -174,6 +179,16 @@ protected:
         assert(dynamic_cast<T *>(get()));
         return static_cast<T *>(get());
     }
+
+    /*!
+     * \brief Invalidate
+     */
+    void Invalidate() override;
+
+    /*!
+     * \brief Unrelate
+     */
+    void Unrelate() override;
 
     /*!
      * \brief Load
@@ -236,14 +251,10 @@ class CPPORM_EXPORT ToManyRelationship : public Relationship,
 
 public:
     /*!
-     * \brief Dissolve
-     */
-    void Dissolve() override;
-
-    /*!
      * \brief For each
      * \param[in] function The function
      * \param[in] args The function arguments
+     * \return True, if all related entities were processed successfully; false otherwise
      */
     template <typename F, typename... Args>
     bool ForEach(F &&function, Args &&... args)
@@ -265,6 +276,11 @@ public:
     }
 
 protected:
+    /*!
+     * \brief Dissolve
+     */
+    void Dissolve() override;
+
     /*!
      * \brief Load
      * \param[in] cachedOnly A flag to indicate whether to search only already cached entities
