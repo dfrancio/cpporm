@@ -38,7 +38,7 @@ const AttributeMap &Entity::GetPrimaryKey() const
  */
 const AttributeMap &Entity::GetVersionFields() const
 {
-    static const AttributeMap cEmptyMap;
+    static const AttributeMap cEmptyMap = {};
     return GetIndices().Has(CPPORM_INDEX_VERSION)
         ? GetIndices().Get(CPPORM_INDEX_VERSION)->GetAttributes()
         : cEmptyMap;

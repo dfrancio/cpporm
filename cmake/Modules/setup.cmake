@@ -28,6 +28,16 @@ macro(get_parameter_default _out _in _def)
     endif()
 endmacro(get_parameter_default)
 
+macro(exclude_from_listing _sources _exclude_prefixes)
+    foreach(exclude ${${_exclude_prefixes}})
+        foreach(source ${${_sources}})
+            if(source MATCHES "^.[/\\]${exclude}(.*)$" OR source MATCHES "^${exclude}/(.*)$")
+                list(REMOVE_ITEM ${_sources} ${source})
+            endif()
+        endforeach()
+    endforeach()
+endmacro(exclude_from_listing)
+
 #===================================================================================================
 #
 #   download_project(PROJ projectName
@@ -577,7 +587,7 @@ macro(setup_project_documentation)
             COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating documentation with Doxygen"
-            DEPENDS ${DOXYFILE_OUT} ${${PROJECT_NAME}_SOURCES}
+            DEPENDS ${DOXYFILE_OUT} ${${PROJECT_NAME_UPPERCASE}_SOURCES}
             VERBATIM)
         add_custom_target(doc ALL SOURCES ${DOXYGEN_OUTPUT_FILE})
     endif()
@@ -670,18 +680,8 @@ macro(setup_target_listings)
                 list(APPEND TARGET_PUBLIC_HEADERS ${PUBLIC_HEADERS})
             endif()
         endforeach()
-        foreach(exclude ${TARGET_EXCLUDE_PREFIXES})
-            foreach(source ${TARGET_SOURCES})
-                if(source MATCHES "^${exclude}/(.*)$")
-                    list(REMOVE_ITEM TARGET_SOURCES ${source})
-                endif()
-            endforeach()
-            foreach(source ${TARGET_PUBLIC_HEADERS})
-                if(source MATCHES "^${exclude}/(.*)$")
-                    list(REMOVE_ITEM TARGET_PUBLIC_HEADERS ${source})
-                endif()
-            endforeach()
-        endforeach()
+        exclude_from_listing(TARGET_SOURCES TARGET_EXCLUDE_PREFIXES)
+        exclude_from_listing(TARGET_PUBLIC_HEADERS TARGET_EXCLUDE_PREFIXES)
     else()
         set(TARGET_SOURCES ${${TARGET_NAME}_SOURCES})
     endif()
@@ -689,7 +689,7 @@ macro(setup_target_listings)
     list(APPEND TARGET_SOURCES ${TARGET_EXTRA_SOURCES})
 
     if(NOT TARGET_IS_TEST)
-        list(APPEND ${PROJECT_NAME}_SOURCES ${TARGET_SOURCES})
+        list(APPEND ${PROJECT_NAME_UPPERCASE}_SOURCES ${TARGET_SOURCES})
     endif()
 
     if(TARGET_IS_LIBRARY)
@@ -955,7 +955,7 @@ function(setup_target)
     setup_target_target()
     setup_target_export()
 
-    set(${PROJECT_NAME}_SOURCES ${${PROJECT_NAME}_SOURCES} PARENT_SCOPE)
+    set(${PROJECT_NAME_UPPERCASE}_SOURCES ${${PROJECT_NAME_UPPERCASE}_SOURCES} PARENT_SCOPE)
 
 endfunction(setup_target)
 
@@ -966,6 +966,7 @@ endfunction(setup_target)
 #               [INCLUDE_DIRS <path>...]
 #               [EXTRA_SOURCES <path>...]
 #               [SOURCE_PREFIXES <path>...]
+#               [EXCLUDE_PREFIXES <path>...]
 #               [OPTIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
 #               [DEFINITIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
 #               [DEPENDENCIES [
@@ -980,6 +981,8 @@ macro(setup_tests_listings)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_TEST_SOURCES ${SOURCES})
     endforeach()
+
+    exclude_from_listing(${ARG_NAME}_TEST_SOURCES ARG_EXCLUDE_PREFIXES)
 
     foreach(source ${${ARG_NAME}_TEST_SOURCES})
         foreach(prefix ${ARG_SOURCE_PREFIXES})
@@ -1065,6 +1068,7 @@ function(setup_tests)
     set(oneValueArgs NAME DATA_DIR)
     set(multiValueArgs
         SOURCE_PREFIXES
+        EXCLUDE_PREFIXES
         OPTIONS
         DEFINITIONS
         INCLUDE_DIRS

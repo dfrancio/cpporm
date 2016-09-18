@@ -13,7 +13,7 @@
 #include "mysqlParser.h"
 
 // Factory registering
-CPPORM_REGISTER_string(SerializerFactory, mysql::Serializer, mysql);
+CPPORM_REGISTER(SerializerFactory, mysql::Serializer, mysql, "mysql");
 
 namespace mysql
 {

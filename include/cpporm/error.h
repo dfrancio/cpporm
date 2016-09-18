@@ -14,7 +14,7 @@ CPPORM_BEGIN_NAMESPACE
 /*!
  * \brief %Error
  */
-class CPPORM_VISIBILITY_DEFAULT Error : public std::runtime_error
+class CPPORM_VISBILITY_DEFAULT Error : public std::runtime_error
 {
 public:
     /*!

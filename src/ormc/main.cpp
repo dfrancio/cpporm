@@ -85,12 +85,12 @@ int main(int argc, char **argv)
     {
         // Parse input
         std::cout << "reading input: '" << inputFilename << "'" << std::endl;
-        auto inputSerializer = SerializerFactory::GetInstance().Create(FLAGS_input_format);
+        auto inputSerializer = SerializerFactory::GetInstance().CreateUnique(FLAGS_input_format);
         inputSerializer->Parse(inputFilename, graph);
 
         // Write output
         std::cout << "writing to: '" << outputDir << "'" << std::endl;
-        auto outputSerializer = SerializerFactory::GetInstance().Create(FLAGS_output_format);
+        auto outputSerializer = SerializerFactory::GetInstance().CreateUnique(FLAGS_output_format);
         outputSerializer->Write(outputDir, outputName, graph);
     }
     catch (const std::exception &e)

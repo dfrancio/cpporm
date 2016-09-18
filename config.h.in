@@ -1,28 +1,8 @@
 #pragma once
 
-// C library includes
-#include <cassert>
-#include <cstring>
-
-// C++ library includes
-#include <algorithm>
-#include <chrono>
-#include <functional>
-#include <list>
-#include <map>
-#include <memory>
-#include <mutex>
-#include <stack>
-#include <stdexcept>
-#include <string>
-#include <unordered_map>
-#include <utility>
-#include <vector>
-
-// Internal library includes
-#include <cpporm/export.h>
-
 #define @PROJECT_NAME_UPPERCASE@_VERSION "@PROJECT_VERSION@"
+#define @PROJECT_NAME_UPPERCASE@_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define @PROJECT_NAME_UPPERCASE@_VERSION_MINOR @PROJECT_VERSION_MINOR@
 #define @PROJECT_NAME_UPPERCASE@_USE_DUAL_ABI @CONF_USE_DUAL_ABI@
 
 #if !@PROJECT_NAME_UPPERCASE@_USE_DUAL_ABI
@@ -79,8 +59,6 @@
 #define @PROJECT_NAME_UPPERCASE@_END_SUB_SUB_NAMESPACE \
     } \
     @PROJECT_NAME_UPPERCASE@_END_SUB_NAMESPACE
-
-#define @PROJECT_NAME_UPPERCASE@_VISIBILITY_DEFAULT __attribute((visibility("default")))
 
 /*! \brief Namespace @PROJECT_NAME@ */
 namespace @PROJECT_NAME@

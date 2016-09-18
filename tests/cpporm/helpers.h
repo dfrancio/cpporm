@@ -338,8 +338,7 @@ class MyFactory : public Factory<MyFactory, Base, std::string>
 {
 };
 
-class MyFactory2 : public Factory<MyFactory2, Base, std::string, std::unique_ptr<Base>,
-                                  cpporm::util::CaseInsensitiveLess>
+class MyFactory2 : public Factory<MyFactory2, Base, std::string, cpporm::util::CaseInsensitiveLess>
 {
 };
 
@@ -374,7 +373,7 @@ public:
     }
     std::unique_ptr<Query> CreateQuery() override
     {
-        return QueryFactory::GetInstance().Create(mVendor);
+        return QueryFactory::GetInstance().CreateUnique(mVendor);
     }
     std::unique_ptr<Statement> CreateStatement() override
     {
@@ -402,7 +401,7 @@ protected:
         ConnectionString connString;
         mConnectionString = connString.SetParameters(mParameters).Get();
     }
-    bool mConnected;
+    bool mConnected = false;
 };
 
 class MySession : public Session

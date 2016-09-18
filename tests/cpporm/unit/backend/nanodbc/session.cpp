@@ -139,7 +139,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet2)
         entity->id = "2";
         ASSERT_TRUE(bool(entity->created_by_Test2));
         ASSERT_NO_THROW(session.Update(*entity));
-        ASSERT_THROW(entity->created_by_Test2->id, cpporm::EntityNonExistentError);
+        ASSERT_THROW(entity->created_by_Test2->id.Get(), cpporm::EntityNonExistentError);
         entity->created_by = "2";
         session.Update(*entity);
         entity->id = "3";

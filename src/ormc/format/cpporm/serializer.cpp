@@ -20,7 +20,7 @@
 // Global variables
 static const auto cOutputStreamFlags = std::ios_base::binary | std::fstream::out;
 static const auto cAppendStreamFlags = std::ios_base::ate | std::fstream::in;
-CPPORM_REGISTER_string(SerializerFactory, cpporm::Serializer, cpporm);
+CPPORM_REGISTER(SerializerFactory, cpporm::Serializer, cpporm, "cpporm");
 DEFINE_string(version_fields, "", "comma-separated list of names of version fields");
 
 namespace cpporm
@@ -36,6 +36,7 @@ public:
      */
     ~HeaderPreambleWriter()
     {
+        mStream << cDeclareEntityCreator;
         mStream.close();
     }
 
@@ -85,6 +86,11 @@ private:
      * \brief
      */
     static const std::string cForwardDeclareEntity;
+
+    /*!
+     * \brief
+     */
+    static const std::string cDeclareEntityCreator;
 
     /*!
      * \brief The output stream
@@ -312,6 +318,86 @@ private:
      */
     bool mVersionFieldsWritten;
 };
+/*!
+ * \brief Implementation preamble writer
+ */
+class ImplementationPreambleWriter : public GraphVisitor
+{
+public:
+    /*!
+     * \brief Destructor
+     */
+    ~ImplementationPreambleWriter()
+    {
+        mStream << boost::format(cDefineEntityCreator);
+        mStream.close();
+    }
+
+    /*!
+     * \brief Constructor
+     * \param[in] listGraph The list graph
+     * \param[in] matrixGraph The matrix graph
+     * \param[in] dir The output directory
+     * \param[in] name The output name
+     */
+    ImplementationPreambleWriter(
+        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
+        const std::string &name)
+        : GraphVisitor(listGraph, matrixGraph)
+    {
+        mStream.open(dir + "/" + name + ".cpp", cOutputStreamFlags);
+        if (FLAGS_namespace.empty())
+            mStream << boost::format(cPreambleTextNoNamespace) % (name + ".cpp") % CPPORM_VERSION
+                    % (name + ".h");
+        else
+            mStream << boost::format(cPreambleText) % (name + ".cpp") % CPPORM_VERSION
+                    % (name + ".h") % FLAGS_namespace;
+
+        mStream << boost::format(cDefineEntityFactory);
+    }
+
+    /*!
+     * \brief Visit node
+     * \param[in] context The context
+     * \return True if the remaining siblings should be visited; false otherwise
+     */
+    bool VisitNode(const NodeContext &context) override
+    {
+        mStream << boost::format(cRegisterEntity) % context.node.name;
+        return true;
+    }
+
+private:
+    /*!
+     * \brief
+     */
+    static const std::string cPreambleText;
+
+    /*!
+     * \brief
+     */
+    static const std::string cPreambleTextNoNamespace;
+
+    /*!
+     * \brief
+     */
+    static const std::string cDefineEntityFactory;
+
+    /*!
+     * \brief
+     */
+    static const std::string cRegisterEntity;
+
+    /*!
+     * \brief
+     */
+    static const std::string cDefineEntityCreator;
+
+    /*!
+     * \brief The output stream
+     */
+    std::ofstream mStream;
+};
 
 /*!
  * \brief Implementation entity writer
@@ -340,13 +426,7 @@ public:
         const std::string &name)
         : GraphVisitor(listGraph, matrixGraph), mDirectory(dir), mName(name)
     {
-        mStream.open(dir + "/" + name + ".cpp", cOutputStreamFlags);
-        if (FLAGS_namespace.empty())
-            mStream << boost::format(cPreambleTextNoNamespace) % (name + ".cpp") % CPPORM_VERSION
-                    % (name + ".h");
-        else
-            mStream << boost::format(cPreambleText) % (name + ".cpp") % CPPORM_VERSION
-                    % (name + ".h") % FLAGS_namespace;
+        mStream.open(dir + "/" + name + ".cpp", cOutputStreamFlags | cAppendStreamFlags);
     }
 
     /*!
@@ -363,9 +443,8 @@ public:
         mAttributeStream.str(std::string());
         mIndexStream.str(std::string());
         mRelationshipStream.str(std::string());
-
-        mStream << boost::format(cRegisterEntityWithFactory) % context.node.name;
         mVersionFieldsWritten = false;
+        mStream << boost::format(cWriteEntityComment) % context.node.name;
         auto result = VisitChildren(context);
         CheckWriteVersionFields(context.node);
         auto properties = propertiesStream.str();
@@ -557,17 +636,7 @@ private:
     /*!
      * \brief
      */
-    static const std::string cPreambleText;
-
-    /*!
-     * \brief
-     */
-    static const std::string cPreambleTextNoNamespace;
-
-    /*!
-     * \brief
-     */
-    static const std::string cRegisterEntityWithFactory;
+    static const std::string cWriteEntityComment;
 
     /*!
      * \brief
@@ -676,11 +745,6 @@ const std::string HeaderPreambleWriter::cPreambleText
       "{\n"
       "\n"
       "/*\n"
-      " * The entity factory\n"
-      " */\n"
-      "CPPORM_DECLARE_ENTITY_FACTORY(EntityFactory, std::string);\n"
-      "\n"
-      "/*\n"
       " * Forward declarations\n"
       " */\n";
 
@@ -701,11 +765,6 @@ const std::string HeaderPreambleWriter::cPreambleTextNoNamespace
       "#include <cpporm/cpporm.h>\n"
       "\n"
       "/*\n"
-      " * The entity factory\n"
-      " */\n"
-      "CPPORM_DECLARE_ENTITY_FACTORY(EntityFactory, std::string);\n"
-      "\n"
-      "/*\n"
       " * Forward declarations\n"
       " */\n";
 
@@ -713,6 +772,16 @@ const std::string HeaderPreambleWriter::cPreambleTextNoNamespace
  * \details
  */
 const std::string HeaderPreambleWriter::cForwardDeclareEntity = "struct %s;\n";
+
+/*!
+ * \details
+ */
+const std::string HeaderPreambleWriter::cDeclareEntityCreator
+    = "\n"
+      "/*\n"
+      " * The entity creator function\n"
+      " */\n"
+      "std::shared_ptr<cpporm::Entity> Create(const std::string &key);\n";
 
 /*!
  * \details
@@ -762,7 +831,7 @@ const std::string NamespaceEndWriter::cNamespaceEnd = "\n"
 /*!
  * \details
  */
-const std::string ImplementationEntityWriter::cPreambleText
+const std::string ImplementationPreambleWriter::cPreambleText
     = "/*\n"
       " * %s\n"
       " *\n"
@@ -779,7 +848,7 @@ const std::string ImplementationEntityWriter::cPreambleText
 /*!
  * \details
  */
-const std::string ImplementationEntityWriter::cPreambleTextNoNamespace
+const std::string ImplementationPreambleWriter::cPreambleTextNoNamespace
     = "/*\n"
       " * %s\n"
       " *\n"
@@ -788,14 +857,49 @@ const std::string ImplementationEntityWriter::cPreambleTextNoNamespace
       "#include \"%s\"\n";
 
 /*!
+ * \brief
+ */
+const std::string ImplementationPreambleWriter::cDefineEntityFactory
+    = "\n"
+      "/*\n"
+      " * The entity factory\n"
+      " */\n"
+      "class EntityFactory : public cpporm::util::Factory<EntityFactory,\n"
+      "                                                   cpporm::Entity, std::string>\n"
+      "{\n"
+      "private:\n"
+      "    EntityFactory()\n"
+      "    {\n";
+/*!
+ * \brief
+ */
+const std::string ImplementationPreambleWriter::cRegisterEntity
+    = "        Register<%1%>(\"%1%\");\n";
+
+/*!
+ * \brief
+ */
+const std::string ImplementationPreambleWriter::cDefineEntityCreator
+    = "    }\n"
+      "    friend class Factory;\n"
+      "};\n"
+      "\n"
+      "/*\n"
+      "* The entity creator function\n"
+      "*/\n"
+      "std::shared_ptr<cpporm::Entity> Create(const std::string &key)\n"
+      "{\n"
+      "    return EntityFactory::GetInstance().CreateShared(key);\n"
+      "}\n";
+
+/*!
  * \details
  */
-const std::string ImplementationEntityWriter::cRegisterEntityWithFactory
+const std::string ImplementationEntityWriter::cWriteEntityComment
     = "\n"
       "/*******************************************************************************\n"
       " * %1%\n"
-      " ******************************************************************************/\n"
-      "CPPORM_REGISTER_string(EntityFactory, %1%, %1%);\n";
+      " ******************************************************************************/\n";
 
 /*!
  * \details
@@ -953,6 +1057,7 @@ void Serializer::Write(const std::string &dir, const std::string &name, const Li
     MatrixGraph mMatrixGraph(graph);
     HeaderPreambleWriter(graph, mMatrixGraph, dir, name).Visit();
     HeaderSchemaWriter(graph, mMatrixGraph, dir, name).Visit();
+    ImplementationPreambleWriter(graph, mMatrixGraph, dir, name).Visit();
     ImplementationEntityWriter(graph, mMatrixGraph, dir, name).Visit();
 }
 

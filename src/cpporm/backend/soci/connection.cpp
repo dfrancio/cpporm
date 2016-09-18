@@ -63,7 +63,7 @@ bool Connection::IsConnected() const
 std::unique_ptr<db::Query> Connection::CreateQuery()
 {
     Connect();
-    return db::QueryFactory::GetInstance().Create(mVendor);
+    return db::QueryFactory::GetInstance().CreateUnique(mVendor);
 }
 
 /*!

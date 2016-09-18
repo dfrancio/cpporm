@@ -19,9 +19,13 @@ else()
     set(CONF_USE_DUAL_ABI 0)
 endif()
 
-set(PUBLIC_OPTIONS -std=c++11)
-if(APPLE)
-    list(APPEND PUBLIC_OPTIONS -Wno-gnu-string-literal-operator-template)
+set(CXX_STANDARD -std=c++11)
+
+if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(EMIT_ABI_TAG_WARNING -Wabi-tag)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(EMIT_CLASS_DEBUG_ALWAYS -femit-class-debug-always)
+    endif()
 endif()
 
 if(WIN32)
@@ -47,8 +51,10 @@ setup_target(
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     OPTIONS
-        PUBLIC
-            ${PUBLIC_OPTIONS}
+        PRIVATE
+            ${CXX_STANDARD}
+            ${EMIT_ABI_TAG_WARNING}
+            ${EMIT_CLASS_DEBUG_ALWAYS}
     IS_LIBRARY)
 
 setup_target(
@@ -57,6 +63,11 @@ setup_target(
         include/cpporm/backend/nanodbc
         src/cpporm/backend/nanodbc
     EXPORT_FILE_NAME include/cpporm/backend/nanodbc/export.h
+    OPTIONS
+        PRIVATE
+            ${CXX_STANDARD}
+            ${EMIT_ABI_TAG_WARNING}
+            ${EMIT_CLASS_DEBUG_ALWAYS}
     DEFINITIONS
         PUBLIC
             -DUNICODE
@@ -74,10 +85,11 @@ setup_target(
         include/cpporm/backend/soci
         src/cpporm/backend/soci
     EXPORT_FILE_NAME include/cpporm/backend/soci/export.h
-    DEFINITIONS
-        PUBLIC
-            -DUNICODE
-            -D_UNICODE
+    OPTIONS
+        PRIVATE
+            ${CXX_STANDARD}
+            ${EMIT_ABI_TAG_WARNING}
+            ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
         INCLUDE PUBLIC Soci 3.2 REQUIRED END
         INTERNAL cpporm END
@@ -87,6 +99,10 @@ setup_target(
     NAME "ormc"
     SOURCE_PREFIXES
         src/ormc
+    OPTIONS
+        PRIVATE
+            ${CXX_STANDARD}
+            ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
         Boost REQUIRED END
         Gflags REQUIRED END
@@ -119,7 +135,8 @@ setup_tests(
         tests/cpporm
     OPTIONS
         PRIVATE
-            -femit-class-debug-always
+            ${CXX_STANDARD}
+            ${EMIT_CLASS_DEBUG_ALWAYS}
     DEFINITIONS
         PRIVATE
             -DODBC_SQLITE_DRIVER_NAME="${ODBC_SQLITE_DRIVER_NAME}"
@@ -140,7 +157,8 @@ setup_tests(
         tests/ormc/unit
     OPTIONS
         PRIVATE
-            -std=c++11
+            ${CXX_STANDARD}
+            ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
         GMock LIB_VAR_NAMES GMOCK_MAIN_LIBRARIES END
         FlatBuffers REQUIRED END)

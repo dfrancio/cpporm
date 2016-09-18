@@ -58,14 +58,14 @@ TEST(CppOrm_Unit_Db_Connection, TestSet2)
 TEST(CppOrm_Unit_Db_Connection, TestSet3)
 {
     auto &factory = QueryFactory::GetInstance();
-    auto query = factory.Create(Vendor::unknown);
+    auto query = factory.CreateUnique(Vendor::unknown);
     ASSERT_TRUE(dynamic_cast<Query *>(query.get()));
-    query = factory.Create(Vendor::sqlite);
+    query = factory.CreateUnique(Vendor::sqlite);
     ASSERT_TRUE(dynamic_cast<SqliteQuery *>(query.get()));
-    query = factory.Create(Vendor::mssql);
+    query = factory.CreateUnique(Vendor::mssql);
     ASSERT_TRUE(dynamic_cast<SqlServerQuery *>(query.get()));
-    query = factory.Create(Vendor::mysql);
+    query = factory.CreateUnique(Vendor::mysql);
     ASSERT_TRUE(dynamic_cast<MySqlQuery *>(query.get()));
-    query = factory.Create(Vendor::postgresql);
+    query = factory.CreateUnique(Vendor::postgresql);
     ASSERT_TRUE(dynamic_cast<PostgreSqlQuery *>(query.get()));
 }

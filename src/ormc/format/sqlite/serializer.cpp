@@ -20,7 +20,7 @@
 // Global variables
 static const auto cOutputStreamFlags = std::ios_base::binary | std::fstream::out;
 static const auto cAppendStreamFlags = std::ios_base::ate | std::fstream::in;
-CPPORM_REGISTER_string(SerializerFactory, sqlite::Serializer, sqlite);
+CPPORM_REGISTER(SerializerFactory, sqlite::Serializer, sqlite, "sqlite");
 
 namespace sqlite
 {

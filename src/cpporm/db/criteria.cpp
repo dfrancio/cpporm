@@ -76,6 +76,7 @@ const OrderBySpec &Criteria::GetOrderBy() const
 Criteria &Criteria::SetCachedOnly(bool value)
 {
     mCachedOnly = value;
+    return *this;
 }
 
 /*

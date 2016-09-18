@@ -13,7 +13,7 @@
 using namespace cpporm::util;
 
 // Global variables
-CPPORM_REGISTER_string(MyFactory, MyClass3, MyClass3);
+CPPORM_REGISTER(MyFactory, MyClass3, MyClass3, "MyClass3");
 
 TEST(CppOrm_Unit_Util_Preprocessor, TestSet1)
 {
@@ -25,7 +25,7 @@ TEST(CppOrm_Unit_Util_Preprocessor, TestSet1)
 
 TEST(CppOrm_Unit_Util_Preprocessor, TestSet3)
 {
-    ASSERT_TRUE(dynamic_cast<MyClass3 *>(MyFactory::GetInstance().Create("MyClass3").get()));
+    ASSERT_TRUE(dynamic_cast<MyClass3 *>(MyFactory::GetInstance().CreateUnique("MyClass3").get()));
 }
 
 TEST(CppOrm_Unit_Util_Preprocessor, TestSet4)

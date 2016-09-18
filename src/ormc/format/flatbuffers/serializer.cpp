@@ -11,7 +11,7 @@
 #include <gflags/gflags.h>
 
 // Global variables
-CPPORM_REGISTER_string(SerializerFactory, flatbuffers::Serializer, flatbuffers);
+CPPORM_REGISTER(SerializerFactory, flatbuffers::Serializer, flatbuffers, "flatbuffers");
 DEFINE_string(root_type, "", "root table for the flatbuffers serialized data");
 
 namespace flatbuffers

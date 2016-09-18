@@ -148,7 +148,12 @@ protected:
  */
 class CPPORM_EXPORT QueryFactory : public util::Factory<QueryFactory, Query, Vendor>
 {
-public:
+private:
+    /*!
+     * \brief Befriend class Factory
+     */
+    friend class Factory;
+
     /*!
      * \brief Constructor
      */

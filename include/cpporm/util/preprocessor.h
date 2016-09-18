@@ -34,8 +34,10 @@
 
 // Unpack variadic template
 #define CPPORM_UNPACK(X)                                                                           \
-    int unpack[]{0, (X, 0)...};                                                                    \
-    static_cast<void>(unpack);
+    {                                                                                              \
+        int unpack[]{0, (X, 0)...};                                                                \
+        static_cast<void>(unpack);                                                                 \
+    }
 
 // Predefined property names
 #define CPPORM_PROP_NOT_NULL "NOT_NULL"
@@ -60,14 +62,10 @@
 #define CPPORM_ADD_TABLE_SCOPE(table) ((table) == "" ? "" : std::string(table) + ".")
 
 // Factory utilities
-#define CPPORM_REGISTER_string(factory, derived, value)                                            \
-    namespace                                                                                      \
-    {                                                                                              \
-    static const cpporm::util::DefaultFactoryRegister<factory, derived> c##value##Reg(#value);     \
-    }                                                                                              \
-    static_assert(true, "")
+#define CPPORM_REGISTER(factory, derived, varname, keys...)                                        \
+    static const cpporm::util::FactoryRegister<factory, derived> c##varname##Reg(keys)
 
-// Other utilities
+// Map utilities
 #define CPPORM_MAP_ATTRIBUTE(ent, att)                                                             \
     {                                                                                              \
         #att, [](cpporm::Entity &entity)                                                           \
@@ -83,9 +81,10 @@
                      -> cpporm::Relationship & { return static_cast<ent &>(entity).rel; }          \
     }
 
-// Exceptions
+// Exception utilities
+#define CPPORM_VISBILITY_DEFAULT __attribute__((visibility("default")))
 #define CPPORM_DECLARE_EXCEPTION(name, msg, base)                                                  \
-    class CPPORM_VISIBILITY_DEFAULT name : public base                                             \
+    class CPPORM_VISBILITY_DEFAULT name : public base                                              \
     {                                                                                              \
     public:                                                                                        \
         template <typename... Args>                                                                \
@@ -95,12 +94,7 @@
     }
 
 // Client class declarations
-#define CPPORM_DECLARE_ENTITY_FACTORY(factory, type)                                               \
-    class factory : public cpporm::util::Factory<factory, cpporm::Entity, type,                    \
-                                                 std::shared_ptr<cpporm::Entity>>                  \
-    {                                                                                              \
-    }
-#define CPPORM_DECLARE_ENTITY(name) class name : public cpporm::Entity
+#define CPPORM_DECLARE_ENTITY(name, specs...) class specs name : public cpporm::Entity
 #define CPPORM_DECLARE_ENTITY_METHODS                                                              \
 public:                                                                                            \
     cpporm::Entity *Clone() const override;                                                        \
