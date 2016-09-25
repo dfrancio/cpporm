@@ -297,9 +297,32 @@ TEST_F(CppOrm_Unit_Db_Transaction, TestSet10)
         transaction.RollbackTo("name");
         ASSERT_NO_THROW(session.Get(entity2->GetId()));
         ASSERT_THROW(session.Get(entity3->GetId()), cpporm::EntryNonExistentError);
+        session.Add(entity3);
+        ASSERT_NO_THROW(session.Get(entity3->GetId()));
+        transaction.RollbackTo("name");
+        ASSERT_NO_THROW(session.Get(entity2->GetId()));
+        ASSERT_THROW(session.Get(entity3->GetId()), cpporm::EntryNonExistentError);
         transaction.Commit();
     }
     ASSERT_NO_THROW(session.Get(entity1->GetId()));
     ASSERT_NO_THROW(session.Get(entity2->GetId()));
     ASSERT_EQ(MyIudContext::insertions, cache8);
+}
+
+TEST_F(CppOrm_Unit_Db_Transaction, TestSet11)
+{
+    MySession session;
+    MyIudContext::insertions.clear();
+    session.Add(entity1);
+    session.Add(entity2);
+    {
+        Transaction transaction(session);
+        session.Add(entity3);
+        session.Add(entity4);
+    }
+    ASSERT_NO_THROW(session.Get(entity1->GetId()));
+    ASSERT_NO_THROW(session.Get(entity2->GetId()));
+    ASSERT_THROW(session.Get(entity3->GetId()), cpporm::EntryNonExistentError);
+    ASSERT_THROW(session.Get(entity4->GetId()), cpporm::EntryNonExistentError);
+    ASSERT_TRUE(MyIudContext::insertions.empty());
 }

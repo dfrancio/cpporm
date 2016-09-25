@@ -21,12 +21,25 @@ Context::~Context()
 /*!
  * \details
  */
+void Context::Activate()
+{
+    if (!mActive)
+        mActive = true;
+}
+
+/*!
+ * \details
+ */
 void Context::Rollback(std::function<ContextFunction> function)
 {
-    if (!mParentContext)
-        RollbackAll();
-    else
-        RollbackToThis(function);
+    if (mActive)
+    {
+        if (!mParentContext)
+            RollbackAll();
+        else
+            RollbackToThis(function);
+        mActive = false;
+    }
 }
 
 /*!
@@ -34,10 +47,14 @@ void Context::Rollback(std::function<ContextFunction> function)
  */
 void Context::Commit()
 {
-    if (!mParentContext)
-        CommitAll();
-    else
-        ReleaseThis();
+    if (mActive)
+    {
+        if (!mParentContext)
+            CommitAll();
+        else
+            ReleaseThis();
+        mActive = false;
+    }
 }
 
 /*!
@@ -45,10 +62,13 @@ void Context::Commit()
  */
 void Context::AddInsertion(const std::string &key)
 {
-    if (mParentContext || !mSubcontext)
-        InnerAddInsertion(key);
-    else
-        mSubcontext->InnerAddInsertion(key);
+    if (mActive)
+    {
+        if (mParentContext || !mSubcontext)
+            InnerAddInsertion(key);
+        else
+            mSubcontext->InnerAddInsertion(key);
+    }
 }
 
 /*!
@@ -56,10 +76,13 @@ void Context::AddInsertion(const std::string &key)
  */
 void Context::AddUpdate(const std::string &oldKey, const std::string &newKey)
 {
-    if (mParentContext || !mSubcontext)
-        InnerAddUpdate(oldKey, newKey);
-    else
-        mSubcontext->InnerAddUpdate(oldKey, newKey);
+    if (mActive)
+    {
+        if (mParentContext || !mSubcontext)
+            InnerAddUpdate(oldKey, newKey);
+        else
+            mSubcontext->InnerAddUpdate(oldKey, newKey);
+    }
 }
 
 /*!
@@ -67,10 +90,13 @@ void Context::AddUpdate(const std::string &oldKey, const std::string &newKey)
  */
 void Context::AddDeletion(const std::string &key)
 {
-    if (mParentContext || !mSubcontext)
-        InnerAddDeletion(key);
-    else
-        mSubcontext->InnerAddDeletion(key);
+    if (mActive)
+    {
+        if (mParentContext || !mSubcontext)
+            InnerAddDeletion(key);
+        else
+            mSubcontext->InnerAddDeletion(key);
+    }
 }
 
 /*!
@@ -78,7 +104,8 @@ void Context::AddDeletion(const std::string &key)
  */
 Context::Context(Context *parent)
     : mParentContext(parent && parent->mParentContext ? parent->mParentContext : parent),
-      mSubcontext(mParentContext ? mParentContext->mSubcontext : nullptr)
+      mSubcontext(mParentContext ? mParentContext->mSubcontext : nullptr),
+      mActive(parent != nullptr)
 {
     if (mParentContext)
         mParentContext->mSubcontext = this;

@@ -28,6 +28,7 @@ Transaction::~Transaction()
  */
 Transaction::Transaction(Session &session) : mSession(session)
 {
+    mSession.GetContext().Activate();
 }
 
 /*!
@@ -71,6 +72,7 @@ void Transaction::RollbackTo(const std::string &name)
         auto &connection = mSession.GetConnection();
         connection.Execute(connection.CreateQuery()->RollbackToSavePoint(name).Get());
         it->second->Rollback(std::bind(&Transaction::RemoveSavePoint, this, _1));
+        it->second->Activate();
     }
 }
 

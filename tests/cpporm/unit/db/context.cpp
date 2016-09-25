@@ -15,7 +15,7 @@ class CppOrm_Unit_Db_Context : public testing::Test
 protected:
     CppOrm_Unit_Db_Context()
     {
-        words1 = {"abc", "def", "123", "456"};
+        words1 = {"def", "123", "456"};
         words2 = {"abc"};
         words3 = {"abc", "def", "123"};
         words4 = {"abc"};
@@ -37,6 +37,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet1)
         MyContext context1;
         context1.AddInsertion("abc");
         ASSERT_TRUE(dynamic_cast<MyContext *>(context1.CreateSubcontext()));
+        context1.Activate();
         context1.AddInsertion("def");
         context1.AddInsertion("123");
         context1.CreateSubcontext();
@@ -51,6 +52,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet2)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         context1.CreateSubcontext();
         context1.AddInsertion("def");
@@ -66,6 +68,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet3)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         auto context2 = context1.CreateSubcontext();
         context1.AddInsertion("def");
@@ -82,6 +85,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet4)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         context1.CreateSubcontext();
         context1.AddInsertion("def");
@@ -98,6 +102,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet5)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         auto context2 = context1.CreateSubcontext();
         context1.AddInsertion("def");
@@ -115,6 +120,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet6)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         context1.CreateSubcontext();
         context1.AddInsertion("def");
@@ -132,6 +138,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet7)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         auto context2 = context1.CreateSubcontext();
         context1.AddInsertion("def");
@@ -151,6 +158,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet8)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         auto context2 = context1.CreateSubcontext();
         context1.AddInsertion("def");
@@ -169,6 +177,7 @@ TEST_F(CppOrm_Unit_Db_Context, TestSet9)
     MyContext::committedWords.clear();
     {
         MyContext context1;
+        context1.Activate();
         context1.AddInsertion("abc");
         auto context2 = context1.CreateSubcontext();
         context1.AddInsertion("def");

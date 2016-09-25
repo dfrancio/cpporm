@@ -28,6 +28,11 @@ public:
     typedef void(ContextFunction)(Context *);
 
     /*!
+     * \brief Activate
+     */
+    void Activate();
+
+    /*!
      * \brief Rollback
      * \param[in] function The callback function
      */
@@ -136,6 +141,11 @@ private:
      * \brief The subcontext
      */
     Context *mSubcontext;
+
+    /*!
+     * \brief The subcontext
+     */
+    bool mActive;
 };
 
 CPPORM_END_SUB_NAMESPACE

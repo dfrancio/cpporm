@@ -86,6 +86,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet1)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddDeletion("b");
         context1.AddUpdate("c", "c");
@@ -114,6 +115,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet2)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddDeletion("b");
         context1.AddUpdate("c", "c");
@@ -141,6 +143,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet3)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddDeletion("b");
         context1.AddUpdate("c", "c");
@@ -169,6 +172,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet4)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddDeletion("b");
         context1.AddUpdate("c", "c");
@@ -197,6 +201,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet5)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddDeletion("b");
         context1.AddUpdate("c", "c");
@@ -226,6 +231,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet6)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddDeletion("b");
         context1.AddUpdate("c", "c");
@@ -255,6 +261,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet7)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddUpdate("b", "b");
         context1.AddDeletion("a");
@@ -273,6 +280,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet8)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddUpdate("b", "b");
         context1.AddDeletion("a");
         context1.AddInsertion("c");
@@ -293,6 +301,7 @@ TEST_F(CppOrm_Unit_Db_IudContext, TestSet9)
     MyIudContext::updates.clear();
     {
         MyIudContext context1(cache);
+        context1.Activate();
         context1.AddInsertion("a");
         context1.AddDeletion("b");
         context1.AddUpdate("a", "a");
