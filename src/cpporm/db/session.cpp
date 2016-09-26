@@ -170,14 +170,15 @@ void Session::InsertIntoDatabase(Entity &entity)
     GetConnection().Execute(*statement);
 
     query->Reset();
-    entity.FetchLastId(*query);
-    statement->Prepare(query->Get());
-    auto cursor = GetConnection().Execute(*statement);
-    assert(cursor);
-    auto result = cursor->Next();
-    assert(result);
-    entity.Extract(*cursor);
-    entity.Commit();
+    if (entity.FetchLastId(*query))
+    {
+        statement->Prepare(query->Get());
+        auto cursor = GetConnection().Execute(*statement);
+        assert(cursor);
+        auto result = cursor->Next();
+        assert(result);
+        entity.ExtractPrimaryKey(*cursor);
+    }
 }
 
 /*!

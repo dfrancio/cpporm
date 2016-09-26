@@ -154,6 +154,12 @@ public:
     void Extract(db::Cursor &cursor);
 
     /*!
+     * \brief Extract primary key
+     * \param[in] cursor The database cursor
+     */
+    void ExtractPrimaryKey(db::Cursor &cursor);
+
+    /*!
      * \brief Save primary key
      */
     void SavePrimaryKey();
@@ -167,8 +173,9 @@ public:
     /*!
      * \brief Fetch last inserted id
      * \param[in] query The database query
+     * \return True, if there is last insert id to be fetched; false otherwise
      */
-    void FetchLastId(db::Query &query);
+    bool FetchLastId(db::Query &query);
 
     /*!
      * \brief Fetch primary key

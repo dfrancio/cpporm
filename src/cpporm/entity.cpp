@@ -157,6 +157,16 @@ void Entity::Extract(db::Cursor &cursor)
 /*!
  * \details
  */
+void Entity::ExtractPrimaryKey(db::Cursor &cursor)
+{
+    for (const auto &pair : GetPrimaryKey())
+        pair.second(*this).Extract(cursor);
+    ResetId();
+}
+
+/*!
+ * \details
+ */
 void Entity::SavePrimaryKey()
 {
     for (const auto &pair : GetPrimaryKey())
@@ -175,17 +185,18 @@ void Entity::Fetch(db::Query &query)
 /*!
  * \details
  */
-void Entity::FetchLastId(db::Query &query)
+bool Entity::FetchLastId(db::Query &query)
 {
-    for (const auto &pair : GetAttributes())
+    for (const auto &pair : GetPrimaryKey())
     {
         const auto &attr = pair.second(*this);
         if (attr.GetProperties().Has(CPPORM_PROP_IDENTITY))
         {
             query.Select().LastInsertId().As(attr.GetName());
-            break;
+            return true;
         }
     }
+    return false;
 }
 
 /*!
