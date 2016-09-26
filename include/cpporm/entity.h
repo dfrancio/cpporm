@@ -190,6 +190,18 @@ public:
     void Insert(db::Query &query);
 
     /*!
+     * \brief Insert into temporary database
+     * \param[in] query The database query
+     */
+    void InsertIntoTemp(db::Query &query);
+
+    /*!
+     * \brief Join temporary database
+     * \param[in] query The database query
+     */
+    void JoinTemp(db::Query &query);
+
+    /*!
      * \brief Update in database
      * \param[in] query The database query
      */
@@ -229,6 +241,24 @@ public:
      * \param[in] query The database query
      */
     void CreateSchema(db::Query &query) const;
+
+    /*!
+     * \brief Create temporary database schema (only primary key columns)
+     * \param[in] query The database query
+     */
+    void CreateTempSchema(db::Query &query) const;
+
+    /*!
+     * \brief Drop database schema
+     * \param[in] query The database query
+     */
+    void DropSchema(db::Query &query) const;
+
+    /*!
+     * \brief Drop temporary database schema
+     * \param[in] query The database query
+     */
+    void DropTempSchema(db::Query &query) const;
 
     /*!
      * \brief Reload relationships

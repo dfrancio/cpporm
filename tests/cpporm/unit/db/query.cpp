@@ -172,7 +172,7 @@ TEST(CppOrm_Unit_Db_Query, TestSet12)
     query.Join("table", JoinType::inner);
     ASSERT_EQ(query.GetAndReset(), " INNER JOIN table;");
     query.Join("table", JoinType::natural);
-    ASSERT_EQ(query.GetAndReset(), " NATURAL INNER JOIN table;");
+    ASSERT_EQ(query.GetAndReset(), " NATURAL JOIN table;");
     query.Join("table", JoinType::leftouter);
     ASSERT_EQ(query.GetAndReset(), " LEFT OUTER JOIN table;");
     query.Join("table", JoinType::rightouter);
@@ -478,4 +478,115 @@ TEST(CppOrm_Unit_Db_Query, TestSet31)
     ASSERT_EQ(query.GetBindingIndex(), 2);
     query.IncrementalInsert("jkl");
     ASSERT_EQ(query.GetBindingIndex(), 3);
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet32)
+{
+    Query query;
+    query.CreateTable("Temp", false, false);
+    ASSERT_EQ(query.GetAndReset(), "CREATE TABLE Temp;");
+    query.CreateTable("Temp", false, true);
+    ASSERT_EQ(query.GetAndReset(), "CREATE TABLE IF NOT EXISTS Temp;");
+    query.CreateTable("Temp", true, false);
+    ASSERT_EQ(query.GetAndReset(), "CREATE TEMPORARY TABLE Temp;");
+    query.CreateTable("Temp", true, true);
+    ASSERT_EQ(query.GetAndReset(), "CREATE TEMPORARY TABLE IF NOT EXISTS Temp;");
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet33)
+{
+    Query query;
+    query.DropTable("Temp", false, false);
+    ASSERT_EQ(query.GetAndReset(), "DROP TABLE Temp;");
+    query.DropTable("Temp", false, true);
+    ASSERT_EQ(query.GetAndReset(), "DROP TABLE IF EXISTS Temp;");
+    query.DropTable("Temp", true, false);
+    ASSERT_EQ(query.GetAndReset(), "DROP TEMPORARY TABLE Temp;");
+    query.DropTable("Temp", true, true);
+    ASSERT_EQ(query.GetAndReset(), "DROP TEMPORARY TABLE IF EXISTS Temp;");
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet34)
+{
+    SqliteQuery query;
+    query.DropTable("Temp", false, false);
+    ASSERT_EQ(query.GetAndReset(), "DROP TABLE Temp;");
+    query.DropTable("Temp", false, true);
+    ASSERT_EQ(query.GetAndReset(), "DROP TABLE IF EXISTS Temp;");
+    query.DropTable("Temp", true, false);
+    ASSERT_EQ(query.GetAndReset(), "DROP TABLE temp.Temp;");
+    query.DropTable("Temp", true, true);
+    ASSERT_EQ(query.GetAndReset(), "DROP TABLE IF EXISTS temp.Temp;");
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet35)
+{
+    Query query;
+    query.IncrementalColumn("col", "TEXT", 0, 0, "", false, false, false, false);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col TEXT);");
+    query.IncrementalColumn("col", "INT", 12, 0, "", false, false, false, false);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT(12));");
+    query.IncrementalColumn("col", "FLOAT", 0, 5, "10", false, false, false, false);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col FLOAT DEFAULT 10);");
+    query.IncrementalColumn("col", "INT", 0, 0, "", true, false, false, false);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT PRIMARY KEY);");
+    query.IncrementalColumn("col", "INT", 0, 0, "", false, true, false, false);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT UNIQUE);");
+    query.IncrementalColumn("col", "INT", 0, 0, "", false, false, true, false);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT NOT NULL);");
+    query.IncrementalColumn("col", "INT", 0, 0, "", false, false, false, true);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT AUTO_INCREMENT);");
+    query.IncrementalColumn("col", "INT", 12, 5, "10", true, true, true, true);
+    ASSERT_EQ(
+        query.EndIncrementalColumn().GetAndReset(),
+        " (col INT(12,5) DEFAULT 10 PRIMARY KEY UNIQUE NOT NULL AUTO_INCREMENT);");
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet36)
+{
+    SqliteQuery query;
+    query.IncrementalColumn("col", "INT", 0, 0, "", false, false, false, true);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT);");
+    query.IncrementalColumn("col", "INT", 12, 5, "", true, false, true, true);
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT(12,5) PRIMARY KEY NOT NULL);");
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet37)
+{
+    Query query;
+    query.IncrementalIndex("col");
+    query.EndIncrementalIndex("PRIMARY KEY");
+    ASSERT_EQ(query.Get(), ";");
+    query.EndIncrementalColumn();
+    ASSERT_EQ(query.GetAndReset(), " (PRIMARY KEY (col));");
+    query.IncrementalIndex("col1");
+    query.IncrementalIndex("col2");
+    query.EndIncrementalIndex("UNIQUE");
+    query.EndIncrementalColumn();
+    ASSERT_EQ(query.GetAndReset(), " (UNIQUE (col1,col2));");
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet38)
+{
+    Query query;
+    query.CreateTable("Temp");
+    query.IncrementalColumn("id", "INTEGER", 0, 0, "", false, false, true, true);
+    query.IncrementalColumn("name", "TEXT", 0, 0, "", false, true, false, false);
+    query.IncrementalColumn("age", "INT", 3, 0, "", false, false, true, false);
+    query.IncrementalColumn(
+        "updated", "DATETIME", 0, 0, "CURRENT_TIMESTAMP", false, false, false, false);
+    query.IncrementalIndex("id");
+    query.EndIncrementalIndex("PRIMARY KEY");
+    query.IncrementalIndex("age");
+    query.IncrementalIndex("updated");
+    query.EndIncrementalIndex("UNIQUE");
+    query.EndIncrementalColumn();
+    ASSERT_EQ(
+        query.GetAndReset(), "CREATE TABLE Temp ("
+                             "id INTEGER NOT NULL AUTO_INCREMENT,"
+                             "name TEXT UNIQUE,"
+                             "age INT(3) NOT NULL,"
+                             "updated DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                             "PRIMARY KEY (id),"
+                             "UNIQUE (age,updated));");
 }

@@ -76,22 +76,53 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
 
     prototype.SetSession(this);
 
-    std::vector<std::string> result;
+    bool tempTableCreated = false;
+    std::vector<std::string> ids;
     auto cursor = GetConnection().Execute(*statement);
     while (cursor->Next())
     {
         prototype.Extract(*cursor);
-        if (!GetCache().Has(prototype.GetId()))
+        auto id = prototype.GetId();
+        if (GetCache().Has(id))
         {
-            if (criteria.GetCachedOnly())
-                continue;
-            FetchFromDatabase(prototype);
+            ids.push_back(id);
+        }
+        else if (!criteria.GetCachedOnly())
+        {
+            if (!tempTableCreated)
+            {
+                query->Reset();
+                prototype.CreateTempSchema(*query);
+                GetConnection().JustExecute(query->Get());
+                tempTableCreated = true;
+            }
+            query->Reset();
+            prototype.InsertIntoTemp(*query);
+            statement->Prepare(query->Get());
+            prototype.BindPrimaryKey(*statement);
+            GetConnection().Execute(*statement);
+        }
+    }
+
+    if (!criteria.GetCachedOnly() && tempTableCreated)
+    {
+        query->Reset();
+        prototype.Fetch(*query);
+        prototype.JoinTemp(*query);
+        statement->Prepare(query->Get());
+        cursor = GetConnection().Execute(*statement);
+        while (cursor->Next())
+        {
+            prototype.Extract(*cursor);
             prototype.Commit();
             GetCache().Add(prototype.GetId(), std::shared_ptr<Entity>(prototype.Clone()));
+            ids.push_back(prototype.GetId());
         }
-        result.push_back(prototype.GetId());
+        query->Reset();
+        prototype.DropTempSchema(*query);
+        GetConnection().JustExecute(query->Get());
     }
-    return result;
+    return ids;
 }
 
 /*!

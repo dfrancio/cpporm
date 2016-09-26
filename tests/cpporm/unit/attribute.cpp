@@ -154,3 +154,17 @@ TEST(CppOrm_Unit_Attribute, TestSet5)
     ASSERT_EQ(statement.boundValues, std::vector<std::string>({"def", "abc", "def"}));
     ASSERT_EQ(statement.nullCount, 1);
 }
+
+TEST(CppOrm_Unit_Attribute, TestSet6)
+{
+    MyAttribute attribute;
+    Query query;
+    attribute.CreateSchema(query);
+    query.EndIncrementalColumn();
+    ASSERT_EQ(query.GetAndReset(), " (name INT AUTO_INCREMENT);");
+
+    MyAttribute2 attribute2;
+    attribute2.CreateSchema(query);
+    query.EndIncrementalColumn();
+    ASSERT_EQ(query.Get(), " (name2 TEXT DEFAULT 1);");
+}

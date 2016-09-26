@@ -96,3 +96,31 @@ TEST(CppOrm_Unit_Entity, TestSet2)
     entity.Rollback();
     ASSERT_FALSE(entity.MarkForRemoval());
 }
+
+TEST(CppOrm_Unit_Entity, TestSet3)
+{
+    Test2 entity;
+    Query query;
+    entity.InsertIntoTemp(query);
+    ASSERT_EQ(query.GetAndReset(), "INSERT INTO Test2Temp DEFAULT VALUES;");
+    entity.JoinTemp(query);
+    ASSERT_EQ(query.GetAndReset(), " NATURAL JOIN Test2Temp;");
+    entity.CreateSchema(query);
+    ASSERT_EQ(
+        query.GetAndReset(), "CREATE TABLE Test2 ("
+                             "created_by INTEGER NOT NULL,"
+                             "name TEXT DEFAULT NULL,"
+                             "datetime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+                             "id INTEGER NOT NULL AUTO_INCREMENT,"
+                             "UNIQUE (name),"
+                             "PRIMARY KEY (id));");
+    entity.CreateTempSchema(query);
+    ASSERT_EQ(
+        query.GetAndReset(), "CREATE TEMPORARY TABLE Test2Temp ("
+                             "id INTEGER NOT NULL AUTO_INCREMENT,"
+                             "PRIMARY KEY (id));");
+    entity.DropSchema(query);
+    ASSERT_EQ(query.GetAndReset(), "DROP TABLE Test2;");
+    entity.DropTempSchema(query);
+    ASSERT_EQ(query.GetAndReset(), "DROP TEMPORARY TABLE Test2Temp;");
+}

@@ -226,6 +226,95 @@ Query &Query::EndIncrementalWhere()
 /*!
  * \details
  */
+Query &Query::CreateTable(const std::string &name, bool temp, bool ifNotExists)
+{
+    mState += "CREATE ";
+    if (temp)
+        mState += "TEMPORARY ";
+    mState += "TABLE ";
+    if (ifNotExists)
+        mState += "IF NOT EXISTS ";
+    mState += name;
+    return *this;
+}
+
+/*!
+ * \details
+ */
+Query &Query::DropTable(const std::string &name, bool temp, bool ifExists)
+{
+    mState += "DROP ";
+    if (temp)
+        mState += "TEMPORARY ";
+    mState += "TABLE ";
+    if (ifExists)
+        mState += "IF EXISTS ";
+    mState += name;
+    return *this;
+}
+
+/*!
+ * \details
+ */
+Query &Query::IncrementalIndex(const std::string &column)
+{
+    mColumns.push_back(column);
+    return *this;
+}
+
+/*!
+ * \details
+ */
+Query &Query::EndIncrementalIndex(const std::string &type)
+{
+    if (!mColumns.empty())
+    {
+        std::string indexDef = type + " (";
+        for (auto &name : mColumns)
+            indexDef += name + ',';
+        indexDef.pop_back();
+        indexDef += ')';
+        mColumnDefs.push_back(indexDef);
+    }
+    mColumns.clear();
+    return *this;
+}
+
+/*!
+ * \details
+ */
+Query &Query::IncrementalColumn(
+    const std::string &name, const std::string &type, unsigned long long length,
+    unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
+    bool notNull, bool autoIncrement)
+{
+    mColumnDefs.push_back(
+        FormatColumnDefinition(
+            name, type, length, decimals, defaultValue, primaryKey, unique, notNull,
+            autoIncrement));
+    return *this;
+}
+
+/*!
+ * \details
+ */
+Query &Query::EndIncrementalColumn()
+{
+    if (!mColumnDefs.empty())
+    {
+        mState += " (";
+        for (auto &def : mColumnDefs)
+            mState += def + ',';
+        mState.pop_back();
+        mState += ')';
+    }
+    mColumnDefs.clear();
+    return *this;
+}
+
+/*!
+ * \details
+ */
 Query &Query::As(const std::string &alias)
 {
     mState += " AS " + alias;
@@ -514,7 +603,7 @@ Query &Query::Join(const std::string &table, JoinType type)
         mState += " INNER JOIN " + table;
         break;
     case JoinType::natural:
-        mState += " NATURAL INNER JOIN " + table;
+        mState += " NATURAL JOIN " + table;
         break;
     case JoinType::leftouter:
         mState += " LEFT OUTER JOIN " + table;
@@ -741,6 +830,35 @@ Query &Query::Reset()
 /*!
  * \details
  */
+std::string Query::FormatColumnDefinition(
+    const std::string &name, const std::string &type, unsigned long long length,
+    unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
+    bool notNull, bool autoIncrement)
+{
+    auto lengthSpec = length == 0 ? "" : '(' + std::to_string(length)
+            + (decimals == 0 ? "" : ',' + std::to_string(decimals)) + ')';
+    return name + ' ' + type + lengthSpec + (defaultValue.empty() ? "" : " DEFAULT " + defaultValue)
+        + (primaryKey ? " PRIMARY KEY" : "") + (unique ? " UNIQUE" : "")
+        + (notNull ? " NOT NULL" : "") + (autoIncrement ? " AUTO_INCREMENT" : "");
+}
+
+/*!
+ * \details
+ */
+Query &SqliteQuery::DropTable(const std::string &name, bool temp, bool ifExists)
+{
+    mState += "DROP TABLE ";
+    if (ifExists)
+        mState += "IF EXISTS ";
+    if (temp)
+        mState += "temp.";
+    mState += name;
+    return *this;
+}
+
+/*!
+ * \details
+ */
 Query &SqliteQuery::Now()
 {
     mState += " DATETIME()";
@@ -792,6 +910,21 @@ Query &SqliteQuery::ResetSequence(const std::string &table)
 {
     mState += "DELETE FROM sqlite_sequence WHERE name = " + table;
     return *this;
+}
+
+/*!
+ * \details
+ */
+std::string SqliteQuery::FormatColumnDefinition(
+    const std::string &name, const std::string &type, unsigned long long length,
+    unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
+    bool notNull, bool autoIncrement)
+{
+    auto lengthSpec = length == 0 ? "" : '(' + std::to_string(length)
+            + (decimals == 0 ? "" : ',' + std::to_string(decimals)) + ')';
+    return name + ' ' + type + lengthSpec + (defaultValue.empty() ? "" : " DEFAULT " + defaultValue)
+        + (primaryKey ? " PRIMARY KEY" : "") + (unique ? " UNIQUE" : "")
+        + (notNull ? " NOT NULL" : "");
 }
 
 /*!

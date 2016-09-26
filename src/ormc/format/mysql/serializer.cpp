@@ -181,12 +181,14 @@ public:
         }
         if (ctx->UNIQUE())
         {
+            AddIndex();
             auto &index = GetCurrentIndex();
             index.type = "UNIQUE";
             index.fieldNames.push_back(mFieldName);
         }
         else if (ctx->PRIMARY() || ctx->KEY())
         {
+            AddIndex();
             auto &index = GetCurrentIndex();
             index.type = "PRIMARY_KEY";
             index.fieldNames.push_back(mFieldName);
@@ -275,6 +277,7 @@ public:
         }
         else if (ctx->UNIQUE())
         {
+            AddIndex();
             auto &index = GetCurrentIndex();
             index.type = "UNIQUE";
             index.fieldNames.push_back(mFieldName);
@@ -321,14 +324,14 @@ public:
     antlrcpp::Any visitLength(mysqlParser::LengthContext *ctx) override
     {
         if (mStates.top() == State::dataType)
-            GetCurrentField().properties["LENGTH"] = GetIntegerLiteral(ctx);
+            GetCurrentField().properties[CPPORM_PROP_LENGTH] = GetIntegerLiteral(ctx);
         return visitChildren(ctx);
     }
 
     antlrcpp::Any visitDecimals(mysqlParser::DecimalsContext *ctx) override
     {
         if (mStates.top() == State::dataType)
-            GetCurrentField().properties["DECIMALS"] = GetIntegerLiteral(ctx);
+            GetCurrentField().properties[CPPORM_PROP_DECIMALS] = GetIntegerLiteral(ctx);
         return visitChildren(ctx);
     }
 

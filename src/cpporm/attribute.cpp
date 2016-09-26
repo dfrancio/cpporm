@@ -7,6 +7,9 @@
  */
 #include <cpporm/attribute.h>
 
+// C library includes
+#include <cstdlib>
+
 // Internal library includes
 #include <cpporm/db/cursor.h>
 #include <cpporm/db/query.h>
@@ -251,7 +254,16 @@ void Attribute::ValidateSchema() const
  */
 void Attribute::CreateSchema(db::Query &query) const
 {
-    throw NotImplementedError("void Attribute::CreateSchema(db::Query &query) const");
+    auto datatype = GetProperties().Get(CPPORM_PROP_DATA_TYPE);
+    auto length = std::strtoull(GetProperties().Get(CPPORM_PROP_LENGTH, "0").c_str(), nullptr, 10);
+    auto decimals
+        = std::strtoull(GetProperties().Get(CPPORM_PROP_DECIMALS, "0").c_str(), nullptr, 10);
+    auto defaultValue = GetProperties().Get(CPPORM_PROP_DEFAULT, "");
+    auto isNotNull = GetProperties().Has(CPPORM_PROP_NOT_NULL);
+    auto isAutoIncrement = GetProperties().Has(CPPORM_PROP_IDENTITY);
+    query.IncrementalColumn(
+        GetName(), datatype, length, decimals, defaultValue, false, false, isNotNull,
+        isAutoIncrement);
 }
 
 CPPORM_END_NAMESPACE

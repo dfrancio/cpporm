@@ -224,6 +224,25 @@ void Entity::Insert(db::Query &query)
 /*!
  * \details
  */
+void Entity::InsertIntoTemp(db::Query &query)
+{
+    query.Insert().Into(GetName() + "Temp");
+    for (const auto &pair : GetPrimaryKey())
+        pair.second(*this).Insert(query);
+    query.EndIncrementalInsert();
+}
+
+/*!
+ * \details
+ */
+void Entity::JoinTemp(db::Query &query)
+{
+    query.Join(GetName() + "Temp", db::JoinType::natural);
+}
+
+/*!
+ * \details
+ */
 void Entity::Update(db::Query &query)
 {
     query.Update(GetName());
@@ -288,7 +307,58 @@ void Entity::ValidateSchema() const
  */
 void Entity::CreateSchema(db::Query &query) const
 {
-    throw NotImplementedError("void Entity::CreateSchema(db::Query &query) const");
+    query.CreateTable(GetName());
+    for (const auto &pair : GetAttributes())
+        pair.second(const_cast<Entity &>(*this)).CreateSchema(query);
+    for (auto &indexPair : GetIndices())
+    {
+        if (indexPair.first == CPPORM_INDEX_PRIMARY_KEY)
+        {
+            for (auto &pair : indexPair.second->GetAttributes())
+                query.IncrementalIndex(pair.first);
+            query.EndIncrementalIndex("PRIMARY KEY");
+        }
+        else if (indexPair.first.find(CPPORM_INDEX_UNIQUE) == 0)
+        {
+            for (auto &pair : indexPair.second->GetAttributes())
+                query.IncrementalIndex(pair.first);
+            query.EndIncrementalIndex("UNIQUE");
+        }
+    }
+    query.EndIncrementalColumn();
+}
+
+/*!
+ * \details
+ */
+void Entity::CreateTempSchema(db::Query &query) const
+{
+    query.CreateTable(GetName() + "Temp", true);
+    for (const auto &pair : GetPrimaryKey())
+        pair.second(const_cast<Entity &>(*this)).CreateSchema(query);
+    if (GetIndices().Has(CPPORM_INDEX_PRIMARY_KEY))
+    {
+        for (auto &pair : GetIndices().Get(CPPORM_INDEX_PRIMARY_KEY)->GetAttributes())
+            query.IncrementalIndex(pair.first);
+        query.EndIncrementalIndex("PRIMARY KEY");
+    }
+    query.EndIncrementalColumn();
+}
+
+/*!
+ * \details
+ */
+void Entity::DropSchema(db::Query &query) const
+{
+    query.DropTable(GetName());
+}
+
+/*!
+ * \details
+ */
+void Entity::DropTempSchema(db::Query &query) const
+{
+    query.DropTable(GetName() + "Temp", true);
 }
 
 /*!

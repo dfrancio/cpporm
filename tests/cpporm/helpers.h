@@ -228,7 +228,7 @@ public:
     }
     const PropertyMap &GetProperties() const override
     {
-        static PropertyMap map = {{"IDENTITY", ""}};
+        static PropertyMap map = {{"IDENTITY", ""}, {"DATA_TYPE", "INT"}};
         return map;
     }
 };
@@ -245,7 +245,7 @@ public:
     }
     const PropertyMap &GetProperties() const override
     {
-        static PropertyMap map = {{"DEFAULT", "1"}};
+        static PropertyMap map = {{"DEFAULT", "1"}, {"DATA_TYPE", "TEXT"}};
         return map;
     }
 };

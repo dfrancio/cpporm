@@ -178,7 +178,7 @@ public:
     Query &EndIncrementalInsert();
 
     /*!
-     * \brief Add individual name-value-pair to a set update
+     * \brief Add individual name-value-pair to an update clause
      * \param[in] column The column name
      * \param[in] value The value
      * \return A reference to *this
@@ -208,6 +208,63 @@ public:
      * \return A reference to *this
      */
     Query &EndIncrementalWhere();
+
+    /*!
+     * \brief Add create table clause
+     * \param[in] name The table name
+     * \param[in] temp A flag to indicate whether table should be created in the temporary schema
+     * \param[in] temp A flag to indicate whether table should be created only if it does not exist
+     * \return A reference to *this
+     */
+    virtual Query &CreateTable(
+        const std::string &name, bool temp = false, bool ifNotExists = false);
+
+    /*!
+     * \brief Add drop table clause
+     * \param[in] name The table name
+     * \param[in] temp A flag to indicate whether table should be dropped from the temporary schema
+     * \param[in] temp A flag to indicate whether table should be dropped only if it exists
+     * \return A reference to *this
+     */
+    virtual Query &DropTable(const std::string &name, bool temp = false, bool ifExists = false);
+
+    /*!
+     * \brief Add individual column to index
+     * \param[in] column The column name
+     * \return A reference to *this
+     */
+    Query &IncrementalIndex(const std::string &column);
+
+    /*!
+     * \brief Finish the index in incremental mode
+     * \param[in] type The index type
+     * \return A reference to *this
+     */
+    Query &EndIncrementalIndex(const std::string &type);
+
+    /*!
+     * \brief Add individual column definitions to a create table clause
+     * \param[in] name The column name
+     * \param[in] type The column datatype
+     * \param[in] length The column length
+     * \param[in] decimals The number of fractional digits
+     * \param[in] defaultValue The column default value
+     * \param[in] primaryKey The column primary key constraint
+     * \param[in] unique The column unique constraint
+     * \param[in] notNull The column not null constraint
+     * \param[in] autoIncrement The column auto increment flag
+     * \return A reference to *this
+     */
+    Query &IncrementalColumn(
+        const std::string &name, const std::string &type, unsigned long long length = 0,
+        unsigned int decimals = 0, const std::string &defaultValue = "", bool primaryKey = false,
+        bool unique = false, bool notNull = false, bool autoIncrement = false);
+
+    /*!
+     * \brief Finish the create table clause in incremental mode
+     * \return A reference to *this
+     */
+    Query &EndIncrementalColumn();
 
     /*!
      * \brief Add in clause
@@ -586,6 +643,24 @@ public:
 
 protected:
     /*!
+     * \brief Format column definition
+     * \param[in] name The column name
+     * \param[in] type The column datatype
+     * \param[in] length The column length
+     * \param[in] decimals The number of fractional digits
+     * \param[in] defaultValue The column default value
+     * \param[in] primaryKey The column primary key constraint
+     * \param[in] unique The column unique constraint
+     * \param[in] notNull The column not null constraint
+     * \param[in] autoIncrement The column auto increment flag
+     * \return The column definition text
+     */
+    virtual std::string FormatColumnDefinition(
+        const std::string &name, const std::string &type, unsigned long long length,
+        unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
+        bool notNull, bool autoIncrement);
+
+    /*!
      * \brief The state
      */
     std::string mState;
@@ -612,9 +687,9 @@ private:
     std::vector<Condition> mConditions;
 
     /*!
-     * \brief The aux values
+     * \brief The column definitions
      */
-    std::vector<std::u16string> mAuxValues;
+    std::vector<std::string> mColumnDefs;
 
     /*!
      * \brief The current binding index
@@ -630,6 +705,15 @@ class CPPORM_EXPORT SqliteQuery : public Query
     using Query::Query;
 
 public:
+    /*!
+     * \brief Add drop table clause
+     * \param[in] name The table name
+     * \param[in] temp A flag to indicate whether table should be dropped from the temporary schema
+     * \param[in] temp A flag to indicate whether table should be dropped only if it exists
+     * \return A reference to *this
+     */
+    Query &DropTable(const std::string &name, bool temp = false, bool ifExists = false) override;
+
     /*!
      * \brief Add date and time of now
      * \return A reference to *this
@@ -668,6 +752,25 @@ public:
      * \return A reference to *this
      */
     Query &ResetSequence(const std::string &table) override;
+
+protected:
+    /*!
+     * \brief Format column definition
+     * \param[in] name The column name
+     * \param[in] type The column datatype
+     * \param[in] length The column length
+     * \param[in] decimals The number of fractional digits
+     * \param[in] defaultValue The column default value
+     * \param[in] primaryKey The column primary key constraint
+     * \param[in] unique The column unique constraint
+     * \param[in] notNull The column not null constraint
+     * \param[in] autoIncrement The column auto increment flag
+     * \return The column definition text
+     */
+    std::string FormatColumnDefinition(
+        const std::string &name, const std::string &type, unsigned long long length,
+        unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
+        bool notNull, bool autoIncrement) override;
 };
 
 /*!

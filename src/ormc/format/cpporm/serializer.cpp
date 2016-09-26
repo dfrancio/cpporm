@@ -476,6 +476,8 @@ public:
         std::ostringstream propertiesStream;
         for (auto &pair : context.field.properties)
             propertiesStream << boost::format(cMapProperty) % pair.first % pair.second;
+        propertiesStream << boost::format(cMapProperty) % CPPORM_PROP_DATA_TYPE
+                % context.field.dataType;
         auto properties = propertiesStream.str();
         if (!properties.empty())
             properties.pop_back();
