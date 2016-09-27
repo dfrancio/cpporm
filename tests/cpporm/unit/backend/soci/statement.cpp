@@ -29,6 +29,12 @@ protected:
             "value REAL DEFAULT 0.0,"
             "flag TINYINT DEFAULT NULL)");
         connection.JustExecute("DELETE FROM Test");
+
+        connection.JustExecute(
+            "CREATE TABLE IF NOT EXISTS Test4 ("
+            "id INTEGER PRIMARY KEY,"
+            "name VARCHAR(3) DEFAULT NULL)");
+        connection.JustExecute("DELETE FROM Test4");
     }
     cpporm::backend::soci::Connection connection;
 };
@@ -56,7 +62,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet1)
 TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet2)
 {
     auto statement = connection.CreateStatement();
-    statement->Prepare("INSERT INTO Test (name) VALUES (?)");
+    statement->Prepare("INSERT INTO Test4 (name) VALUES (?)");
     statement->StartBatch();
     statement->Bind(0, "a");
     statement->Bind(0, "bcd");
@@ -65,7 +71,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet2)
     statement->EndBatch();
     connection.Execute(*statement);
 
-    statement->Prepare("SELECT * FROM Test ORDER BY name ASC");
+    statement->Prepare("SELECT * FROM Test4 ORDER BY name ASC");
     auto cursor = connection.Execute(*statement);
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "3");

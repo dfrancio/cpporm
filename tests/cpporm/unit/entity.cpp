@@ -135,7 +135,9 @@ TEST(CppOrm_Unit_Entity, TestSet3)
     entity.JoinTemp(query);
     ASSERT_EQ(query.GetAndReset(), " NATURAL JOIN Test2Temp;");
     entity.CreateSchema(query);
-    ASSERT_THAT(query.GetAndReset(), ::testing::AnyOf(cCreateTableQuery1, cCreateTableQuery2, cCreateTableQuery3));
+    ASSERT_THAT(
+        query.GetAndReset(),
+        ::testing::AnyOf(cCreateTableQuery1, cCreateTableQuery2, cCreateTableQuery3));
     entity.CreateTempSchema(query);
     ASSERT_EQ(
         query.GetAndReset(), "CREATE TEMPORARY TABLE Test2Temp ("
