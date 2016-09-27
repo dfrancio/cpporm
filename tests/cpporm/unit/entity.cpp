@@ -116,6 +116,14 @@ TEST(CppOrm_Unit_Entity, TestSet3)
           "id INTEGER NOT NULL AUTO_INCREMENT,"
           "UNIQUE (name),"
           "PRIMARY KEY (id));";
+    static const std::string cCreateTableQuery3
+        = "CREATE TABLE Test2 ("
+          "created_by INTEGER NOT NULL,"
+          "datetime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+          "name TEXT DEFAULT NULL,"
+          "id INTEGER NOT NULL AUTO_INCREMENT,"
+          "UNIQUE (name),"
+          "PRIMARY KEY (id));";
     Test2 entity;
     Query query;
     entity.InsertIntoTemp(query);
@@ -127,7 +135,7 @@ TEST(CppOrm_Unit_Entity, TestSet3)
     entity.JoinTemp(query);
     ASSERT_EQ(query.GetAndReset(), " NATURAL JOIN Test2Temp;");
     entity.CreateSchema(query);
-    ASSERT_THAT(query.GetAndReset(), ::testing::AnyOf(cCreateTableQuery1, cCreateTableQuery2));
+    ASSERT_THAT(query.GetAndReset(), ::testing::AnyOf(cCreateTableQuery1, cCreateTableQuery2, cCreateTableQuery3));
     entity.CreateTempSchema(query);
     ASSERT_EQ(
         query.GetAndReset(), "CREATE TEMPORARY TABLE Test2Temp ("
