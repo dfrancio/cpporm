@@ -113,7 +113,7 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
 
         prototype.Fetch(*query);
         prototype.JoinTemp(*query);
-        statement->Prepare(query->GetAndReset());
+        statement->Prepare(query->Get());
         cursor = GetConnection().Execute(*statement);
         while (cursor->Next())
         {
@@ -122,8 +122,6 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
             GetCache().Add(prototype.GetId(), std::shared_ptr<Entity>(prototype.Clone()));
             ids.push_back(prototype.GetId());
         }
-        prototype.DropTempSchema(*query);
-        GetConnection().JustExecute(query->Get());
     }
     return ids;
 }
