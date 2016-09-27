@@ -1,6 +1,7 @@
 include/cpporm/attribute.h
 include/cpporm/backend/nanodbc/connection.h
 include/cpporm/backend/nanodbc/cursor.h
+include/cpporm/backend/nanodbc/nanodbc.h
 include/cpporm/backend/nanodbc/session.h
 include/cpporm/backend/nanodbc/statement.h
 include/cpporm/backend/nanodbc/transaction.h
