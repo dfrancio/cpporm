@@ -74,7 +74,8 @@ void Statement::BindNull(short param)
         if (it != mBatchNulls.end())
             it->second.push_back(true);
         else
-            mBatchNulls.emplace(param, std::vector<char>(mBatchCount, false)).first->second.back()
+            mBatchNulls.emplace(param, std::vector<unsigned char>(mBatchCount, false))
+                .first->second.back()
                 = true;
         return;
     }
@@ -121,11 +122,9 @@ void Statement::EndBatch()
             auto it = mBatchNulls.find(pair.first);
             if (it != mBatchNulls.end())
                 mNativeStatement.bind_strings(
-                    pair.first, buffer.data(), maxLength * sizeof(char16_t), mBatchCount,
-                    reinterpret_cast<bool *>(it->second.data()));
+                    pair.first, buffer.data(), maxLength, mBatchCount, it->second.data());
             else
-                mNativeStatement.bind_strings(
-                    pair.first, buffer.data(), maxLength * sizeof(char16_t), mBatchCount);
+                mNativeStatement.bind_strings(pair.first, buffer.data(), maxLength, mBatchCount);
         }
     }
     catch (const std::exception &e)

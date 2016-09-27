@@ -1548,8 +1548,11 @@ public:
     void bind_parameter(
         short param, const T *data,
         std::size_t, // elements
-        SQLSMALLINT data_type, SQLSMALLINT param_type, SQLULEN parameter_size, SQLSMALLINT scale)
+        SQLSMALLINT data_type, SQLSMALLINT param_type, SQLULEN parameter_size, SQLSMALLINT scale,
+        SQLLEN buffer_length = -1)
     {
+        if (buffer_length < 0)
+            buffer_length = parameter_size;
         RETCODE rc;
         NANODBC_CALL_RC(
             SQLBindParameter, rc,
@@ -1561,7 +1564,7 @@ public:
             parameter_size, // column size ignored for many types, but needed for strings
             scale, // decimal digits
             (SQLPOINTER)data, // parameter value
-            parameter_size, // buffer length
+            buffer_length * sizeof(string_type::value_type), // buffer length (in bytes)
             bind_len_or_null_[param].data());
 
         if (!success(rc))
@@ -1640,8 +1643,10 @@ private:
 template <>
 void statement::statement_impl::bind_parameter<string_type::value_type>(
     short param, const string_type::value_type *data, std::size_t elements, SQLSMALLINT data_type,
-    SQLSMALLINT param_type, SQLULEN parameter_size, SQLSMALLINT scale)
+    SQLSMALLINT param_type, SQLULEN parameter_size, SQLSMALLINT scale, SQLLEN buffer_length)
 {
+    if (buffer_length < 0)
+        buffer_length = parameter_size;
     RETCODE rc;
     NANODBC_CALL_RC(
         SQLBindParameter, rc,
@@ -1653,7 +1658,7 @@ void statement::statement_impl::bind_parameter<string_type::value_type>(
         parameter_size, // column size ignored for many types, but needed for strings
         scale, // decimal digits
         (SQLPOINTER)data, // parameter value
-        parameter_size, // buffer length
+        buffer_length * sizeof(string_type::value_type), // buffer length (in bytes)
         (elements <= 1 ? nullptr : bind_len_or_null_[param].data()));
 
     if (!success(rc))
@@ -1734,7 +1739,7 @@ void statement::statement_impl::bind_strings(
         }
     }
 
-    bind_parameter(param, values, elements, data_type, param_type, length, scale);
+    bind_parameter(param, values, elements, data_type, param_type, parameter_size, scale, length);
 }
 
 template <>
@@ -3439,6 +3444,15 @@ void statement::bind_strings(
     const string_type::value_type *null_sentry, param_direction direction)
 {
     impl_->bind_strings(param, values, length, elements, (bool *)0, null_sentry, direction);
+}
+
+void statement::bind_strings(
+    short param, const string_type::value_type *values, std::size_t length, std::size_t elements,
+    const unsigned char *nulls, param_direction direction)
+{
+    impl_->bind_strings(
+        param, values, length, elements, reinterpret_cast<const bool *>(nulls),
+        (string_type::value_type *)0, direction);
 }
 
 void statement::bind_strings(

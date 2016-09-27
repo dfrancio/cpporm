@@ -801,6 +801,12 @@ public:
     /// \see bind_strings
     void bind_strings(
         short param, const string_type::value_type *values, std::size_t length,
+        std::size_t elements, const unsigned char *nulls, param_direction direction = PARAM_IN);
+
+    /// \brief Binds multiple string values.
+    /// \see bind_strings
+    void bind_strings(
+        short param, const string_type::value_type *values, std::size_t length,
         std::size_t elements, const bool *nulls, param_direction direction = PARAM_IN);
 
     /// \brief Binds multiple string values.

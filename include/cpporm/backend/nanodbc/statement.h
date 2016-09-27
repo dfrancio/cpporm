@@ -86,7 +86,7 @@ private:
     /*!
      * \brief The list of null flags for batch processing
      */
-    std::map<short, std::vector<char>> mBatchNulls;
+    std::map<short, std::vector<unsigned char>> mBatchNulls;
 
     /*!
      * \brief The list of buffers used for batch processing

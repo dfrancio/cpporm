@@ -39,6 +39,7 @@ protected:
 TEST_F(CppOrm_Unit_Backend_Soci_Cursor, TestSet1)
 {
     auto cursor = connection.Execute("SELECT * FROM Test ORDER BY name");
+    ASSERT_EQ(cursor->GetAffectedRowCount(), 1);
     ASSERT_TRUE(cursor->Has("id"));
     ASSERT_TRUE(cursor->Has("name"));
     ASSERT_TRUE(cursor->Has("date"));
