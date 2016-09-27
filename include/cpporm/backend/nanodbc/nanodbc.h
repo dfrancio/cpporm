@@ -88,8 +88,8 @@
 #include <cstdint>
 #endif
 
+#include <cpporm/backend/nanodbc/export.h>
 #include <cpporm/config.h>
-#include <cpporm/export.h>
 
 CPPORM_BEGIN_NAMESPACE
 
@@ -350,7 +350,7 @@ struct timestamp
 /// \brief A resource for managing transaction commits and rollbacks.
 /// \attention You will want to use transactions if you are doing batch operations because it will
 ///            prevent auto commits from occurring after each individual operation is executed.
-class CPPORM_EXPORT transaction
+class CPPORM_NANODBC_EXPORT transaction
 {
 public:
     /// \brief Begin a transaction on the given connection object.
@@ -415,7 +415,7 @@ private:
 // clang-format on
 
 /// \brief Represents a statement on the database.
-class CPPORM_EXPORT statement
+class CPPORM_NANODBC_EXPORT statement
 {
 public:
     /// \brief Provides support for retrieving output/return parameters.
@@ -861,7 +861,7 @@ private:
 // clang-format on
 
 /// \brief Manages and encapsulates ODBC resources such as the connection and environment handles.
-class CPPORM_EXPORT connection
+class CPPORM_NANODBC_EXPORT connection
 {
 public:
     /// \brief Create new connection object, initially not connected.
@@ -1037,7 +1037,7 @@ class catalog;
 ///
 /// \see statement::execute(), statement::execute_direct()
 /// \note result objects may be copied, however all copies will refer to the same result set.
-class CPPORM_EXPORT result
+class CPPORM_NANODBC_EXPORT result
 {
 public:
     /// \brief Empty result set.

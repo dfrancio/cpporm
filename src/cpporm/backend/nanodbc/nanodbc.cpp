@@ -4,7 +4,7 @@
 // ASCII art banners are helpful for code editors with a minimap display.
 // Generated with http://patorjk.com/software/taag/#p=display&v=0&f=Colossal
 
-#include <cpporm/backend/nanodbc/cursor.h>
+#include <cpporm/backend/nanodbc/nanodbc.h>
 
 #include <algorithm>
 #include <clocale>
