@@ -96,18 +96,21 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
                 query->Reset();
                 prototype.CreateTempSchema(*query);
                 GetConnection().JustExecute(query->Get());
+                query->Reset();
+                prototype.InsertIntoTemp(*query);
+                statement2->Prepare(query->Get());
+                statement2->StartBatch();
                 tempTableCreated = true;
             }
-            query->Reset();
-            prototype.InsertIntoTemp(*query);
-            statement2->Prepare(query->Get());
             prototype.BindPrimaryKey(*statement2);
-            GetConnection().Execute(*statement2);
         }
     }
 
-    if (!criteria.GetCachedOnly() && tempTableCreated)
+    if (tempTableCreated)
     {
+        statement2->EndBatch();
+        GetConnection().Execute(*statement2);
+
         query->Reset();
         prototype.Fetch(*query);
         prototype.JoinTemp(*query);
