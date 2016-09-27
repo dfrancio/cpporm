@@ -54,8 +54,10 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
 {
     auto query = GetConnection().CreateQuery();
     auto statement = GetConnection().CreateStatement();
+    auto statement2 = GetConnection().CreateStatement();
     assert(query);
     assert(statement);
+    assert(statement2);
 
     prototype.FetchPrimaryKey(*query);
     if (!criteria.empty())
@@ -98,9 +100,9 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
             }
             query->Reset();
             prototype.InsertIntoTemp(*query);
-            statement->Prepare(query->Get());
-            prototype.BindPrimaryKey(*statement);
-            GetConnection().Execute(*statement);
+            statement2->Prepare(query->Get());
+            prototype.BindPrimaryKey(*statement2);
+            GetConnection().Execute(*statement2);
         }
     }
 

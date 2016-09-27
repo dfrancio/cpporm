@@ -207,3 +207,29 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet4)
     }
     ASSERT_TRUE(session.Find(prototype, {}).empty());
 }
+
+TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
+{
+    {
+        cpporm::backend::nanodbc::Session session2;
+        session2.GetConnection().SetParameters(
+            {{"Driver", ODBC_SQLITE_DRIVER_NAME}, {"Database", "test.db"}, {"FKSupport", "true"}});
+        cpporm::backend::nanodbc::Transaction transaction(session2);
+        auto entity1 = std::make_shared<Test2>();
+        auto entity2 = std::make_shared<Test2>();
+        session2.Add(entity1);
+        session2.Add(entity2);
+        entity1->created_by = entity2->id;
+        entity2->created_by = entity1->id;
+        session2.Update(*entity1);
+        session2.Update(*entity2);
+        transaction.Commit();
+    }
+
+    Test2 prototype;
+    Criteria criteria;
+    criteria.AddCriterion("id", Condition::equal, "1");
+    auto ids = session.Find(prototype, criteria);
+    ASSERT_EQ(ids.size(), 1);
+    ASSERT_EQ(ids.back(), "Test21");
+}

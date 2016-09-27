@@ -4,6 +4,7 @@
 #include <string>
 
 // External library includes
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 // Internal program includes
@@ -99,21 +100,34 @@ TEST(CppOrm_Unit_Entity, TestSet2)
 
 TEST(CppOrm_Unit_Entity, TestSet3)
 {
+    static const std::string cCreateTableQuery1
+        = "CREATE TABLE Test2 ("
+          "created_by INTEGER NOT NULL,"
+          "name TEXT DEFAULT NULL,"
+          "datetime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+          "id INTEGER NOT NULL AUTO_INCREMENT,"
+          "UNIQUE (name),"
+          "PRIMARY KEY (id));";
+    static const std::string cCreateTableQuery2
+        = "CREATE TABLE Test2 ("
+          "datetime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,"
+          "name TEXT DEFAULT NULL,"
+          "created_by INTEGER NOT NULL,"
+          "id INTEGER NOT NULL AUTO_INCREMENT,"
+          "UNIQUE (name),"
+          "PRIMARY KEY (id));";
     Test2 entity;
     Query query;
     entity.InsertIntoTemp(query);
     ASSERT_EQ(query.GetAndReset(), "INSERT INTO Test2Temp DEFAULT VALUES;");
+    entity.id = "1";
+    entity.name = "a";
+    entity.InsertIntoTemp(query);
+    ASSERT_EQ(query.GetAndReset(), "INSERT INTO Test2Temp (id) VALUES (?);");
     entity.JoinTemp(query);
     ASSERT_EQ(query.GetAndReset(), " NATURAL JOIN Test2Temp;");
     entity.CreateSchema(query);
-    ASSERT_EQ(
-        query.GetAndReset(), "CREATE TABLE Test2 ("
-                             "created_by INTEGER NOT NULL,"
-                             "name TEXT DEFAULT NULL,"
-                             "datetime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,"
-                             "id INTEGER NOT NULL AUTO_INCREMENT,"
-                             "UNIQUE (name),"
-                             "PRIMARY KEY (id));");
+    ASSERT_THAT(query.GetAndReset(), ::testing::AnyOf(cCreateTableQuery1, cCreateTableQuery2));
     entity.CreateTempSchema(query);
     ASSERT_EQ(
         query.GetAndReset(), "CREATE TEMPORARY TABLE Test2Temp ("
