@@ -25,9 +25,9 @@ Statement::Statement(::nanodbc::connection &native) : mNativeStatement(native)
  */
 void Statement::Prepare(const std::string &sql)
 {
+    Clear();
     try
     {
-        mCopies.clear();
         mNativeStatement.prepare(Widen16(sql));
     }
     catch (const std::exception &e)
@@ -41,6 +41,15 @@ void Statement::Prepare(const std::string &sql)
  */
 void Statement::Bind(short param, const std::string &value)
 {
+    if (mIsBatchProcessing)
+    {
+        ++mBatchCount;
+        mBatchCopies[param].push_back(Widen16(value));
+        auto it = mBatchNulls.find(param);
+        if (it != mBatchNulls.end())
+            it->second.push_back(false);
+        return;
+    }
     try
     {
         mCopies.push_back(Widen16(value));
@@ -57,6 +66,18 @@ void Statement::Bind(short param, const std::string &value)
  */
 void Statement::BindNull(short param)
 {
+    if (mIsBatchProcessing)
+    {
+        ++mBatchCount;
+        mBatchCopies[param].push_back(u"");
+        auto it = mBatchNulls.find(param);
+        if (it != mBatchNulls.end())
+            it->second.push_back(true);
+        else
+            mBatchNulls.emplace(param, std::vector<char>(mBatchCount, false)).first->second.back()
+                = true;
+        return;
+    }
     try
     {
         mNativeStatement.bind_null(param);
@@ -65,6 +86,67 @@ void Statement::BindNull(short param)
     {
         throw DatabaseStatementBindError(e.what());
     }
+}
+
+/*!
+ * \details
+ */
+void Statement::StartBatch()
+{
+    mBatchCount = 0;
+    mIsBatchProcessing = true;
+}
+
+/*!
+ * \details
+ */
+void Statement::EndBatch()
+{
+    try
+    {
+        for (auto &pair : mBatchCopies)
+        {
+            std::size_t maxLength = 0;
+            for (auto &value : pair.second)
+                if (value.size() > maxLength)
+                    maxLength = value.size();
+            ++maxLength;
+
+            auto &buffer = mBatchBuffers[pair.first];
+            buffer.resize(maxLength * mBatchCount);
+            std::size_t index = 0;
+            for (auto it = pair.second.begin(); it != pair.second.end(); ++it, index += maxLength)
+                std::copy(it->begin(), it->end(), &buffer[index]);
+
+            auto it = mBatchNulls.find(pair.first);
+            if (it != mBatchNulls.end())
+                mNativeStatement.bind_strings(
+                    pair.first, buffer.data(), maxLength * sizeof(char16_t), mBatchCount,
+                    reinterpret_cast<bool *>(it->second.data()));
+            else
+                mNativeStatement.bind_strings(
+                    pair.first, buffer.data(), maxLength * sizeof(char16_t), mBatchCount);
+        }
+    }
+    catch (const std::exception &e)
+    {
+        mIsBatchProcessing = false;
+        throw DatabaseStatementBindError(e.what());
+    }
+    mIsBatchProcessing = false;
+}
+
+/*!
+ * \details
+ */
+void Statement::Clear()
+{
+    mCopies.clear();
+    mBatchCopies.clear();
+    mBatchNulls.clear();
+    mBatchBuffers.clear();
+    mBatchCount = 1;
+    mIsBatchProcessing = false;
 }
 
 CPPORM_END_SUB_SUB_NAMESPACE

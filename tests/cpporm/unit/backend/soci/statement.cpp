@@ -52,3 +52,32 @@ TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet1)
     ASSERT_EQ(cursor->Get("id"), "1");
     ASSERT_EQ(cursor->Get("name"), "abc");
 }
+
+TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet2)
+{
+    auto statement = connection.CreateStatement();
+    statement->Prepare("INSERT INTO Test (name) VALUES (?)");
+    statement->StartBatch();
+    statement->Bind(0, "a");
+    statement->Bind(0, "bcd");
+    statement->BindNull(0);
+    statement->Bind(0, "ef");
+    statement->EndBatch();
+    connection.Execute(*statement);
+
+    statement->Prepare("SELECT * FROM Test ORDER BY name ASC");
+    auto cursor = connection.Execute(*statement);
+    ASSERT_TRUE(cursor->Next());
+    ASSERT_EQ(cursor->Get("id"), "3");
+    ASSERT_THROW(cursor->Get("name"), cpporm::DatabaseCursorQueryError); // specific of soci
+    ASSERT_TRUE(cursor->IsNull("name"));
+    ASSERT_TRUE(cursor->Next());
+    ASSERT_EQ(cursor->Get("id"), "1");
+    ASSERT_EQ(cursor->Get("name"), "a");
+    ASSERT_TRUE(cursor->Next());
+    ASSERT_EQ(cursor->Get("id"), "2");
+    ASSERT_EQ(cursor->Get("name"), "bcd");
+    ASSERT_TRUE(cursor->Next());
+    ASSERT_EQ(cursor->Get("id"), "4");
+    ASSERT_EQ(cursor->Get("name"), "ef");
+}

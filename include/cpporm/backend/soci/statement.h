@@ -41,6 +41,16 @@ public:
      */
     void BindNull(short param) override;
 
+    /*!
+     * \brief Start batch
+     */
+    void StartBatch() override;
+
+    /*!
+     * \brief End batch
+     */
+    void EndBatch() override;
+
 private:
     /*!
      * \brief Befriend Connection class
@@ -62,6 +72,11 @@ private:
      * \brief Execute
      */
     void Execute();
+
+    /*!
+     * \brief Clear
+     */
+    void Clear();
 
     /*!
      * \brief The native connection object
@@ -87,6 +102,21 @@ private:
      * \brief The query to prepare
      */
     std::string mQueryToPrepare;
+
+    /*!
+     * \brief The list of copies of bound values for batch processing
+     */
+    std::map<short, std::vector<std::string>> mBatchCopies;
+
+    /*!
+     * \brief The list of null flags for batch processing
+     */
+    std::map<short, std::vector<::soci::indicator>> mBatchNulls;
+
+    /*!
+     * \brief A flag to indicate whether there is batch processing active
+     */
+    bool mIsBatchProcessing;
 };
 
 CPPORM_END_SUB_SUB_NAMESPACE

@@ -41,6 +41,16 @@ public:
      */
     void BindNull(short param) override;
 
+    /*!
+     * \brief Start batch
+     */
+    void StartBatch() override;
+
+    /*!
+     * \brief End batch
+     */
+    void EndBatch() override;
+
 private:
     /*!
      * \brief Befriend Connection class
@@ -54,6 +64,11 @@ private:
     Statement(::nanodbc::connection &native);
 
     /*!
+     * \brief Clear
+     */
+    void Clear();
+
+    /*!
      * \brief The native statement object
      */
     ::nanodbc::statement mNativeStatement;
@@ -62,6 +77,31 @@ private:
      * \brief The list of copies of bound values
      */
     std::list<std::u16string> mCopies;
+
+    /*!
+     * \brief The list of copies of bound values for batch processing
+     */
+    std::map<short, std::vector<std::u16string>> mBatchCopies;
+
+    /*!
+     * \brief The list of null flags for batch processing
+     */
+    std::map<short, std::vector<char>> mBatchNulls;
+
+    /*!
+     * \brief The list of buffers used for batch processing
+     */
+    std::map<short, std::u16string> mBatchBuffers;
+
+    /*!
+     * \brief A flag to indicate whether there is batch processing active
+     */
+    bool mIsBatchProcessing;
+
+    /*!
+     * \brief The number of batch operations
+     */
+    std::size_t mBatchCount;
 };
 
 CPPORM_END_SUB_SUB_NAMESPACE

@@ -61,6 +61,13 @@ public:
         boundParams.push_back(param);
         nullCount++;
     }
+    void StartBatch() override
+    {
+    }
+    void EndBatch() override
+    {
+    }
+
     std::vector<int> boundParams;
     std::vector<std::string> boundValues;
     int nullCount = 0;

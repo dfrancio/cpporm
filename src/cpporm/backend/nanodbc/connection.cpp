@@ -114,8 +114,9 @@ std::unique_ptr<db::Cursor> Connection::Execute(db::Statement &statement)
     Connect();
     try
     {
+        auto &stmt = static_cast<Statement &>(statement);
         return std::unique_ptr<db::Cursor>(
-            new Cursor(::nanodbc::execute(static_cast<Statement &>(statement).mNativeStatement)));
+            new Cursor(::nanodbc::execute(stmt.mNativeStatement, stmt.mBatchCount)));
     }
     catch (const std::exception &e)
     {

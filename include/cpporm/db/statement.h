@@ -42,6 +42,16 @@ public:
      * \param[in] param The parameter index
      */
     virtual void BindNull(short param) = 0;
+
+    /*!
+     * \brief Start batch
+     */
+    virtual void StartBatch() = 0;
+
+    /*!
+     * \brief End batch
+     */
+    virtual void EndBatch() = 0;
 };
 
 CPPORM_END_SUB_NAMESPACE
