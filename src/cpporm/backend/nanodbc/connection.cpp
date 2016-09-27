@@ -81,7 +81,7 @@ void Connection::JustExecute(const std::string &sql)
     Connect();
     try
     {
-        ::nanodbc::just_execute(mNativeConnection, Widen16(sql));
+        cpporm::nanodbc::just_execute(mNativeConnection, Widen16(sql));
     }
     catch (const std::exception &e)
     {
@@ -98,7 +98,7 @@ std::unique_ptr<db::Cursor> Connection::Execute(const std::string &sql)
     try
     {
         return std::unique_ptr<db::Cursor>(
-            new Cursor(::nanodbc::execute(mNativeConnection, Widen16(sql))));
+            new Cursor(cpporm::nanodbc::execute(mNativeConnection, Widen16(sql))));
     }
     catch (const std::exception &e)
     {
@@ -116,7 +116,7 @@ std::unique_ptr<db::Cursor> Connection::Execute(db::Statement &statement)
     {
         auto &stmt = static_cast<Statement &>(statement);
         return std::unique_ptr<db::Cursor>(
-            new Cursor(::nanodbc::execute(stmt.mNativeStatement, stmt.mBatchCount)));
+            new Cursor(cpporm::nanodbc::execute(stmt.mNativeStatement, stmt.mBatchCount)));
     }
     catch (const std::exception &e)
     {

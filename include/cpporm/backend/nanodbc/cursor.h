@@ -8,7 +8,7 @@
 #pragma once
 
 // External library includes
-#include <nanodbc.h>
+#include <cpporm/backend/nanodbc/nanodbc.h>
 
 // Internal library includes
 #include <cpporm/backend/nanodbc/export.h>
@@ -72,12 +72,12 @@ private:
      * \brief Constructor
      * \param[in] native The native cursor object
      */
-    Cursor(::nanodbc::result &&native);
+    Cursor(cpporm::nanodbc::result &&native);
 
     /*!
      * \brief The native cursor object
      */
-    ::nanodbc::result mNativeCursor;
+    cpporm::nanodbc::result mNativeCursor;
 };
 
 CPPORM_END_SUB_SUB_NAMESPACE

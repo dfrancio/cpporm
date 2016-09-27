@@ -18,7 +18,7 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, nanodbc)
 Transaction::Transaction(Session &session)
     : db::Transaction(session),
       mNativeTransaction(
-          new ::nanodbc::transaction(
+          new cpporm::nanodbc::transaction(
               (session.mConnection.Connect(), session.mConnection.mNativeConnection)))
 {
 }

@@ -1,6 +1,7 @@
 include/cpporm/attribute.h
 include/cpporm/backend/nanodbc/connection.h
 include/cpporm/backend/nanodbc/cursor.h
+include/cpporm/backend/nanodbc/nanodbc.h
 include/cpporm/backend/nanodbc/session.h
 include/cpporm/backend/nanodbc/statement.h
 include/cpporm/backend/nanodbc/transaction.h
@@ -36,6 +37,7 @@ include/cpporm/util/stringmap.h
 src/cpporm/attribute.cpp
 src/cpporm/backend/nanodbc/connection.cpp
 src/cpporm/backend/nanodbc/cursor.cpp
+src/cpporm/backend/nanodbc/nanodbc.cpp
 src/cpporm/backend/nanodbc/session.cpp
 src/cpporm/backend/nanodbc/statement.cpp
 src/cpporm/backend/nanodbc/transaction.cpp

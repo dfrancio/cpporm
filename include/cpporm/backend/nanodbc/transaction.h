@@ -8,7 +8,7 @@
 #pragma once
 
 // External library includes
-#include <nanodbc.h>
+#include <cpporm/backend/nanodbc/nanodbc.h>
 
 // Internal library includes
 #include <cpporm/backend/nanodbc/export.h>
@@ -47,7 +47,7 @@ private:
     /*!
      * \brief The native transaction object
      */
-    std::unique_ptr<::nanodbc::transaction> mNativeTransaction;
+    std::unique_ptr<cpporm::nanodbc::transaction> mNativeTransaction;
 };
 
 CPPORM_END_SUB_SUB_NAMESPACE

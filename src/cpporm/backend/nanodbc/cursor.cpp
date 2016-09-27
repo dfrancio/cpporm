@@ -16,7 +16,7 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, nanodbc)
 /*!
  * \details
  */
-Cursor::Cursor(::nanodbc::result &&native) : mNativeCursor(native)
+Cursor::Cursor(cpporm::nanodbc::result &&native) : mNativeCursor(native)
 {
 }
 

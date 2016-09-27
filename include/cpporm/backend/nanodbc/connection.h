@@ -8,7 +8,7 @@
 #pragma once
 
 // External library includes
-#include <nanodbc.h>
+#include <cpporm/backend/nanodbc/nanodbc.h>
 
 // Internal library includes
 #include <cpporm/backend/nanodbc/export.h>
@@ -105,7 +105,7 @@ private:
     /*!
      * \brief The native connection object
      */
-    ::nanodbc::connection mNativeConnection;
+    cpporm::nanodbc::connection mNativeConnection;
 };
 
 CPPORM_END_SUB_SUB_NAMESPACE

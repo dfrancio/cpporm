@@ -81,6 +81,7 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
     bool tempTableCreated = false;
     std::vector<std::string> ids;
     auto cursor = GetConnection().Execute(*statement);
+    ids.reserve(cursor->GetAffectedRowCount());
     while (cursor->Next())
     {
         prototype.Extract(*cursor);

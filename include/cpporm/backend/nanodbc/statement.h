@@ -8,7 +8,7 @@
 #pragma once
 
 // External library includes
-#include <nanodbc.h>
+#include <cpporm/backend/nanodbc/nanodbc.h>
 
 // Internal library includes
 #include <cpporm/backend/nanodbc/export.h>
@@ -61,7 +61,7 @@ private:
      * \brief Constructor
      * \param[in] native The native connection object
      */
-    Statement(::nanodbc::connection &native);
+    Statement(cpporm::nanodbc::connection &native);
 
     /*!
      * \brief Clear
@@ -71,7 +71,7 @@ private:
     /*!
      * \brief The native statement object
      */
-    ::nanodbc::statement mNativeStatement;
+    cpporm::nanodbc::statement mNativeStatement;
 
     /*!
      * \brief The list of copies of bound values

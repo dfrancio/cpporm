@@ -16,7 +16,7 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, nanodbc)
 /*!
  * \details
  */
-Statement::Statement(::nanodbc::connection &native) : mNativeStatement(native)
+Statement::Statement(cpporm::nanodbc::connection &native) : mNativeStatement(native)
 {
 }
 

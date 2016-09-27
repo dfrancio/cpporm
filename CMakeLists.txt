@@ -19,7 +19,7 @@ else()
     set(CONF_USE_DUAL_ABI 0)
 endif()
 
-set(CXX_STANDARD -std=c++11)
+set(CXX_STANDARD_11 -std=c++11)
 
 if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(EMIT_ABI_TAG_WARNING -Wabi-tag)
@@ -52,7 +52,7 @@ setup_target(
         $<INSTALL_INTERFACE:include>
     OPTIONS
         PRIVATE
-            ${CXX_STANDARD}
+            ${CXX_STANDARD_11}
             ${EMIT_ABI_TAG_WARNING}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     IS_LIBRARY)
@@ -65,7 +65,7 @@ setup_target(
     EXPORT_FILE_NAME include/cpporm/backend/nanodbc/export.h
     OPTIONS
         PRIVATE
-            ${CXX_STANDARD}
+            ${CXX_STANDARD_11}
             ${EMIT_ABI_TAG_WARNING}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEFINITIONS
@@ -73,9 +73,11 @@ setup_target(
             -DUNICODE
             -D_UNICODE
             -DNANODBC_USE_UNICODE
+            -DNANODBC_ODBC_VERSION=SQL_OV_ODBC3
+            -DNANODBC_HANDLE_NODATA_BUG=ON
     DEPENDENCIES
         Boost REQUIRED END
-        CUSTOM nanodbc LIBRARIES nanodbcu END
+        UnixODBC REQUIRED ONLY_IF NOT WIN32 END
         INTERNAL cpporm END
     IS_LIBRARY)
 
@@ -87,7 +89,7 @@ setup_target(
     EXPORT_FILE_NAME include/cpporm/backend/soci/export.h
     OPTIONS
         PRIVATE
-            ${CXX_STANDARD}
+            ${CXX_STANDARD_11}
             ${EMIT_ABI_TAG_WARNING}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
@@ -101,7 +103,7 @@ setup_target(
         src/ormc
     OPTIONS
         PRIVATE
-            ${CXX_STANDARD}
+            ${CXX_STANDARD_11}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
         Boost REQUIRED END
@@ -135,7 +137,7 @@ setup_tests(
         tests/cpporm
     OPTIONS
         PRIVATE
-            ${CXX_STANDARD}
+            ${CXX_STANDARD_11}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEFINITIONS
         PRIVATE
@@ -157,7 +159,7 @@ setup_tests(
         tests/ormc/unit
     OPTIONS
         PRIVATE
-            ${CXX_STANDARD}
+            ${CXX_STANDARD_11}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
         GMock LIB_VAR_NAMES GMOCK_MAIN_LIBRARIES END
