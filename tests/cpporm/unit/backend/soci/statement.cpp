@@ -69,7 +69,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet2)
     auto cursor = connection.Execute(*statement);
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "3");
-    ASSERT_THROW(cursor->Get("name"), cpporm::DatabaseCursorQueryError); // specific of soci
+    ASSERT_THROW(cursor->Get("name"), cpporm::DatabaseCursorQueryError);
     ASSERT_TRUE(cursor->IsNull("name"));
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "1");

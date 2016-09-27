@@ -71,7 +71,11 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Statement, TestSet2)
     auto cursor = connection.Execute(*statement);
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "3");
-    ASSERT_NO_THROW(cursor->Get("name")); // specific of nanodbc
+#ifdef _WIN32
+    ASSERT_THROW(cursor->Get("name"), cpporm::DatabaseCursorQueryError);
+#else
+    ASSERT_NO_THROW(cursor->Get("name"));
+#endif
     ASSERT_TRUE(cursor->IsNull("name"));
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "1");
