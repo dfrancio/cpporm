@@ -207,7 +207,7 @@ void Entity::FetchPrimaryKey(db::Query &query)
     query.Select();
     for (const auto &pair : GetPrimaryKey())
         query.IncrementalSelect(pair.first);
-    query.EndIncrementalSelect().From(GetName());
+    query.EndIncrementalSelect(GetName()).From(GetName());
 }
 
 /*!

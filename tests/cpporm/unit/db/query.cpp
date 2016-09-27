@@ -590,3 +590,17 @@ TEST(CppOrm_Unit_Db_Query, TestSet38)
                              "PRIMARY KEY (id),"
                              "UNIQUE (age,updated));");
 }
+
+TEST(CppOrm_Unit_Db_Query, TestSet39)
+{
+    const std::string cSqlQuery = "SELECT table2.c1,table2.c2 FROM table WHERE col LIKE \"*a\";";
+    Query query;
+    query.Select()
+        .IncrementalSelect("c1")
+        .IncrementalSelect("c2")
+        .EndIncrementalSelect("table2")
+        .From("table")
+        .Where("col")
+        .Like("\"*a\"");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery);
+}

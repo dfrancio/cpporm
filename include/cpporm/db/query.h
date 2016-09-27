@@ -158,9 +158,10 @@ public:
 
     /*!
      * \brief Finish the select clause in incremental mode
+     * \param[in] table The table name (optional)
      * \return A reference to *this
      */
-    Query &EndIncrementalSelect();
+    Query &EndIncrementalSelect(const std::string &table = "");
 
     /*!
      * \brief Add individual name-value-pair to a insert clause

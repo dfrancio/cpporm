@@ -99,13 +99,13 @@ Query &Query::IncrementalSelect(const std::string &column)
 /*!
  * \details
  */
-Query &Query::EndIncrementalSelect()
+Query &Query::EndIncrementalSelect(const std::string &table)
 {
     if (!mColumns.empty())
     {
         mState += " ";
         for (auto &column : mColumns)
-            mState += column + ",";
+            mState += CPPORM_ADD_TABLE_SCOPE(table) + column + ",";
         mState.pop_back();
     }
     mColumns.clear();
