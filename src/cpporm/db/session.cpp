@@ -70,7 +70,7 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
     if (criteria.GetLimitCount() > 0)
         query->Limit(criteria.GetLimitCount(), criteria.GetLimitOffset());
 
-    statement->Prepare(query->Get());
+    statement->Prepare(query->GetAndReset());
     std::size_t index = 0;
     for (const auto &pair : criteria)
         if (pair.second.first != Condition::isNull)
@@ -93,12 +93,12 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
         {
             if (!tempTableCreated)
             {
-                query->Reset();
                 prototype.CreateTempSchema(*query);
-                GetConnection().JustExecute(query->Get());
-                query->Reset();
+                GetConnection().JustExecute(query->GetAndReset());
+                prototype.EraseTempTable(*query);
+                GetConnection().JustExecute(query->GetAndReset());
                 prototype.InsertIntoTemp(*query);
-                statement2->Prepare(query->Get());
+                statement2->Prepare(query->GetAndReset());
                 statement2->StartBatch();
                 tempTableCreated = true;
             }
@@ -111,10 +111,9 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
         statement2->EndBatch();
         GetConnection().Execute(*statement2);
 
-        query->Reset();
         prototype.Fetch(*query);
         prototype.JoinTemp(*query);
-        statement->Prepare(query->Get());
+        statement->Prepare(query->GetAndReset());
         cursor = GetConnection().Execute(*statement);
         while (cursor->Next())
         {
@@ -123,7 +122,6 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
             GetCache().Add(prototype.GetId(), std::shared_ptr<Entity>(prototype.Clone()));
             ids.push_back(prototype.GetId());
         }
-        query->Reset();
         prototype.DropTempSchema(*query);
         GetConnection().JustExecute(query->Get());
     }
@@ -201,11 +199,9 @@ void Session::InsertIntoDatabase(Entity &entity)
     assert(statement);
 
     entity.Insert(*query);
-    statement->Prepare(query->Get());
+    statement->Prepare(query->GetAndReset());
     entity.Bind(*statement);
     GetConnection().Execute(*statement);
-
-    query->Reset();
     if (entity.FetchLastId(*query))
     {
         statement->Prepare(query->Get());
@@ -236,7 +232,6 @@ void Session::UpdateInDatabase(Entity &entity)
     assert(cursor);
     if (cursor->GetAffectedRowCount() == 0)
         throw EntityNotUpdated(entity.GetId());
-
     entity.SavePrimaryKey();
 }
 

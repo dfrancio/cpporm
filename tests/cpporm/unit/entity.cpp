@@ -140,9 +140,13 @@ TEST(CppOrm_Unit_Entity, TestSet3)
         ::testing::AnyOf(cCreateTableQuery1, cCreateTableQuery2, cCreateTableQuery3));
     entity.CreateTempSchema(query);
     ASSERT_EQ(
-        query.GetAndReset(), "CREATE TEMPORARY TABLE Test2Temp ("
+        query.GetAndReset(), "CREATE TEMPORARY TABLE IF NOT EXISTS Test2Temp ("
                              "id INTEGER NOT NULL AUTO_INCREMENT,"
                              "PRIMARY KEY (id));");
+    entity.EraseTable(query);
+    ASSERT_EQ(query.GetAndReset(), "DELETE FROM Test2;");
+    entity.EraseTempTable(query);
+    ASSERT_EQ(query.GetAndReset(), "DELETE FROM Test2Temp;");
     entity.DropSchema(query);
     ASSERT_EQ(query.GetAndReset(), "DROP TABLE Test2;");
     entity.DropTempSchema(query);

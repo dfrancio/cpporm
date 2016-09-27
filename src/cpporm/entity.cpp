@@ -333,7 +333,7 @@ void Entity::CreateSchema(db::Query &query) const
  */
 void Entity::CreateTempSchema(db::Query &query) const
 {
-    query.CreateTable(GetName() + "Temp", true);
+    query.CreateTable(GetName() + "Temp", true, true);
     for (const auto &pair : GetPrimaryKey())
         pair.second(const_cast<Entity &>(*this)).CreateSchema(query);
     if (GetIndices().Has(CPPORM_INDEX_PRIMARY_KEY))
@@ -343,6 +343,22 @@ void Entity::CreateTempSchema(db::Query &query) const
         query.EndIncrementalIndex("PRIMARY KEY");
     }
     query.EndIncrementalColumn();
+}
+
+/*!
+ * \details
+ */
+void Entity::EraseTable(db::Query &query) const
+{
+    query.Delete().From(GetName());
+}
+
+/*!
+ * \details
+ */
+void Entity::EraseTempTable(db::Query &query) const
+{
+    query.Delete().From(GetName() + "Temp");
 }
 
 /*!

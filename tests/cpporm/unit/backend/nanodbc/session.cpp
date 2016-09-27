@@ -210,13 +210,13 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet4)
 
 TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
 {
+    cpporm::backend::nanodbc::Session session2;
+    session2.GetConnection().SetParameters(
+        {{"Driver", ODBC_SQLITE_DRIVER_NAME}, {"Database", "test.db"}, {"FKSupport", "true"}});
+    auto entity1 = std::make_shared<Test2>();
+    auto entity2 = std::make_shared<Test2>();
     {
-        cpporm::backend::nanodbc::Session session2;
-        session2.GetConnection().SetParameters(
-            {{"Driver", ODBC_SQLITE_DRIVER_NAME}, {"Database", "test.db"}, {"FKSupport", "true"}});
         cpporm::backend::nanodbc::Transaction transaction(session2);
-        auto entity1 = std::make_shared<Test2>();
-        auto entity2 = std::make_shared<Test2>();
         session2.Add(entity1);
         session2.Add(entity2);
         entity1->created_by = entity2->id;
@@ -232,4 +232,18 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
     auto ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 1);
     ASSERT_EQ(ids.back(), "Test21");
+
+    {
+        cpporm::backend::nanodbc::Transaction transaction(session2);
+        auto entity3 = std::make_shared<Test2>();
+        entity3->created_by = entity1->id;
+        session2.Add(entity3);
+        transaction.Commit();
+    }
+
+    criteria.clear();
+    criteria.AddCriterion("id", Condition::equal, "3");
+    ids = session.Find(prototype, criteria);
+    ASSERT_EQ(ids.size(), 1);
+    ASSERT_EQ(ids.back(), "Test23");
 }

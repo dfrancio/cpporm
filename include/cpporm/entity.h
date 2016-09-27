@@ -249,6 +249,18 @@ public:
     void CreateTempSchema(db::Query &query) const;
 
     /*!
+     * \brief Erase table
+     * \param[in] query The database query
+     */
+    void EraseTable(db::Query &query) const;
+
+    /*!
+     * \brief Erase temporary table
+     * \param[in] query The database query
+     */
+    void EraseTempTable(db::Query &query) const;
+
+    /*!
      * \brief Drop database schema
      * \param[in] query The database query
      */
