@@ -126,7 +126,7 @@ void ToOneRelationship::Load()
         auto it1 = GetForeignKeyNames().begin();
         for (auto it2 = GetReferencedNames().begin(); it2 != GetReferencedNames().end();
              ++it1, ++it2)
-            criteria.AddCriterion(*it2, db::Condition::equal, mParent[*it1].Get());
+            criteria.AddCondition(*it2, db::Condition::equal, mParent[*it1].Get());
 
         auto ids = GetSession()->Find(GetPrototype(), criteria);
         if (ids.empty())
@@ -205,7 +205,7 @@ void ToManyRelationship::Load(bool cachedOnly)
     db::Criteria criteria;
     auto it1 = GetForeignKeyNames().begin();
     for (auto it2 = GetReferencedNames().begin(); it2 != GetReferencedNames().end(); ++it1, ++it2)
-        criteria.AddCriterion(*it1, db::Condition::equal, mParent[*it2].Get());
+        criteria.AddCondition(*it1, db::Condition::equal, mParent[*it2].Get());
     SetCachedOnly(criteria, cachedOnly);
 
     auto ids = GetSession()->Find(GetPrototype(), criteria);

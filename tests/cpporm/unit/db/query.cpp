@@ -427,13 +427,13 @@ TEST(CppOrm_Unit_Db_Query, TestSet27)
 TEST(CppOrm_Unit_Db_Query, TestSet28)
 {
     const std::string cSqlQuery
-        = "SELECT DISTINCT col1,col2 FROM table ORDER BY col1 ASC, col2 DESC;";
+        = "SELECT DISTINCT col1,col2 FROM table ORDER BY col1 ASC, table2.col2 DESC;";
     Query query;
     query.Select()
         .Distinct("col1", "col2")
         .From("table")
         .OrderBy("col1")
-        .OrderBy("col2", "", SortOrder::descending);
+        .OrderBy("col2", "table2", SortOrder::descending);
     ASSERT_EQ(query.GetAndReset(), cSqlQuery);
 }
 

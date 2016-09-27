@@ -652,7 +652,7 @@ Query &Query::OrderBy(const std::string &column, const std::string &table, SortO
 {
     if (mState.find("ASC") == mState.size() - std::strlen("ASC")
         || mState.find("DESC") == mState.size() - std::strlen("DESC"))
-        mState += ", " + column;
+        mState += ", " + CPPORM_ADD_TABLE_SCOPE(table) + column;
     else
         mState += " ORDER BY " + CPPORM_ADD_TABLE_SCOPE(table) + column;
 

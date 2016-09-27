@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief     Search criteria class
+ * \brief     Criteria interface
  * \author    Diego Sogari <diego.sogari@gmail.com>
  * \date      2016
  * \copyright All Rights Reserved
@@ -20,30 +20,62 @@ CPPORM_END_NAMESPACE
 
 CPPORM_BEGIN_SUB_NAMESPACE(db)
 
-/*!
- * \brief %Criteria base class
+/*
+ * Forward declarations
  */
-typedef std::map<std::string, std::pair<Condition, std::string>> CriteriaBase;
+class Statement;
 
 /*!
- * \brief Order-by specification class
+ * \brief Join specification
  */
-typedef std::vector<std::pair<std::string, SortOrder>> OrderBySpec;
+typedef std::tuple<std::string, JoinType, std::string, std::string> JoinSpec;
+
+/*!
+ * \brief Condition specification
+ */
+typedef std::tuple<std::string, Condition, std::string> ConditionSpec;
+
+/*!
+ * \brief Order-by specification
+ */
+typedef std::tuple<std::string, std::string, SortOrder> OrderBySpec;
 
 /*!
  * \brief %Criteria
  */
-class CPPORM_EXPORT Criteria : public CriteriaBase
+class CPPORM_EXPORT Criteria
 {
 public:
     /*
-     * \brief Add criterion
+     * \brief Add join
+     * \param[in] table The table name
+     * \param[in] join The join type
+     * \param[in] leftColumn The name of the column from the left table
+     * \param[in] leftColumn The name of the column from the right table
+     * \return A reference to *this
+     */
+    Criteria &AddJoin(
+        const std::string &table, JoinType join, const std::string &leftColumn,
+        const std::string &rightColumn);
+
+    /*
+     * \brief Add condition
      * \param[in] name The column name
      * \param[in] condition The condition
      * \param[in] value The column value
      * \return A reference to *this
      */
-    Criteria &AddCriterion(const std::string &name, Condition condition, const std::string &value);
+    Criteria &AddCondition(
+        const std::string &name, Condition condition, const std::string &value = "");
+
+    /*
+     * \brief Add order-by
+     * \param[in] table The table name
+     * \param[in] name The column name
+     * \param[in] order The sort order
+     * \return A reference to *this
+     */
+    Criteria &AddOrderBy(const std::string &table, const std::string &name, SortOrder order);
 
     /*
      * \brief Set limit count
@@ -60,30 +92,29 @@ public:
     Criteria &SetLimitOffset(unsigned int offset);
 
     /*
-     * \brief Set limit count
-     * \param[in] name The column name
-     * \param[in] order The sort order
+     * \brief Set cached only
+     * \param[in] value The value of the flag
      * \return A reference to *this
      */
-    Criteria &AddOrderBy(const std::string &name, SortOrder order);
+    Criteria &SetCachedOnly(bool value);
 
     /*
-     * \brief Get limit count
-     * \return The limit count
+     * \brief Compose
+     * \param[in] query The query
      */
-    unsigned int GetLimitCount() const;
+    void Compose(Query &query) const;
 
     /*
-     * \brief Get limit offset
-     * \return The limit offset
+     * \brief Bind
+     * \param[in] statement The statement
      */
-    unsigned int GetLimitOffset() const;
+    void Bind(Statement &statement) const;
 
     /*
-     * \brief Get order-by
-     * \return The order-by specs
+     * \brief Reset
+     * \return A reference to *this
      */
-    const OrderBySpec &GetOrderBy() const;
+    Criteria &Reset();
 
 private:
     /*!
@@ -97,17 +128,25 @@ private:
     friend class cpporm::Relationship;
 
     /*
-     * \brief Set cached only
-     * \param[in] value The value of the flag
-     * \return A reference to *this
-     */
-    Criteria &SetCachedOnly(bool value);
-
-    /*
      * \brief Get cached only
      * \return The value of the flag
      */
     bool GetCachedOnly() const;
+
+    /*!
+     * \brief The set of condition specifications
+     */
+    std::set<ConditionSpec> mConditions;
+
+    /*!
+     * \brief The set of join specifications
+     */
+    std::set<JoinSpec> mJoins;
+
+    /*!
+     * \brief The set of order-by specifications
+     */
+    std::set<OrderBySpec> mOrderBys;
 
     /*!
      * \brief The limit count
@@ -118,11 +157,6 @@ private:
      * \brief The limit offset
      */
     unsigned int mLimitOffset = 0;
-
-    /*!
-     * \brief The order by specifications
-     */
-    OrderBySpec mOrderBy;
 
     /*!
      * \brief The cached only flag

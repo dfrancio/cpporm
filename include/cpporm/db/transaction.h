@@ -47,8 +47,9 @@ public:
     /*!
      * \brief Rollback to
      * \param[in] name The savepoint name
+     * \param[in] remove A flag to indicate whether the savepoint should be removed
      */
-    void RollbackTo(const std::string &name);
+    void RollbackTo(const std::string &name, bool remove = false);
 
     /*!
      * \brief Release

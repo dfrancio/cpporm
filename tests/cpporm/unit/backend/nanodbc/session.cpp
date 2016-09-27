@@ -202,7 +202,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet4)
         session.Add(entity1);
         session.Add(entity2);
         ASSERT_EQ(session.Find(prototype, {}), std::vector<std::string>({"Test31", "Test32"}));
-        criteria.AddCriterion("id", Condition::equal, "1");
+        criteria.AddCondition("id", Condition::equal, "1");
         ASSERT_EQ(session.Find(prototype, criteria), std::vector<std::string>({"Test31"}));
     }
     ASSERT_TRUE(session.Find(prototype, {}).empty());
@@ -228,7 +228,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
 
     Test2 prototype;
     Criteria criteria;
-    criteria.AddCriterion("id", Condition::equal, "1");
+    criteria.AddCondition("id", Condition::equal, "1");
     auto ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 1);
     ASSERT_EQ(ids.back(), "Test21");
@@ -241,8 +241,8 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
         transaction.Commit();
     }
 
-    criteria.clear();
-    criteria.AddCriterion("id", Condition::equal, "3");
+    criteria.Reset();
+    criteria.AddCondition("id", Condition::equal, "3");
     ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 1);
     ASSERT_EQ(ids.back(), "Test23");

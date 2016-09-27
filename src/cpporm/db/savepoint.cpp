@@ -27,7 +27,7 @@ SavePoint::SavePoint(Transaction &transaction, const std::string &name)
 SavePoint::~SavePoint()
 {
     if (!mReleased)
-        mTransaction.RollbackTo(mName);
+        mTransaction.RollbackTo(mName, true);
 }
 
 /*!

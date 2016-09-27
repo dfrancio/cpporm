@@ -63,7 +63,7 @@ void Transaction::AddSavePoint(const std::string &name)
 /*!
  * \details
  */
-void Transaction::RollbackTo(const std::string &name)
+void Transaction::RollbackTo(const std::string &name, bool remove)
 {
     auto it = mSavePoints.find(name);
     if (it != mSavePoints.end())
@@ -72,7 +72,15 @@ void Transaction::RollbackTo(const std::string &name)
         auto &connection = mSession.GetConnection();
         connection.Execute(connection.CreateQuery()->RollbackToSavePoint(name).Get());
         it->second->Rollback(std::bind(&Transaction::RemoveSavePoint, this, _1));
-        it->second->Activate();
+        if (remove)
+        {
+            connection.Execute(connection.CreateQuery()->ReleaseSavePoint(name).Get());
+            mSavePoints.erase(it);
+        }
+        else
+        {
+            it->second->Activate();
+        }
     }
 }
 

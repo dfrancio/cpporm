@@ -60,22 +60,9 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
     assert(statement2);
 
     prototype.FetchPrimaryKey(*query);
-    if (!criteria.empty())
-    {
-        auto it = criteria.begin();
-        query->Where(it->first).AddContition(it->second.first);
-        for (++it; it != criteria.end(); ++it)
-            query->And(it->first).AddContition(it->second.first);
-    }
-    if (criteria.GetLimitCount() > 0)
-        query->Limit(criteria.GetLimitCount(), criteria.GetLimitOffset());
-
+    criteria.Compose(*query);
     statement->Prepare(query->GetAndReset());
-    std::size_t index = 0;
-    for (const auto &pair : criteria)
-        if (pair.second.first != Condition::isNull)
-            statement->Bind(index++, pair.second.second);
-
+    criteria.Bind(*statement);
     prototype.SetSession(this);
 
     bool tempTableCreated = false;
