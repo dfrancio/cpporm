@@ -35,6 +35,12 @@ protected:
             "id INTEGER PRIMARY KEY,"
             "name VARCHAR(3) DEFAULT NULL)");
         connection.JustExecute("DELETE FROM Test4");
+
+        connection.JustExecute(
+            "CREATE TABLE IF NOT EXISTS Test5 ("
+            "id INTEGER PRIMARY KEY,"
+            "hash BINARY)");
+        connection.JustExecute("DELETE FROM Test5");
     }
     cpporm::backend::soci::Connection connection;
 };
@@ -86,4 +92,15 @@ TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet2)
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "4");
     ASSERT_EQ(cursor->Get("name"), "ef");
+}
+
+TEST_F(CppOrm_Unit_Backend_Soci_Statement, TestSet3)
+{
+    auto statement = connection.CreateStatement();
+    statement->Prepare("INSERT INTO Test5 (hash) VALUES (?)");
+    statement->Bind(0, "\xa0\xb1\xc2\xd3");
+    connection.Execute(*statement);
+    auto cursor = connection.Execute("SELECT * FROM Test5");
+    ASSERT_TRUE(cursor->Next());
+    ASSERT_EQ(cursor->Get("hash"), "\xa0\xb1\xc2\xd3");
 }
