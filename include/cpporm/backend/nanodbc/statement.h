@@ -76,12 +76,12 @@ private:
     /*!
      * \brief The list of copies of bound values
      */
-    std::list<std::u16string> mCopies;
+    std::list<std::string> mCopies;
 
     /*!
      * \brief The list of copies of bound values for batch processing
      */
-    std::map<short, std::vector<std::u16string>> mBatchCopies;
+    std::map<short, std::vector<std::string>> mBatchCopies;
 
     /*!
      * \brief The list of null flags for batch processing
@@ -91,7 +91,7 @@ private:
     /*!
      * \brief The list of buffers used for batch processing
      */
-    std::map<short, std::u16string> mBatchBuffers;
+    std::map<short, std::string> mBatchBuffers;
 
     /*!
      * \brief A flag to indicate whether there is batch processing active

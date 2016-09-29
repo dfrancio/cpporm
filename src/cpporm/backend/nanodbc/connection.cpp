@@ -24,7 +24,7 @@ void Connection::Reconnect()
     try
     {
         mNativeConnection.disconnect();
-        mNativeConnection.connect(Widen16(mConnectionString));
+        mNativeConnection.connect(mConnectionString);
     }
     catch (const std::exception &e)
     {
@@ -81,7 +81,7 @@ void Connection::JustExecute(const std::string &sql)
     Connect();
     try
     {
-        cpporm::nanodbc::just_execute(mNativeConnection, Widen16(sql));
+        cpporm::nanodbc::just_execute(mNativeConnection, sql);
     }
     catch (const std::exception &e)
     {
@@ -98,7 +98,7 @@ std::unique_ptr<db::Cursor> Connection::Execute(const std::string &sql)
     try
     {
         return std::unique_ptr<db::Cursor>(
-            new Cursor(cpporm::nanodbc::execute(mNativeConnection, Widen16(sql))));
+            new Cursor(cpporm::nanodbc::execute(mNativeConnection, sql)));
     }
     catch (const std::exception &e)
     {
@@ -134,7 +134,7 @@ void Connection::InnerConnect()
         db::ConnectionString connString;
         connString.SetParameters(mParameters);
         mConnectionString = connString.Get();
-        mNativeConnection.connect(Widen16(mConnectionString));
+        mNativeConnection.connect(mConnectionString);
     }
     catch (const std::exception &e)
     {

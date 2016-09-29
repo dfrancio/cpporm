@@ -68,6 +68,7 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
     bool tempTableCreated = false;
     std::vector<std::string> ids;
     auto cursor = GetConnection().Execute(*statement);
+    assert(cursor);
     ids.reserve(cursor->GetAffectedRowCount());
     while (cursor->Next())
     {
@@ -101,8 +102,9 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
 
         prototype.Fetch(*query);
         prototype.JoinTemp(*query);
-        statement->Prepare(query->Get());
-        cursor = GetConnection().Execute(*statement);
+        statement2->Prepare(query->Get());
+        cursor = GetConnection().Execute(*statement2);
+        assert(cursor);
         while (cursor->Next())
         {
             prototype.Extract(*cursor);

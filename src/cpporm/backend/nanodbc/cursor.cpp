@@ -59,7 +59,7 @@ bool Cursor::Has(const std::string &name) const
     assert(mNativeCursor);
     try
     {
-        mNativeCursor.column(Widen16(name));
+        mNativeCursor.column(name);
         return true;
     }
     catch (const std::exception &e)
@@ -76,7 +76,7 @@ bool Cursor::IsNull(const std::string &name) const
     assert(mNativeCursor);
     try
     {
-        return mNativeCursor.is_null(Widen16(name));
+        return mNativeCursor.is_null(name);
     }
     catch (const std::exception &e)
     {
@@ -92,7 +92,7 @@ std::string Cursor::Get(short column) const
     assert(mNativeCursor);
     try
     {
-        return HandleDateTime(Narrow(mNativeCursor.get<std::u16string>(column)));
+        return ProcessValue(mNativeCursor.get<std::string>(column));
     }
     catch (const std::exception &e)
     {
@@ -108,7 +108,7 @@ std::string Cursor::Get(const std::string &name) const
     assert(mNativeCursor);
     try
     {
-        return HandleDateTime(Narrow(mNativeCursor.get<std::u16string>(Widen16(name))));
+        return ProcessValue(mNativeCursor.get<std::string>(name));
     }
     catch (const std::exception &e)
     {

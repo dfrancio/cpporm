@@ -28,7 +28,7 @@ void Statement::Prepare(const std::string &sql)
     Clear();
     try
     {
-        mNativeStatement.prepare(Widen16(sql));
+        mNativeStatement.prepare(sql);
     }
     catch (const std::exception &e)
     {
@@ -44,7 +44,7 @@ void Statement::Bind(short param, const std::string &value)
     if (mIsBatchProcessing)
     {
         ++mBatchCount;
-        mBatchCopies[param].push_back(Widen16(value));
+        mBatchCopies[param].push_back(value);
         auto it = mBatchNulls.find(param);
         if (it != mBatchNulls.end())
             it->second.push_back(false);
@@ -52,7 +52,7 @@ void Statement::Bind(short param, const std::string &value)
     }
     try
     {
-        mCopies.push_back(Widen16(value));
+        mCopies.push_back(value);
         mNativeStatement.bind(param, mCopies.back().c_str());
     }
     catch (const std::exception &e)
@@ -69,7 +69,7 @@ void Statement::BindNull(short param)
     if (mIsBatchProcessing)
     {
         ++mBatchCount;
-        mBatchCopies[param].push_back(u"");
+        mBatchCopies[param].push_back("");
         auto it = mBatchNulls.find(param);
         if (it != mBatchNulls.end())
             it->second.push_back(true);
