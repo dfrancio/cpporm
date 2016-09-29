@@ -9,10 +9,10 @@
 
 #include <cpporm/util/stringmap.h>
 
-CPPORM_BEGIN_NAMESPACE
 /*
  * Forward declarations
  */
+CPPORM_BEGIN_NAMESPACE
 class Entity;
 CPPORM_END_NAMESPACE
 

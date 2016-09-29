@@ -117,6 +117,17 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
 /*!
  * \details
  */
+std::shared_ptr<Entity> Session::FindOne(Entity &prototype, const db::Criteria &criteria)
+{
+    auto ids = Find(prototype, criteria);
+    if (ids.empty())
+        throw EntryNonExistentError();
+    return GetCache().Get(ids.back());
+}
+
+/*!
+ * \details
+ */
 void Session::Update(Entity &entity)
 {
     assert(GetCache().Has(entity.GetId()));

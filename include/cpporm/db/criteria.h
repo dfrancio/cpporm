@@ -9,13 +9,11 @@
 
 #include <cpporm/db/query.h>
 
-CPPORM_BEGIN_NAMESPACE
-
 /*
  * Forward declarations
  */
+CPPORM_BEGIN_NAMESPACE
 class Relationship;
-
 CPPORM_END_NAMESPACE
 
 CPPORM_BEGIN_SUB_NAMESPACE(db)

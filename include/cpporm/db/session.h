@@ -9,10 +9,10 @@
 
 #include <cpporm/util/preprocessor.h>
 
-CPPORM_BEGIN_NAMESPACE
 /*
  * Forward declarations
  */
+CPPORM_BEGIN_NAMESPACE
 class Entity;
 class Relationship;
 CPPORM_END_NAMESPACE
@@ -58,6 +58,14 @@ public:
      * \return The list of entity unique IDs
      */
     std::vector<std::string> Find(Entity &prototype, const db::Criteria &criteria);
+
+    /*
+     * \brief Find one entity
+     * \param[in] prototype The entity prototype
+     * \param[in] criteria The search criteria
+     * \return The entity pointer
+     */
+    std::shared_ptr<Entity> FindOne(Entity &prototype, const db::Criteria &criteria);
 
     /*!
      * \brief Update entity

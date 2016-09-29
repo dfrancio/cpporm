@@ -246,6 +246,5 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet5)
     criteria.Reset();
     criteria.AddCondition("id", Condition::equal, "3");
     ids = session.Find(prototype, criteria);
-    ASSERT_EQ(ids.size(), 1);
-    ASSERT_EQ(ids.back(), "Test23");
+    ASSERT_EQ(session.FindOne(prototype, criteria)->GetId(), "Test23");
 }
