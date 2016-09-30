@@ -20,14 +20,14 @@ TEST(CppOrm_Unit_Backend_Soci_Utils, TestSet1)
 TEST(CppOrm_Unit_Backend_Soci_Utils, TestSet2)
 {
     ASSERT_EQ(Convert(double(0)), "0");
-    ASSERT_EQ(Convert(double(0.1)), "0.10000000000000001");
+    ASSERT_EQ(Convert(double(0.1)), "0.100000000000000006");
     ASSERT_EQ(Convert(double(1.0)), "1");
-    ASSERT_EQ(Convert(double(0.123456789)), "0.123456789");
+    ASSERT_EQ(Convert(double(0.123456789)), "0.123456788999999997");
     ASSERT_EQ(Convert(double(-1e10)), "-10000000000");
 #ifdef _WIN32
     ASSERT_EQ(Convert(double(1e-10)), "1e-010");
 #else
-    ASSERT_EQ(Convert(double(1e-10)), "1e-10");
+    ASSERT_EQ(Convert(double(1e-10)), "1.00000000000000004e-10");
 #endif
 }
 

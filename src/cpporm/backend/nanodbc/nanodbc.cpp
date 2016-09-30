@@ -2376,66 +2376,6 @@ private:
 };
 
 template <>
-inline void result::result_impl::get_ref_impl<date>(short column, date &result) const
-{
-    bound_column &col = bound_columns_[column];
-    switch (col.ctype_)
-    {
-    case SQL_C_DATE:
-        result = *reinterpret_cast<date *>(col.pdata_ + rowset_position_ * col.clen_);
-        return;
-    case SQL_C_TIMESTAMP:
-    {
-        timestamp stamp = *reinterpret_cast<timestamp *>(col.pdata_ + rowset_position_ * col.clen_);
-        date d = {stamp.year, stamp.month, stamp.day};
-        result = d;
-        return;
-    }
-    }
-    throw type_incompatible_error();
-}
-
-template <>
-inline void result::result_impl::get_ref_impl<time>(short column, time &result) const
-{
-    bound_column &col = bound_columns_[column];
-    switch (col.ctype_)
-    {
-    case SQL_C_TIME:
-        result = *reinterpret_cast<time *>(col.pdata_ + rowset_position_ * col.clen_);
-        return;
-    case SQL_C_TIMESTAMP:
-    {
-        timestamp stamp = *reinterpret_cast<timestamp *>(col.pdata_ + rowset_position_ * col.clen_);
-        time t = {stamp.hour, stamp.min, stamp.sec};
-        result = t;
-        return;
-    }
-    }
-    throw type_incompatible_error();
-}
-
-template <>
-inline void result::result_impl::get_ref_impl<timestamp>(short column, timestamp &result) const
-{
-    bound_column &col = bound_columns_[column];
-    switch (col.ctype_)
-    {
-    case SQL_C_DATE:
-    {
-        date d = *reinterpret_cast<date *>(col.pdata_ + rowset_position_ * col.clen_);
-        timestamp stamp = {d.year, d.month, d.day, 0, 0, 0, 0};
-        result = stamp;
-        return;
-    }
-    case SQL_C_TIMESTAMP:
-        result = *reinterpret_cast<timestamp *>(col.pdata_ + rowset_position_ * col.clen_);
-        return;
-    }
-    throw type_incompatible_error();
-}
-
-template <>
 inline void result::result_impl::get_ref_impl<string_type>(short column, string_type &result) const
 {
     bound_column &col = bound_columns_[column];
@@ -2700,73 +2640,6 @@ inline void result::result_impl::get_ref_impl<string_type>(short column, string_
         std::strftime(date_str, sizeof(date_str), "%Y-%m-%d %H:%M:%S %z", &st);
         std::setlocale(LC_TIME, old_lc_time);
         convert(date_str, result);
-        return;
-    }
-    }
-    throw type_incompatible_error();
-}
-
-template <>
-inline void result::result_impl::get_ref_impl<std::vector<std::uint8_t>>(
-    short column, std::vector<std::uint8_t> &result) const
-{
-    bound_column &col = bound_columns_[column];
-    const SQLULEN column_size = col.sqlsize_;
-
-    switch (col.ctype_)
-    {
-    case SQL_C_BINARY:
-    {
-        if (col.blob_)
-        {
-            // Input and output is always array of bytes.
-            std::vector<std::uint8_t> out;
-            std::uint8_t buffer[1024] = {0};
-            std::size_t const buffer_size = sizeof(buffer);
-            // The length of the data available to return, decreasing with subsequent SQLGetData
-            // calls.
-            // But, NOT the length of data returned into the buffer (apart from the final call).
-            SQLLEN ValueLenOrInd;
-            SQLRETURN rc;
-
-#if defined(NANODBC_DO_ASYNC_IMPL)
-            stmt_.disable_async();
-#endif
-
-            void *handle = native_statement_handle();
-            do
-            {
-                NANODBC_CALL_RC(
-                    SQLGetData, rc,
-                    handle, // StatementHandle
-                    column + 1, // Col_or_Param_Num
-                    SQL_C_BINARY, // TargetType
-                    buffer, // TargetValuePtr
-                    buffer_size, // BufferLength
-                    &ValueLenOrInd); // StrLen_or_IndPtr
-                if (ValueLenOrInd > 0)
-                {
-                    auto const buffer_size_filled
-                        = std::min<std::size_t>(ValueLenOrInd, buffer_size);
-                    NANODBC_ASSERT(buffer_size_filled <= buffer_size);
-                    out.insert(std::end(out), buffer, buffer + buffer_size_filled);
-                }
-                else if (ValueLenOrInd == SQL_NULL_DATA)
-                    col.cbdata_[rowset_position_] = (SQLINTEGER)SQL_NULL_DATA;
-                // Sequence of successful calls is:
-                // SQL_NO_DATA or SQL_SUCCESS_WITH_INFO followed by SQL_SUCCESS.
-            } while (rc == SQL_SUCCESS_WITH_INFO);
-            if (rc == SQL_SUCCESS || rc == SQL_NO_DATA)
-                result = std::move(out);
-            else if (!success(rc))
-                NANODBC_THROW_DATABASE_ERROR(stmt_.native_statement_handle(), SQL_HANDLE_STMT);
-        }
-        else
-        {
-            // Read fixed-length binary data
-            const char *s = col.pdata_ + rowset_position_ * col.clen_;
-            result.assign(s, s + column_size);
-        }
         return;
     }
     }
@@ -3390,17 +3263,6 @@ unsigned long statement::parameter_size(short param) const
 
 // The following are the only supported instantiations of statement::bind().
 NANODBC_INSTANTIATE_BINDS(string_type::value_type);
-NANODBC_INSTANTIATE_BINDS(short);
-NANODBC_INSTANTIATE_BINDS(unsigned short);
-NANODBC_INSTANTIATE_BINDS(int32_t);
-NANODBC_INSTANTIATE_BINDS(uint32_t);
-NANODBC_INSTANTIATE_BINDS(int64_t);
-NANODBC_INSTANTIATE_BINDS(uint64_t);
-NANODBC_INSTANTIATE_BINDS(float);
-NANODBC_INSTANTIATE_BINDS(double);
-NANODBC_INSTANTIATE_BINDS(date);
-NANODBC_INSTANTIATE_BINDS(time);
-NANODBC_INSTANTIATE_BINDS(timestamp);
 
 #undef NANODBC_INSTANTIATE_BINDS
 
@@ -4122,135 +3984,12 @@ result::operator bool() const
     return static_cast<bool>(impl_);
 }
 
-// The following are the only supported instantiations of result::get_ref().
-template void result::get_ref(short, string_type::value_type &) const;
-template void result::get_ref(short, short &) const;
-template void result::get_ref(short, unsigned short &) const;
-template void result::get_ref(short, int32_t &) const;
-template void result::get_ref(short, uint32_t &) const;
-template void result::get_ref(short, int64_t &) const;
-template void result::get_ref(short, uint64_t &) const;
-template void result::get_ref(short, float &) const;
-template void result::get_ref(short, double &) const;
 template void result::get_ref(short, string_type &) const;
-template void result::get_ref(short, date &) const;
-template void result::get_ref(short, time &) const;
-template void result::get_ref(short, timestamp &) const;
-template void result::get_ref(short, std::vector<std::uint8_t> &) const;
-
-template void result::get_ref(const string_type &, string_type::value_type &) const;
-template void result::get_ref(const string_type &, short &) const;
-template void result::get_ref(const string_type &, unsigned short &) const;
-template void result::get_ref(const string_type &, int32_t &) const;
-template void result::get_ref(const string_type &, uint32_t &) const;
-template void result::get_ref(const string_type &, int64_t &) const;
-template void result::get_ref(const string_type &, uint64_t &) const;
-template void result::get_ref(const string_type &, float &) const;
-template void result::get_ref(const string_type &, double &) const;
 template void result::get_ref(const string_type &, string_type &) const;
-template void result::get_ref(const string_type &, date &) const;
-template void result::get_ref(const string_type &, time &) const;
-template void result::get_ref(const string_type &, timestamp &) const;
-template void result::get_ref(const string_type &, std::vector<std::uint8_t> &) const;
-
-// The following are the only supported instantiations of result::get_ref() with fallback.
-template void result::get_ref(
-    short, const string_type::value_type &, string_type::value_type &) const;
-template void result::get_ref(short, const short &, short &) const;
-template void result::get_ref(short, const unsigned short &, unsigned short &) const;
-template void result::get_ref(short, const int32_t &, int32_t &) const;
-template void result::get_ref(short, const uint32_t &, uint32_t &) const;
-template void result::get_ref(short, const int64_t &, int64_t &) const;
-template void result::get_ref(short, const uint64_t &, uint64_t &) const;
-template void result::get_ref(short, const float &, float &) const;
-template void result::get_ref(short, const double &, double &) const;
 template void result::get_ref(short, const string_type &, string_type &) const;
-template void result::get_ref(short, const date &, date &) const;
-template void result::get_ref(short, const time &, time &) const;
-template void result::get_ref(short, const timestamp &, timestamp &) const;
-template void result::get_ref(
-    short, const std::vector<std::uint8_t> &, std::vector<std::uint8_t> &) const;
-
-template void result::get_ref(
-    const string_type &, const string_type::value_type &, string_type::value_type &) const;
-template void result::get_ref(const string_type &, const short &, short &) const;
-template void result::get_ref(const string_type &, const unsigned short &, unsigned short &) const;
-template void result::get_ref(const string_type &, const int32_t &, int32_t &) const;
-template void result::get_ref(const string_type &, const uint32_t &, uint32_t &) const;
-template void result::get_ref(const string_type &, const int64_t &, int64_t &) const;
-template void result::get_ref(const string_type &, const uint64_t &, uint64_t &) const;
-template void result::get_ref(const string_type &, const float &, float &) const;
-template void result::get_ref(const string_type &, const double &, double &) const;
 template void result::get_ref(const string_type &, const string_type &, string_type &) const;
-template void result::get_ref(const string_type &, const date &, date &) const;
-template void result::get_ref(const string_type &, const time &, time &) const;
-template void result::get_ref(const string_type &, const timestamp &, timestamp &) const;
-template void result::get_ref(
-    const string_type &, const std::vector<std::uint8_t> &, std::vector<std::uint8_t> &) const;
-
-// The following are the only supported instantiations of result::get().
-template string_type::value_type result::get(short) const;
-template short result::get(short) const;
-template unsigned short result::get(short) const;
-template int32_t result::get(short) const;
-template uint32_t result::get(short) const;
-template int64_t result::get(short) const;
-template uint64_t result::get(short) const;
-template float result::get(short) const;
-template double result::get(short) const;
 template string_type result::get(short) const;
-template date result::get(short) const;
-template time result::get(short) const;
-template timestamp result::get(short) const;
-template std::vector<std::uint8_t> result::get(short) const;
-
-template string_type::value_type result::get(const string_type &) const;
-template short result::get(const string_type &) const;
-template unsigned short result::get(const string_type &) const;
-template int32_t result::get(const string_type &) const;
-template uint32_t result::get(const string_type &) const;
-template int64_t result::get(const string_type &) const;
-template uint64_t result::get(const string_type &) const;
-template float result::get(const string_type &) const;
-template double result::get(const string_type &) const;
 template string_type result::get(const string_type &) const;
-template date result::get(const string_type &) const;
-template time result::get(const string_type &) const;
-template timestamp result::get(const string_type &) const;
-template std::vector<std::uint8_t> result::get(const string_type &) const;
-
-// The following are the only supported instantiations of result::get() with fallback.
-template string_type::value_type result::get(short, const string_type::value_type &) const;
-template short result::get(short, const short &) const;
-template unsigned short result::get(short, const unsigned short &) const;
-template int32_t result::get(short, const int32_t &) const;
-template uint32_t result::get(short, const uint32_t &) const;
-template int64_t result::get(short, const int64_t &) const;
-template uint64_t result::get(short, const uint64_t &) const;
-template float result::get(short, const float &) const;
-template double result::get(short, const double &) const;
-template string_type result::get(short, const string_type &) const;
-template date result::get(short, const date &) const;
-template time result::get(short, const time &) const;
-template timestamp result::get(short, const timestamp &) const;
-template std::vector<std::uint8_t> result::get(short, const std::vector<std::uint8_t> &) const;
-
-template string_type::value_type result::get(
-    const string_type &, const string_type::value_type &) const;
-template short result::get(const string_type &, const short &) const;
-template unsigned short result::get(const string_type &, const unsigned short &) const;
-template int32_t result::get(const string_type &, const int32_t &) const;
-template uint32_t result::get(const string_type &, const uint32_t &) const;
-template int64_t result::get(const string_type &, const int64_t &) const;
-template uint64_t result::get(const string_type &, const uint64_t &) const;
-template float result::get(const string_type &, const float &) const;
-template double result::get(const string_type &, const double &) const;
-template string_type result::get(const string_type &, const string_type &) const;
-template date result::get(const string_type &, const date &) const;
-template time result::get(const string_type &, const time &) const;
-template timestamp result::get(const string_type &, const timestamp &) const;
-template std::vector<std::uint8_t> result::get(
-    const string_type &, const std::vector<std::uint8_t> &) const;
 
 } // namespace nanodbc
 

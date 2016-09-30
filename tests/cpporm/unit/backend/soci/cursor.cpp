@@ -36,7 +36,7 @@ protected:
         connection.JustExecute(
             "CREATE TABLE IF NOT EXISTS Test5 ("
             "id INTEGER PRIMARY KEY,"
-            "hash BLOB)");
+            "hash BINARY)");
         connection.JustExecute("DELETE FROM Test5");
 
         connection.Execute("INSERT INTO Test5 (hash) VALUES (x'a0b1c2d3')");

@@ -22,7 +22,7 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, soci)
  * \return The converted value
  */
 template <typename T>
-CPPORM_SOCI_EXPORT std::string Convert(T &&value);
+std::string Convert(const T &value);
 
 /*!
  * \brief Process parameter names

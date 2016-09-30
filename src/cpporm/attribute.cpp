@@ -18,6 +18,9 @@
 
 CPPORM_BEGIN_NAMESPACE
 
+// Helper functions
+std::string CheckAddZeroTime(std::string &&value);
+
 /*!
  * \details
  */
@@ -62,7 +65,8 @@ void Attribute::SetNull()
  */
 bool Attribute::IsNull() const
 {
-    return mValue.empty() && !GetProperties().Has(CPPORM_PROP_NOT_NULL);
+    InitializeFlags();
+    return mValue.empty() && !mFlags.notNull;
 }
 
 /*!
@@ -166,8 +170,11 @@ void Attribute::Extract(db::Cursor &cursor)
 {
     if (cursor.Has(GetName()))
     {
+        InitializeFlags();
         if (cursor.IsNull(GetName()))
             SetNull();
+        else if (mFlags.checkDatetime)
+            Set(CheckAddZeroTime(cursor.Get(GetName())));
         else
             Set(cursor.Get(GetName()));
     }
@@ -178,12 +185,14 @@ void Attribute::Extract(db::Cursor &cursor)
  */
 void Attribute::Insert(db::Query &query)
 {
-    if (!mValue.empty() || (!GetProperties().Has(CPPORM_PROP_IDENTITY)
-                            && !GetProperties().Has(CPPORM_PROP_DEFAULT)))
+    if (mValue.empty())
     {
-        query.IncrementalInsert(GetName());
-        mBindingIndices.push(query.GetBindingIndex());
+        InitializeFlags();
+        if (mFlags.skipInsertIfEmpty)
+            return;
     }
+    query.IncrementalInsert(GetName());
+    mBindingIndices.push(query.GetBindingIndex());
 }
 
 /*!
@@ -264,6 +273,31 @@ void Attribute::CreateSchema(db::Query &query) const
     query.IncrementalColumn(
         GetName(), datatype, length, decimals, defaultValue, false, false, isNotNull,
         isAutoIncrement);
+}
+
+/*!
+ * \details
+ */
+void Attribute::InitializeFlags() const
+{
+    if (!mFlags.initialized)
+    {
+        mFlags.notNull = GetProperties().Has(CPPORM_PROP_NOT_NULL);
+        mFlags.checkDatetime = GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "DATETIME";
+        mFlags.skipInsertIfEmpty
+            = GetProperties().Has(CPPORM_PROP_IDENTITY) || GetProperties().Has(CPPORM_PROP_DEFAULT);
+        mFlags.initialized = true;
+    }
+}
+
+/*!
+ * \details
+ */
+inline std::string CheckAddZeroTime(std::string &&value)
+{
+    if (value.size() <= 10)
+        value += " 00:00:00";
+    return value;
 }
 
 CPPORM_END_NAMESPACE

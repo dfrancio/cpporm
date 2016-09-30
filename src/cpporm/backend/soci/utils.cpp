@@ -7,6 +7,12 @@
  */
 #include <cpporm/backend/soci/utils.h>
 
+// C++ library includes
+#include <limits>
+
+// External library includes
+#include <boost/math/special_functions/nonfinite_num_facets.hpp>
+
 // Internal library includes
 #include <cpporm/util/string.h>
 
@@ -16,10 +22,11 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, soci)
  * \details
  */
 template <>
-std::string Convert(double &&value)
+CPPORM_SOCI_EXPORT std::string Convert(const double &value)
 {
     std::ostringstream stream;
-    stream << std::setprecision(17) << value;
+    stream.imbue(std::locale(std::locale(), new boost::math::nonfinite_num_put<char>));
+    stream << std::setprecision(std::numeric_limits<long double>::digits10) << value;
     return stream.str();
 }
 
@@ -27,7 +34,7 @@ std::string Convert(double &&value)
  * \details
  */
 template <>
-std::string Convert(int &&value)
+CPPORM_SOCI_EXPORT std::string Convert(const int &value)
 {
     return util::to_string(value);
 }
@@ -36,7 +43,7 @@ std::string Convert(int &&value)
  * \details
  */
 template <>
-std::string Convert(long long &&value)
+CPPORM_SOCI_EXPORT std::string Convert(const long long &value)
 {
     return util::to_string(value);
 }
@@ -45,7 +52,7 @@ std::string Convert(long long &&value)
  * \details
  */
 template <>
-std::string Convert(unsigned long long &&value)
+CPPORM_SOCI_EXPORT std::string Convert(const unsigned long long &value)
 {
     return util::to_string(value);
 }
@@ -54,18 +61,13 @@ std::string Convert(unsigned long long &&value)
  * \details
  */
 template <>
-CPPORM_SOCI_EXPORT std::string Convert(std::tm &&value)
+CPPORM_SOCI_EXPORT std::string Convert(const std::tm &value)
 {
     char buffer[20];
     if (value.tm_year < 0)
     {
-        value.tm_hour = value.tm_year + 1900;
-        value.tm_min = value.tm_mon + 1;
-        value.tm_sec = value.tm_mday;
-        value.tm_year = 0;
-        value.tm_mon = 0;
-        value.tm_mday = 0;
-        std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &value);
+        std::tm time{value.tm_mday, value.tm_mon + 1, value.tm_year + 1900};
+        std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &time);
     }
     else if (value.tm_hour == 0 && value.tm_min == 0 && value.tm_sec == 0)
         std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", &value);
@@ -96,7 +98,7 @@ std::string ProcessParameterNames(const std::string &sql)
 /*!
  * \details
  */
-std::string MakeParameterName(short param)
+inline std::string MakeParameterName(short param)
 {
     return util::to_string(param);
 }

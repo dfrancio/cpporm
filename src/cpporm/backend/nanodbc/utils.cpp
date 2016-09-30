@@ -11,12 +11,6 @@
 // C++ library includes
 #include <regex>
 
-// External library includes
-#include <boost/locale/encoding_utf.hpp>
-
-// Internal library includes
-#include <cpporm/error.h>
-
 CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, nanodbc)
 
 // Helper functions

@@ -28,8 +28,8 @@ protected:
             "flag TINYINT DEFAULT NULL)");
         connection.JustExecute("DELETE FROM Test");
 
-        connection.Execute("INSERT INTO Test (name,date) VALUES (\"Aţ Ţawīlah\",\"1990-12-14\")");
-        connection.Execute("INSERT INTO Test (name,date,flag) VALUES (\"Bājil\",\"1989-09-03\",1)");
+        connection.Execute("INSERT INTO Test (name,date) VALUES (\"ABC\",\"1990-12-14\")");
+        connection.Execute("INSERT INTO Test (name,date,flag) VALUES (\"DEF\",\"1989-09-03\",1)");
         connection.Execute("INSERT INTO Test (id,name) VALUES (8294967296,'abc')");
         connection.Execute("INSERT INTO Test (id,name) VALUES (-9223372036854775808,'def')");
 
@@ -59,7 +59,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Cursor, TestSet1)
 
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "1");
-    ASSERT_EQ(cursor->Get("name"), "Aţ Ţawīlah");
+    ASSERT_EQ(cursor->Get("name"), "ABC");
     ASSERT_EQ(cursor->Get("date"), "1990-12-14");
     auto time = cursor->Get("time");
     auto datetime = cursor->Get("datetime");
@@ -68,7 +68,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Cursor, TestSet1)
 
     ASSERT_TRUE(cursor->Next());
     ASSERT_EQ(cursor->Get("id"), "2");
-    ASSERT_EQ(cursor->Get("name"), "Bājil");
+    ASSERT_EQ(cursor->Get("name"), "DEF");
     ASSERT_EQ(cursor->Get("date"), "1989-09-03");
     time = cursor->Get("time");
     datetime = cursor->Get("datetime");
@@ -91,10 +91,10 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Cursor, TestSet2)
     ASSERT_EQ(cursor->Get("flag"), "0");
     ASSERT_FALSE(cursor->Next());
 
-    cursor = connection.Execute("UPDATE Test SET flag=NULL WHERE name=\"Aţ Ţawīlah\"");
+    cursor = connection.Execute("UPDATE Test SET flag=NULL WHERE name=\"ABC\"");
     ASSERT_EQ(cursor->GetAffectedRowCount(), 1);
     ASSERT_FALSE(cursor->Next());
-    cursor = connection.Execute("SELECT * FROM Test WHERE name=\"Aţ Ţawīlah\"");
+    cursor = connection.Execute("SELECT * FROM Test WHERE name=\"ABC\"");
     ASSERT_TRUE(cursor->Next());
     ASSERT_TRUE(cursor->IsNull("flag"));
     ASSERT_FALSE(cursor->Next());

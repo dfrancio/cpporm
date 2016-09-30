@@ -198,6 +198,22 @@ private:
      * \brief The binding indices
      */
     std::stack<short> mBindingIndices;
+
+    /*!
+     * \brief Initialize flags
+     */
+    void InitializeFlags() const;
+
+    /*
+     * Internal flags
+     */
+    mutable struct
+    {
+        bool initialized = false;
+        bool notNull = false;
+        bool checkDatetime = false;
+        bool skipInsertIfEmpty = false;
+    } mFlags;
 };
 
 CPPORM_END_NAMESPACE
