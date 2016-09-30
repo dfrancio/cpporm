@@ -53,7 +53,7 @@ void Statement::Bind(short param, const std::string &value)
     try
     {
         mCopies.push_back(value);
-        mNativeStatement.bind(param, mCopies.back().c_str());
+        mNativeStatement.bind(param, mCopies.back().c_str(), mCopies.back().size());
     }
     catch (const std::exception &e)
     {

@@ -25,7 +25,7 @@ TEST(CppOrm_Unit_Backend_Soci_Utils, TestSet2)
     ASSERT_EQ(Convert(double(0.123456789)), "0.123456788999999997");
     ASSERT_EQ(Convert(double(-1e10)), "-10000000000");
 #ifdef _WIN32
-    ASSERT_EQ(Convert(double(1e-10)), "1e-010");
+    ASSERT_EQ(Convert(double(1e-10)), "1.00000000000000004e-010");
 #else
     ASSERT_EQ(Convert(double(1e-10)), "1.00000000000000004e-10");
 #endif

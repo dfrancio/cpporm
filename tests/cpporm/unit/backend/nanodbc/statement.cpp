@@ -96,7 +96,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Statement, TestSet2)
     ASSERT_EQ(cursor->Get("name"), "ef");
 }
 
-TEST_F(CppOrm_Unit_Backend_Nanodbc_Statement, TestSet3)
+TEST_F(CppOrm_Unit_Backend_Nanodbc_Statement, DISABLED_TestSet3)
 {
     auto statement = connection.CreateStatement();
     statement->Prepare("INSERT INTO Test5 (hash) VALUES (?)");

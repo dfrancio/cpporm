@@ -98,7 +98,7 @@ std::string ProcessParameterNames(const std::string &sql)
 /*!
  * \details
  */
-inline std::string MakeParameterName(short param)
+std::string MakeParameterName(short param)
 {
     return util::to_string(param);
 }

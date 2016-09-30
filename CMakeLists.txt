@@ -90,7 +90,8 @@ setup_target(
             ${EMIT_ABI_TAG_WARNING}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
-        INCLUDE PUBLIC Soci 3.2 REQUIRED END
+        Boost REQUIRED END
+        INCLUDE PUBLIC Soci 4.0 REQUIRED END
         INTERNAL cpporm END
     IS_LIBRARY)
 
