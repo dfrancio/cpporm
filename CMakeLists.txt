@@ -92,7 +92,7 @@ setup_target(
     DEPENDENCIES
         Boost REQUIRED END
         INCLUDE PUBLIC SOCI REQUIRED END
-        INTERNAL soci_core END
+        INTERNAL SOCI::soci_core END
         INTERNAL cpporm END
     IS_LIBRARY)
 
