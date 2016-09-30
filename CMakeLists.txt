@@ -91,7 +91,8 @@ setup_target(
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
         Boost REQUIRED END
-        INCLUDE PUBLIC Soci 4.0 REQUIRED END
+        INCLUDE PUBLIC SOCI REQUIRED END
+        INTERNAL soci_core END
         INTERNAL cpporm END
     IS_LIBRARY)
 

@@ -8,7 +8,7 @@
 #pragma once
 
 // External library includes
-#include <soci.h>
+#include <soci/soci.h>
 
 // Internal library includes
 #include <cpporm/backend/soci/export.h>
