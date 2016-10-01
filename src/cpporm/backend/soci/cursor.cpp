@@ -150,6 +150,8 @@ std::string Cursor::GetString(short column) const
         return Convert(mStatement.mNativeRow.get<unsigned long long>(column));
     case ::soci::dt_date:
         return Convert(mStatement.mNativeRow.get<std::tm>(column));
+    case ::soci::dt_blob:
+        return mStatement.mNativeRow.get<std::string>(column);
     }
 }
 
@@ -172,6 +174,8 @@ std::string Cursor::GetString(const std::string &name) const
         return Convert(mStatement.mNativeRow.get<unsigned long long>(name));
     case ::soci::dt_date:
         return Convert(mStatement.mNativeRow.get<std::tm>(name));
+    case ::soci::dt_blob:
+        return mStatement.mNativeRow.get<std::string>(name);
     }
 }
 
