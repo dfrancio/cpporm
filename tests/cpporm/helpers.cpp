@@ -147,7 +147,11 @@ const std::vector<std::string> &MyEntity2::_relationship_attr_MyEntity2::GetRefe
 }
 MyEntity2 *MyEntity2::_relationship_attr_MyEntity2::operator->()
 {
-    return ToOneRelationship::Get<MyEntity2>();
+    return Get<MyEntity2>();
+}
+MyEntity2 &MyEntity2::_relationship_attr_MyEntity2::operator*()
+{
+    return *Get<MyEntity2>();
 }
 const std::string &MyEntity2::_relationship_attr_MyEntity2::GetReciprocalName() const
 {
@@ -392,7 +396,11 @@ const std::vector<std::string> &Test2::_relationship_created_by_Test2::GetRefere
 }
 Test2 *Test2::_relationship_created_by_Test2::operator->()
 {
-    return ToOneRelationship::Get<Test2>();
+    return Get<Test2>();
+}
+Test2 &Test2::_relationship_created_by_Test2::operator*()
+{
+    return *Get<Test2>();
 }
 const std::string &Test2::_relationship_created_by_Test2::GetReciprocalName() const
 {
@@ -635,7 +643,11 @@ const std::vector<std::string> &Test3::_relationship_created_by_Test3::GetRefere
 }
 Test3 *Test3::_relationship_created_by_Test3::operator->()
 {
-    return ToOneRelationship::Get<Test3>();
+    return Get<Test3>();
+}
+Test3 &Test3::_relationship_created_by_Test3::operator*()
+{
+    return *Get<Test3>();
 }
 const std::string &Test3::_relationship_created_by_Test3::GetReciprocalName() const
 {

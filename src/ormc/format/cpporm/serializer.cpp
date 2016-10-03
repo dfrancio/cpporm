@@ -1041,6 +1041,9 @@ const std::string ImplementationEntityWriter::cDefineRelationship
 const std::string ImplementationEntityWriter::cDefineToOneRelationship
     = "%3% *%1%::_relationship_%2%::operator->() {\n"
       "    return Get<%3%>();\n"
+      "}\n"
+      "%3% &%1%::_relationship_%2%::operator*() {\n"
+      "    return *Get<%3%>();\n"
       "}\n";
 
 /*!

@@ -135,6 +135,7 @@ public:                                                                         
         const std::vector<std::string> &GetForeignKeyNames() const override;                       \
         const std::vector<std::string> &GetReferencedNames() const override;                       \
         related *operator->();                                                                     \
+        related &operator*();                                                                      \
                                                                                                    \
     protected:                                                                                     \
         const std::string &GetReciprocalName() const override;                                     \
