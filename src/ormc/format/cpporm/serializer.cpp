@@ -556,7 +556,8 @@ public:
         }
         mRelationshipStream << boost::format(cMapRelationship) % context.node.name % relName;
         mStream << boost::format(cDefineRelationship) % context.node.name % relName % indName
-                % fkNames % refNames % reciprocalName % context.node.name;
+                % fkNames % refNames % reciprocalName % context.node.name
+                % context.edge.refNodeName;
         mStream << boost::format(cDefineToOneRelationship) % context.node.name % relName
                 % context.edge.refNodeName;
         return true;
@@ -597,7 +598,8 @@ public:
         }
         mRelationshipStream << boost::format(cMapRelationship) % context.node.name % relName;
         mStream << boost::format(cDefineRelationship) % context.node.name % relName % indName
-                % fkNames % refNames % reciprocalName % context.sourceNode.name;
+                % fkNames % refNames % reciprocalName % context.sourceNode.name
+                % context.sourceNode.name;
         return true;
     }
 
@@ -1031,7 +1033,7 @@ const std::string ImplementationEntityWriter::cDefineRelationship
       "    return cName;\n"
       "}\n"
       "cpporm::Entity &%1%::_relationship_%2%::GetPrototype() const {\n"
-      "    static %1% cEntity;\n"
+      "    static %8% cEntity;\n"
       "    return cEntity;\n"
       "}\n";
 
