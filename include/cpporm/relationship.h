@@ -145,6 +145,20 @@ public:
 
     /*!
      * \brief operator ==
+     * \param[in] other The other relationship
+     * \return True, if the pointers are equal; false otherwise
+     */
+    bool operator==(const ToOneRelationship &other);
+
+    /*!
+     * \brief operator !=
+     * \param[in] other The other relationship
+     * \return True, if the pointers are different; false otherwise
+     */
+    bool operator!=(const ToOneRelationship &other);
+
+    /*!
+     * \brief operator ==
      * \param[in] pointer The pointer
      * \return True, if the pointers are equal; false otherwise
      */

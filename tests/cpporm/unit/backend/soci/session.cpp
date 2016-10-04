@@ -97,6 +97,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet1)
 
     ASSERT_TRUE(entity1->created_by_Test2 == entity2);
     ASSERT_TRUE(entity2->created_by_Test2 == entity1);
+    ASSERT_TRUE(entity1->created_by_Test2 != entity2->created_by_Test2);
 
     int count = 0;
     auto lambda1 = [](Test2 &entity, int &count) {

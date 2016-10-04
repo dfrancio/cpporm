@@ -78,6 +78,33 @@ void Relationship::SetCachedOnly(db::Criteria &criteria, bool value) const
 /*!
  * \details
  */
+ToOneRelationship::operator bool()
+{
+    Load();
+    return get();
+}
+
+/*!
+ * \details
+ */
+bool ToOneRelationship::operator==(const ToOneRelationship &other)
+{
+    Load();
+    return get() == other.get();
+}
+
+/*!
+ * \details
+ */
+bool ToOneRelationship::operator!=(const ToOneRelationship &other)
+{
+    Load();
+    return get() != other.get();
+}
+
+/*!
+ * \details
+ */
 void ToOneRelationship::Invalidate()
 {
     mInvalidated = true;
@@ -95,15 +122,6 @@ void ToOneRelationship::Unrelate()
         RemoveParent();
     else if (action == CPPORM_ON_DELETE_NO_ACTION)
         throw CannotDeleteEntity(mParent.GetId(), "foreign key", GetName(), "requires no action");
-}
-
-/*!
- * \details
- */
-ToOneRelationship::operator bool()
-{
-    Load();
-    return get();
 }
 
 /*!
