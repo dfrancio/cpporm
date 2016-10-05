@@ -911,7 +911,7 @@ const std::string ImplementationEntityWriter::cWriteEntityComment
 const std::string ImplementationEntityWriter::cDefineEntityMethods
     = "cpporm::Entity *%1%::Clone() const {\n"
       "    auto *result = new %1%();\n"
-      "    *result = *this;"
+      "    *result = *this;\n"
       "    return result;\n"
       "}\n"
       "const std::string &%1%::GetName() const {\n"
