@@ -92,19 +92,11 @@ void IudContext::InnerAddInsertion(const std::string &key)
 void IudContext::InnerAddUpdate(const std::string &oldKey, const std::string &newKey)
 {
     if (mInsertions.Has(oldKey))
-    {
         mInsertions.Rename(oldKey, newKey);
-        mCache.Rename(oldKey, newKey);
-    }
     else if (mDeletions.Has(oldKey))
-    {
         mDeletions.Rename(oldKey, newKey);
-    }
     else
-    {
         mUpdates.Add(newKey, mCache.Get(oldKey));
-        mCache.Rename(oldKey, newKey);
-    }
 }
 
 /*!
@@ -117,7 +109,6 @@ void IudContext::InnerAddDeletion(const std::string &key)
         mInsertions.Remove(key);
     else
         mDeletions.Add(key, mCache.Get(key));
-    mCache.Remove(key);
 }
 
 /*!

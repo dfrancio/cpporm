@@ -245,4 +245,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
     criteria.Reset();
     criteria.AddCondition("id", Condition::equal, "3");
     ASSERT_EQ(session.FindOne(prototype, criteria)->GetId(), "Test23");
+
+    session.Delete(*entity1);
+    ASSERT_THROW(session.Get(entity1->GetId()), cpporm::EntryNonExistentError);
 }

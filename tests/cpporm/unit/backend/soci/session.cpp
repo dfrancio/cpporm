@@ -248,4 +248,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet5)
     criteria.AddCondition("id", Condition::equal, "3");
     ids = session.Find(prototype, criteria);
     ASSERT_EQ(session.FindOne(prototype, criteria)->GetId(), "Test23");
+
+    session.Delete(*entity1);
+    ASSERT_THROW(session.Get(entity1->GetId()), cpporm::EntryNonExistentError);
 }

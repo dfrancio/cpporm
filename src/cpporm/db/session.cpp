@@ -138,6 +138,7 @@ void Session::Update(Entity &entity)
         auto oldId = entity.GetId();
         entity.ResetId();
         GetContext().AddUpdate(oldId, entity.GetId());
+        GetCache().Rename(oldId, entity.GetId());
         UpdateInDatabase(entity);
         FetchFromDatabase(entity);
         entity.ReloadRelationships();
@@ -163,6 +164,7 @@ void Session::RemoveFromCache(Entity &entity)
     {
         entity.DissolveRelationships();
         GetContext().AddDeletion(entity.GetId());
+        GetCache().Remove(entity.GetId());
     }
 }
 
