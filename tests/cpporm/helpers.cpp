@@ -40,7 +40,9 @@ const cpporm::AttributeMap &MyEntity::_index_version_fields::GetAttributes() con
 MyEntity::_index_version_fields MyEntity::version_fields;
 cpporm::Entity *MyEntity2::Clone() const
 {
-    return new MyEntity2(*this);
+    auto *result = new MyEntity2();
+    *result = *this;
+    return result;
 }
 const std::string &MyEntity2::GetName() const
 {
@@ -196,7 +198,9 @@ cpporm::Entity &MyEntity2::_relationship_all_MyEntity2_attr::GetPrototype() cons
 }
 cpporm::Entity *Test2::Clone() const
 {
-    return new Test2(*this);
+    auto *result = new Test2();
+    *result = *this;
+    return result;
 }
 const std::string &Test2::GetName() const
 {
@@ -445,7 +449,9 @@ cpporm::Entity &Test2::_relationship_all_Test2_created_by::GetPrototype() const
 }
 cpporm::Entity *Test3::Clone() const
 {
-    return new Test3(*this);
+    auto *result = new Test3();
+    *result = *this;
+    return result;
 }
 const std::string &Test3::GetName() const
 {

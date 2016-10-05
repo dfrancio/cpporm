@@ -54,6 +54,13 @@ Relationship::Relationship(Entity &parent) : mParent(parent)
 /*!
  * \details
  */
+Relationship &Relationship::operator=(const Relationship &other)
+{
+}
+
+/*!
+ * \details
+ */
 db::Session *Relationship::GetSession() const
 {
     return mParent.mSession;

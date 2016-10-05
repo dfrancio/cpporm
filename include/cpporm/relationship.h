@@ -39,6 +39,14 @@ public:
      */
     Relationship(Entity &parent);
 
+    Relationship(const Relationship &other) = delete;
+
+    /*!
+     * \brief Copy assignemnt
+     * \param[in] other The other relationship
+     */
+    Relationship &operator=(const Relationship &other);
+
     /*!
      * \brief Get name
      * \return The relationship name
