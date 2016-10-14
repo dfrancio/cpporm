@@ -622,7 +622,7 @@ macro(setup_project_installation)
             set(DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_DIR}")
         endif()
         if(EXISTS "${DATA_DIR}")
-            install(DIRECTORY "${DATA_DIR}" DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR}")
+            install(DIRECTORY "${DATA_DIR}/" DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR}")
         endif()
 
         if(${PROJECT_NAME_UPPERCASE}_ENABLE_DOCS)
