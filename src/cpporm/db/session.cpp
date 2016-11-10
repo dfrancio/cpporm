@@ -65,10 +65,10 @@ std::vector<std::string> Session::Find(Entity &prototype, const Criteria &criter
     criteria.Bind(*statement);
     prototype.SetSession(this);
 
-    bool tempTableCreated = false;
-    std::vector<std::string> ids;
+    auto tempTableCreated = false;
     auto cursor = GetConnection().Execute(*statement);
     assert(cursor);
+    std::vector<std::string> ids;
     ids.reserve(cursor->GetAffectedRowCount());
     while (cursor->Next())
     {

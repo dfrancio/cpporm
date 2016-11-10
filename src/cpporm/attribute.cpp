@@ -137,8 +137,8 @@ void Attribute::Commit()
 {
     mOldValue = mValue;
     mSavedValue.clear();
-    while (!mHistory.empty())
-        mHistory.pop();
+    if (!mHistory.empty())
+        mHistory = decltype(mHistory)();
 }
 
 /*!
@@ -246,7 +246,9 @@ void Attribute::Bind(db::Statement &statement, bool useSavedValue)
             statement.BindNull(mBindingIndices.top());
         else
             statement.Bind(mBindingIndices.top(), mValue);
-        mBindingIndices.pop();
+
+        if (!statement.IsBatchActive())
+            mBindingIndices.pop();
     }
 }
 

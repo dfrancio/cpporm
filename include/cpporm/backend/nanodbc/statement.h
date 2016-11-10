@@ -51,6 +51,11 @@ public:
      */
     void EndBatch() override;
 
+    /*!
+     * \brief Is batch active
+     */
+    bool IsBatchActive() override;
+
 private:
     /*!
      * \brief Befriend Connection class

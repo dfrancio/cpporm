@@ -123,6 +123,14 @@ void Statement::EndBatch()
 /*!
  * \details
  */
+bool Statement::IsBatchActive()
+{
+    return mIsBatchProcessing;
+}
+
+/*!
+ * \details
+ */
 void Statement::Execute()
 {
     try

@@ -52,6 +52,11 @@ public:
      * \brief End batch
      */
     virtual void EndBatch() = 0;
+
+    /*!
+     * \brief Is batch active
+     */
+    virtual bool IsBatchActive() = 0;
 };
 
 CPPORM_END_SUB_NAMESPACE

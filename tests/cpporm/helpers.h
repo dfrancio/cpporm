@@ -67,6 +67,10 @@ public:
     void EndBatch() override
     {
     }
+    bool IsBatchActive() override
+    {
+        return false;
+    }
 
     std::vector<int> boundParams;
     std::vector<std::string> boundValues;

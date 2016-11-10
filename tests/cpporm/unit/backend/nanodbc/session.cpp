@@ -229,8 +229,10 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
 
     Test2 prototype;
     Criteria criteria;
-    criteria.AddCondition("id", Condition::equal, "1");
     auto ids = session.Find(prototype, criteria);
+    ASSERT_EQ(ids.size(), 2);
+    criteria.AddCondition("id", Condition::equal, "1");
+    ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 1);
     ASSERT_EQ(ids.back(), "Test21");
 
