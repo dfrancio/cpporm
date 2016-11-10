@@ -50,7 +50,7 @@ TEST(CppOrm_Unit_Entity, TestSet2)
     entity.FetchLastId(sqliteQuery);
     ASSERT_EQ(sqliteQuery.GetAndReset(), "SELECT last_insert_rowid() AS name;");
     entity.FetchPrimaryKey(query);
-    ASSERT_EQ(query.GetAndReset(), "SELECT ent.attr FROM ent;");
+    ASSERT_EQ(query.GetAndReset(), "SELECT DISTINCT ent.attr FROM ent;");
     entity.Insert(query);
     ASSERT_EQ(query.GetAndReset(), "INSERT INTO ent DEFAULT VALUES;");
     entity.attr.Set("1");

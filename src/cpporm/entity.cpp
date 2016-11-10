@@ -204,7 +204,7 @@ bool Entity::FetchLastId(db::Query &query)
  */
 void Entity::FetchPrimaryKey(db::Query &query)
 {
-    query.Select();
+    query.Select().Distinct();
     for (const auto &pair : GetPrimaryKey())
         query.IncrementalSelect(pair.first);
     query.EndIncrementalSelect(GetName()).From(GetName());
