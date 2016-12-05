@@ -219,6 +219,11 @@ protected:
 
 private:
     /*!
+     * \brief Befriend class Entity
+     */
+    friend class Entity;
+
+    /*!
      * \brief Set foreign key null
      */
     void SetForeignKeyNull();

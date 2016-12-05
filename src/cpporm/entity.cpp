@@ -63,6 +63,24 @@ Relationship &Entity::GetRelationship(const std::string &name)
 /*!
  * \details
  */
+bool Entity::TraverseRelationships(std::function<bool(Entity &)> function)
+{
+    assert(function);
+    if (!function(*this))
+        return false;
+
+    for (auto &pair : GetRelationships())
+    {
+        auto *relationship = dynamic_cast<ToOneRelationship *>(&pair.second(*this));
+        if (relationship && !relationship->Get<Entity>()->TraverseRelationships(function))
+            return false;
+    }
+    return true;
+}
+
+/*!
+ * \details
+ */
 void Entity::SetSession(db::Session *session)
 {
     mSession = session;

@@ -104,6 +104,14 @@ public:
     Relationship &GetRelationship(const std::string &name);
 
     /*!
+     * \brief Traverse relationships
+     * \param[in] function The function
+     * \param[in] args The function arguments
+     * \return The relationship
+     */
+    bool TraverseRelationships(std::function<bool(Entity &)> function);
+
+    /*!
      * \brief Set session
      * \param[in] session The database session
      */
