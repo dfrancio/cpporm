@@ -254,3 +254,67 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet5)
     session.Delete(*entity1);
     ASSERT_THROW(session.Get(entity1->GetId()), cpporm::EntryNonExistentError);
 }
+
+TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet6)
+{
+    cpporm::backend::soci::Session session2;
+    session2.GetConnection().SetParameters(
+        {{"Driver", SOCI_SQLITE_DRIVER_NAME}, {"dbname", "test.db"}, {"FKSupport", "true"}});
+    auto entity1 = std::make_shared<Test2>();
+    auto entity2 = std::make_shared<Test2>();
+    auto entity3 = std::make_shared<Test2>();
+    {
+        cpporm::backend::soci::Transaction transaction(session2);
+        session2.Add(entity1);
+        entity2->created_by = entity1->id;
+        entity3->created_by = entity1->id;
+        session2.Add(entity2);
+        session2.Add(entity3);
+        entity1->created_by = entity2->id;
+        session2.Update(*entity1);
+        transaction.Commit();
+    }
+
+    std::set<std::string> uniqueIds;
+    auto lambda1 = [&](Entity &entity) {
+        auto id = entity.GetId();
+        auto it = uniqueIds.find(id);
+        if (it != uniqueIds.end())
+            return Entity::TraverseResult::skip;
+
+        uniqueIds.insert(id);
+        if (id == "Test21")
+            return Entity::TraverseResult::halt;
+        return Entity::TraverseResult::ok;
+    };
+    ASSERT_EQ(entity3->TraverseRelationships(lambda1), Entity::TraverseResult::halt);
+    ASSERT_EQ(uniqueIds.size(), 2);
+
+    uniqueIds.clear();
+    auto lambda2 = [&](Entity &entity) {
+        auto id = entity.GetId();
+        auto it = uniqueIds.find(id);
+        if (it != uniqueIds.end())
+            return Entity::TraverseResult::skip;
+
+        uniqueIds.insert(id);
+        if (id == "Test21")
+            return Entity::TraverseResult::skip;
+        return Entity::TraverseResult::ok;
+    };
+    ASSERT_EQ(entity3->TraverseRelationships(lambda2), Entity::TraverseResult::ok);
+    ASSERT_EQ(uniqueIds.size(), 2);
+
+    uniqueIds.clear();
+    auto lambda3 = [&](Entity &entity) {
+        auto id = entity.GetId();
+        auto it = uniqueIds.find(id);
+        if (it != uniqueIds.end())
+            return Entity::TraverseResult::skip;
+
+        uniqueIds.insert(id);
+        return Entity::TraverseResult::ok;
+    };
+    ASSERT_EQ(entity3->TraverseRelationships(lambda3), Entity::TraverseResult::ok);
+    ASSERT_EQ(uniqueIds.size(), 3);
+}

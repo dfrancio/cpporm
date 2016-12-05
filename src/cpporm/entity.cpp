@@ -63,19 +63,24 @@ Relationship &Entity::GetRelationship(const std::string &name)
 /*!
  * \details
  */
-bool Entity::TraverseRelationships(std::function<bool(Entity &)> function)
+Entity::TraverseResult Entity::TraverseRelationships(
+    std::function<TraverseResult(Entity &)> function)
 {
     assert(function);
-    if (!function(*this))
-        return false;
+    auto result = function(*this);
+    if (result != TraverseResult::ok)
+        return result;
 
     for (auto &pair : GetRelationships())
     {
-        auto *relationship = dynamic_cast<ToOneRelationship *>(&pair.second(*this));
-        if (relationship && !relationship->Get<Entity>()->TraverseRelationships(function))
-            return false;
+        if (auto *relationship = dynamic_cast<ToOneRelationship *>(&pair.second(*this)))
+        {
+            result = relationship->Get<Entity>()->TraverseRelationships(function);
+            if (result == TraverseResult::halt)
+                return result;
+        }
     }
-    return true;
+    return TraverseResult::ok;
 }
 
 /*!

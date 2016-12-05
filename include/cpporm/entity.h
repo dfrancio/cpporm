@@ -109,7 +109,13 @@ public:
      * \param[in] args The function arguments
      * \return The relationship
      */
-    bool TraverseRelationships(std::function<bool(Entity &)> function);
+    enum class TraverseResult
+    {
+        ok,
+        skip,
+        halt
+    };
+    TraverseResult TraverseRelationships(std::function<TraverseResult(Entity &)> function);
 
     /*!
      * \brief Set session
