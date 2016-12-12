@@ -55,6 +55,8 @@ Query &Query::AddContition(Condition condition, const std::string &value)
         return Like(value);
     case Condition::isNull:
         return Is().Null();
+    case Condition::notNull:
+        return Is().Not().Null();
     default:
         return *this;
     }

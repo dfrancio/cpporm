@@ -45,7 +45,8 @@ enum class Condition
     lessOrEqual,
     greaterOrEqual,
     like,
-    isNull
+    isNull,
+    notNull
 };
 
 /*!
