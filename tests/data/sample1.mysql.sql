@@ -65,14 +65,14 @@ CREATE TABLE `TeamMembership` (
 
 ALTER TABLE `User` ADD FOREIGN KEY (`created_by`) REFERENCES `User`(`id`);
 ALTER TABLE `User` ADD FOREIGN KEY (`updated_by`) REFERENCES `User`(`id`);
-ALTER TABLE `User` ADD FOREIGN KEY (`deleted_by`) REFERENCES `User`(`id`);
+ALTER TABLE `User` ADD FOREIGN KEY (`deleted_by`) REFERENCES `User`(`id`) ON DELETE SET NULL;
 ALTER TABLE `Organization` ADD FOREIGN KEY (`created_by`) REFERENCES `User`(`id`);
 ALTER TABLE `Organization` ADD FOREIGN KEY (`type_id`) REFERENCES `OrganizationType`(`id`);
 ALTER TABLE `Organization` ADD FOREIGN KEY (`updated_by`) REFERENCES `User`(`id`);
-ALTER TABLE `Organization` ADD FOREIGN KEY (`deleted_by`) REFERENCES `User`(`id`);
+ALTER TABLE `Organization` ADD FOREIGN KEY (`deleted_by`) REFERENCES `User`(`id`) ON DELETE SET NULL;
 ALTER TABLE `Team` ADD FOREIGN KEY (`created_by`) REFERENCES `User`(`id`);
-ALTER TABLE `Team` ADD FOREIGN KEY (`organization_id`) REFERENCES `Organization`(`id`);
+ALTER TABLE `Team` ADD FOREIGN KEY (`organization_id`) REFERENCES `Organization`(`id`) ON DELETE CASCADE;
 ALTER TABLE `Team` ADD FOREIGN KEY (`updated_by`) REFERENCES `User`(`id`);
-ALTER TABLE `Team` ADD FOREIGN KEY (`deleted_by`) REFERENCES `User`(`id`);
+ALTER TABLE `Team` ADD FOREIGN KEY (`deleted_by`) REFERENCES `User`(`id`) ON DELETE SET NULL;
 ALTER TABLE `TeamMembership` ADD FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
-ALTER TABLE `TeamMembership` ADD FOREIGN KEY (`team_id`) REFERENCES `Team`(`id`);
+ALTER TABLE `TeamMembership` ADD FOREIGN KEY (`team_id`) REFERENCES `Team`(`id`) ON DELETE CASCADE;

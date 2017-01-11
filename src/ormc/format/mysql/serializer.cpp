@@ -546,14 +546,22 @@ public:
     antlrcpp::Any visitOn_delete_option(mysqlParser::On_delete_optionContext *ctx) override
     {
         if (mStates.top() == State::reference)
-            GetCurrentIndex().properties[CPPORM_PROP_ON_DELETE] = ctx->getText();
+        {
+            auto value = ctx->getText();
+            value.erase(std::remove(value.begin(), value.end(), ','), value.end());
+            GetCurrentIndex().properties[CPPORM_PROP_ON_DELETE] = value;
+        }
         return visitChildren(ctx);
     }
 
     antlrcpp::Any visitOn_update_option(mysqlParser::On_update_optionContext *ctx) override
     {
         if (mStates.top() == State::reference)
-            GetCurrentIndex().properties[CPPORM_PROP_ON_UPDATE] = ctx->getText();
+        {
+            auto value = ctx->getText();
+            value.erase(std::remove(value.begin(), value.end(), ','), value.end());
+            GetCurrentIndex().properties[CPPORM_PROP_ON_UPDATE] = value;
+        }
         return visitChildren(ctx);
     }
 

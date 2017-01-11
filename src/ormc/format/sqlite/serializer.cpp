@@ -201,8 +201,19 @@ public:
         for (auto &name : context.edge.refFieldNames)
             toRefs += toRefs.empty() ? CPPORM_BACKQUOTE(name) : ", " + CPPORM_BACKQUOTE(name);
 
+        std::string props;
+        for (auto &pair : index.properties)
+        {
+            if (pair.first != CPPORM_PROP_IDENTITY && pair.first != CPPORM_PROP_ON_UPDATE)
+            {
+                auto name = pair.first;
+                std::replace(name.begin(), name.end(), '_', ' ');
+                props += " " + name + (pair.second.empty() ? "" : ' ' + pair.second);
+            }
+        }
+
         mStream << boost::format(cForeignKey) % fromRefs
-                % CPPORM_BACKQUOTE(context.edge.refNodeName) % toRefs;
+                % CPPORM_BACKQUOTE(context.edge.refNodeName) % toRefs % props;
         return true;
     }
 
@@ -385,7 +396,7 @@ const std::string CreateTableWriter::cIndex = "    %s (%s),\n";
 /*!
  * \details
  */
-const std::string CreateTableWriter::cForeignKey = "    FOREIGN KEY (%s) REFERENCES %s(%s),\n";
+const std::string CreateTableWriter::cForeignKey = "    FOREIGN KEY (%s) REFERENCES %s(%s)%s,\n";
 
 /*!
  * \details
