@@ -2290,6 +2290,7 @@ public:
         virtual ssize_t getRuleIndex() const override;
         Ref<tree::TerminalNode> REAL();
         Ref<tree::TerminalNode> DOUBLE();
+        Ref<tree::TerminalNode> PRECISION();
         Ref<tree::TerminalNode> FLOAT();
         Ref<tree::TerminalNode> DECIMAL();
         Ref<tree::TerminalNode> NUMERIC();

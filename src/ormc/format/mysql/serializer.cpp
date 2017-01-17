@@ -401,7 +401,11 @@ public:
     antlrcpp::Any visitReal_type(mysqlParser::Real_typeContext *ctx) override
     {
         if (mStates.top() == State::dataType)
-            GetCurrentField().dataType = ctx->getText();
+        {
+            auto value = ctx->getText();
+            value.erase(std::remove(value.begin(), value.end(), ','), value.end());
+            GetCurrentField().dataType = value;
+        }
         return visitChildren(ctx);
     }
 

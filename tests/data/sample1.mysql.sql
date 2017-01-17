@@ -59,6 +59,7 @@ CREATE TABLE `TeamMembership` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `team_id` BIGINT NOT NULL,
     `user_id` BIGINT NOT NULL,
+    `value` DOUBLE PRECISION,
     PRIMARY KEY (`id`),
     UNIQUE (`team_id`, `user_id`)
 );
