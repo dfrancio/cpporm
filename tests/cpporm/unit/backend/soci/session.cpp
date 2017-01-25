@@ -204,7 +204,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet4)
         session.Add(entity1);
         session.Add(entity2);
         ASSERT_EQ(session.Find(prototype, {}), std::vector<std::string>({"Test31", "Test32"}));
-        criteria.AddCondition(prototype.GetName(), "id", Condition::equal, "1");
+        criteria.AddCondition("id", Condition::equal, "1");
         ASSERT_EQ(session.Find(prototype, criteria), std::vector<std::string>({"Test31"}));
     }
     ASSERT_TRUE(session.Find(prototype, {}).empty());
@@ -232,7 +232,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet5)
     Criteria criteria;
     auto ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 2);
-    criteria.AddCondition(prototype.GetName(), "id", Condition::equal, "1");
+    criteria.AddCondition("id", Condition::equal, "1");
     ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 1);
     ASSERT_EQ(ids.back(), "Test21");
@@ -246,7 +246,7 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet5)
     }
 
     criteria.Reset();
-    criteria.AddCondition(prototype.GetName(), "id", Condition::equal, "3");
+    criteria.AddCondition("id", Condition::equal, "3");
     ids = session.Find(prototype, criteria);
     ASSERT_EQ(session.FindOne(prototype, criteria)->GetId(), "Test23");
 

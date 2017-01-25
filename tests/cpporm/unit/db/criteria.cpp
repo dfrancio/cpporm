@@ -26,10 +26,13 @@ TEST(CppOrm_Unit_Db_Criteria, TestSet2)
     Criteria criteria;
     SqliteQuery query;
     criteria.AddCondition("table1", "abc", Condition::equal, "1");
-    criteria.AddCondition("table2", "def", Condition::equal, "2");
-    criteria.AddCondition("table3", "ghi", Condition::isNull);
+    criteria.AddCondition("def", Condition::equal, "2");
+    criteria.AddCondition("table2", "ghi", Condition::isNull);
+    criteria.AddCondition("jkl", Condition::notNull);
     criteria.Compose(query);
-    ASSERT_EQ(query.GetAndReset(), " WHERE table1.abc=? AND table2.def=? AND table3.ghi IS NULL;");
+    ASSERT_EQ(
+        query.GetAndReset(),
+        " WHERE table1.abc=? AND def=? AND table2.ghi IS NULL AND jkl IS NOT NULL;");
 }
 
 TEST(CppOrm_Unit_Db_Criteria, TestSet3)
@@ -37,9 +40,9 @@ TEST(CppOrm_Unit_Db_Criteria, TestSet3)
     Criteria criteria;
     SqliteQuery query;
     criteria.AddOrderBy("table1", "abc", SortOrder::ascending);
-    criteria.AddOrderBy("table2", "def", SortOrder::descending);
+    criteria.AddOrderBy("def", SortOrder::descending);
     criteria.Compose(query);
-    ASSERT_EQ(query.GetAndReset(), " ORDER BY table1.abc ASC, table2.def DESC;");
+    ASSERT_EQ(query.GetAndReset(), " ORDER BY table1.abc ASC, def DESC;");
 }
 
 TEST(CppOrm_Unit_Db_Criteria, TestSet4)
@@ -61,17 +64,19 @@ TEST(CppOrm_Unit_Db_Criteria, TestSet5)
     criteria.AddJoin(JoinType::cross, "table1");
     criteria.AddJoin(JoinType::inner, "table2", "abc", "table3", "tbl_abc");
     criteria.AddCondition("table1", "abc", Condition::equal, "1");
-    criteria.AddCondition("table2", "def", Condition::equal, "2");
-    criteria.AddCondition("table3", "ghi", Condition::isNull);
+    criteria.AddCondition("def", Condition::equal, "2");
+    criteria.AddCondition("table2", "ghi", Condition::isNull);
+    criteria.AddCondition("jkl", Condition::notNull);
     criteria.AddOrderBy("table1", "abc", SortOrder::ascending);
-    criteria.AddOrderBy("table2", "def", SortOrder::descending);
+    criteria.AddOrderBy("def", SortOrder::descending);
     criteria.SetLimitCount(1);
     criteria.SetLimitOffset(2);
     criteria.Compose(query);
     ASSERT_EQ(
-        query.GetAndReset(), "SELECT * FROM Test CROSS JOIN table1 "
-                             "INNER JOIN table2 ON table2.abc=table3.tbl_abc "
-                             "WHERE table1.abc=? AND table2.def=? AND table3.ghi IS NULL "
-                             "ORDER BY table1.abc ASC, table2.def DESC "
-                             "LIMIT 1 OFFSET 2;");
+        query.GetAndReset(),
+        "SELECT * FROM Test CROSS JOIN table1 "
+        "INNER JOIN table2 ON table2.abc=table3.tbl_abc "
+        "WHERE table1.abc=? AND def=? AND table2.ghi IS NULL AND jkl IS NOT NULL "
+        "ORDER BY table1.abc ASC, def DESC "
+        "LIMIT 1 OFFSET 2;");
 }

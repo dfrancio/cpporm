@@ -19,7 +19,7 @@ Criteria &Criteria::AddJoin(
     JoinType join, const std::string &table, const std::string &column,
     const std::string &conditionTable, const std::string &conditionColumn)
 {
-    mJoins.emplace(join, table, column, conditionTable, conditionColumn);
+    mJoins.emplace_back(join, table, column, conditionTable, conditionColumn);
     return *this;
 }
 
@@ -30,7 +30,17 @@ Criteria &Criteria::AddCondition(
     const std::string &table, const std::string &column, Condition condition,
     const std::string &value)
 {
-    mConditions.emplace(table, column, condition, value);
+    mConditions.emplace_back(table, column, condition, value);
+    return *this;
+}
+
+/*
+ * \details
+ */
+Criteria &Criteria::AddCondition(
+    const std::string &column, Condition condition, const std::string &value)
+{
+    mConditions.emplace_back("", column, condition, value);
     return *this;
 }
 
@@ -39,7 +49,16 @@ Criteria &Criteria::AddCondition(
  */
 Criteria &Criteria::AddOrderBy(const std::string &table, const std::string &name, SortOrder order)
 {
-    mOrderBys.emplace(table, name, order);
+    mOrderBys.emplace_back(table, name, order);
+    return *this;
+}
+
+/*
+ * \details
+ */
+Criteria &Criteria::AddOrderBy(const std::string &name, SortOrder order)
+{
+    mOrderBys.emplace_back("", name, order);
     return *this;
 }
 
@@ -104,7 +123,7 @@ void Criteria::Bind(Statement &statement) const
 {
     std::size_t index = 0;
     for (auto &spec : mConditions)
-        if (std::get<2>(spec) != Condition::isNull)
+        if (std::get<2>(spec) != Condition::isNull && std::get<2>(spec) != Condition::notNull)
             statement.Bind(index++, std::get<3>(spec));
 }
 

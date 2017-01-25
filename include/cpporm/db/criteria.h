@@ -70,6 +70,16 @@ public:
         const std::string &value = "");
 
     /*
+     * \brief Add condition
+     * \param[in] column The column name
+     * \param[in] condition The condition
+     * \param[in] value The column value
+     * \return A reference to *this
+     */
+    Criteria &AddCondition(
+        const std::string &column, Condition condition, const std::string &value = "");
+
+    /*
      * \brief Add order-by
      * \param[in] table The table name
      * \param[in] column The column name
@@ -77,6 +87,14 @@ public:
      * \return A reference to *this
      */
     Criteria &AddOrderBy(const std::string &table, const std::string &column, SortOrder order);
+
+    /*
+     * \brief Add order-by
+     * \param[in] column The column name
+     * \param[in] order The sort order
+     * \return A reference to *this
+     */
+    Criteria &AddOrderBy(const std::string &column, SortOrder order);
 
     /*
      * \brief Set limit count
@@ -137,17 +155,17 @@ private:
     /*!
      * \brief The set of condition specifications
      */
-    std::set<ConditionSpec> mConditions;
+    std::vector<ConditionSpec> mConditions;
 
     /*!
      * \brief The set of join specifications
      */
-    std::set<JoinSpec> mJoins;
+    std::vector<JoinSpec> mJoins;
 
     /*!
      * \brief The set of order-by specifications
      */
-    std::set<OrderBySpec> mOrderBys;
+    std::vector<OrderBySpec> mOrderBys;
 
     /*!
      * \brief The limit count
