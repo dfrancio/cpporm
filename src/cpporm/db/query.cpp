@@ -290,10 +290,8 @@ Query &Query::IncrementalColumn(
     unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
     bool notNull, bool autoIncrement)
 {
-    mColumnDefs.push_back(
-        FormatColumnDefinition(
-            name, type, length, decimals, defaultValue, primaryKey, unique, notNull,
-            autoIncrement));
+    mColumnDefs.push_back(FormatColumnDefinition(
+        name, type, length, decimals, defaultValue, primaryKey, unique, notNull, autoIncrement));
     return *this;
 }
 
@@ -472,10 +470,10 @@ Query &Query::Like(const std::string &pattern)
 /*!
  * \details
  */
-Query &Query::Equals(const std::string &value)
+Query &Query::Equals(const std::string &columnOrValue, const std::string &table)
 {
-    mState += "=" + value;
-    if (value == CPPORM_PLACEHOLDER_MARK)
+    mState += "=" + CPPORM_ADD_TABLE_SCOPE(table) + columnOrValue;
+    if (columnOrValue == CPPORM_PLACEHOLDER_MARK)
         ++mBindingIndex;
     return *this;
 }
@@ -483,10 +481,10 @@ Query &Query::Equals(const std::string &value)
 /*!
  * \details
  */
-Query &Query::Differs(const std::string &value)
+Query &Query::Differs(const std::string &columnOrValue, const std::string &table)
 {
-    mState += "<>" + value;
-    if (value == CPPORM_PLACEHOLDER_MARK)
+    mState += "<>" + CPPORM_ADD_TABLE_SCOPE(table) + columnOrValue;
+    if (columnOrValue == CPPORM_PLACEHOLDER_MARK)
         ++mBindingIndex;
     return *this;
 }
@@ -494,10 +492,10 @@ Query &Query::Differs(const std::string &value)
 /*!
  * \details
  */
-Query &Query::LessThan(const std::string &value)
+Query &Query::LessThan(const std::string &columnOrValue, const std::string &table)
 {
-    mState += "<" + value;
-    if (value == CPPORM_PLACEHOLDER_MARK)
+    mState += "<" + CPPORM_ADD_TABLE_SCOPE(table) + columnOrValue;
+    if (columnOrValue == CPPORM_PLACEHOLDER_MARK)
         ++mBindingIndex;
     return *this;
 }
@@ -505,10 +503,10 @@ Query &Query::LessThan(const std::string &value)
 /*!
  * \details
  */
-Query &Query::GreaterThan(const std::string &value)
+Query &Query::GreaterThan(const std::string &columnOrValue, const std::string &table)
 {
-    mState += ">" + value;
-    if (value == CPPORM_PLACEHOLDER_MARK)
+    mState += ">" + CPPORM_ADD_TABLE_SCOPE(table) + columnOrValue;
+    if (columnOrValue == CPPORM_PLACEHOLDER_MARK)
         ++mBindingIndex;
     return *this;
 }
@@ -516,10 +514,10 @@ Query &Query::GreaterThan(const std::string &value)
 /*!
  * \details
  */
-Query &Query::LessOrEqual(const std::string &value)
+Query &Query::LessOrEqual(const std::string &columnOrValue, const std::string &table)
 {
-    mState += "<=" + value;
-    if (value == CPPORM_PLACEHOLDER_MARK)
+    mState += "<=" + CPPORM_ADD_TABLE_SCOPE(table) + columnOrValue;
+    if (columnOrValue == CPPORM_PLACEHOLDER_MARK)
         ++mBindingIndex;
     return *this;
 }
@@ -527,10 +525,10 @@ Query &Query::LessOrEqual(const std::string &value)
 /*!
  * \details
  */
-Query &Query::GreaterOrEqual(const std::string &value)
+Query &Query::GreaterOrEqual(const std::string &columnOrValue, const std::string &table)
 {
-    mState += ">=" + value;
-    if (value == CPPORM_PLACEHOLDER_MARK)
+    mState += ">=" + CPPORM_ADD_TABLE_SCOPE(table) + columnOrValue;
+    if (columnOrValue == CPPORM_PLACEHOLDER_MARK)
         ++mBindingIndex;
     return *this;
 }
@@ -538,10 +536,10 @@ Query &Query::GreaterOrEqual(const std::string &value)
 /*!
  * \details
  */
-Query &Query::Between(const std::string &value)
+Query &Query::Between(const std::string &columnOrValue, const std::string &table)
 {
-    mState += " BETWEEN " + value;
-    if (value == CPPORM_PLACEHOLDER_MARK)
+    mState += " BETWEEN " + CPPORM_ADD_TABLE_SCOPE(table) + columnOrValue;
+    if (columnOrValue == CPPORM_PLACEHOLDER_MARK)
         ++mBindingIndex;
     return *this;
 }
@@ -599,7 +597,7 @@ Query &Query::Join(const std::string &table, JoinType type)
     switch (type)
     {
     case JoinType::cross:
-        mState += ", " + table;
+        mState += " CROSS JOIN " + table;
         break;
     case JoinType::inner:
         mState += " INNER JOIN " + table;
@@ -837,7 +835,8 @@ std::string Query::FormatColumnDefinition(
     unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
     bool notNull, bool autoIncrement)
 {
-    auto lengthSpec = length == 0 ? "" : '(' + std::to_string(length)
+    auto lengthSpec = length == 0 ? ""
+                                  : '(' + std::to_string(length)
             + (decimals == 0 ? "" : ',' + std::to_string(decimals)) + ')';
     return name + ' ' + type + lengthSpec + (defaultValue.empty() ? "" : " DEFAULT " + defaultValue)
         + (primaryKey ? " PRIMARY KEY" : "") + (unique ? " UNIQUE" : "")
@@ -922,7 +921,8 @@ std::string SqliteQuery::FormatColumnDefinition(
     unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
     bool notNull, bool autoIncrement)
 {
-    auto lengthSpec = length == 0 ? "" : '(' + std::to_string(length)
+    auto lengthSpec = length == 0 ? ""
+                                  : '(' + std::to_string(length)
             + (decimals == 0 ? "" : ',' + std::to_string(decimals)) + ')';
     return name + ' ' + type + lengthSpec + (defaultValue.empty() ? "" : " DEFAULT " + defaultValue)
         + (primaryKey ? " PRIMARY KEY" : "") + (unique ? " UNIQUE" : "")

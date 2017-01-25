@@ -147,13 +147,16 @@ void ToOneRelationship::Load()
     }
     else if (!get() || WasForeignKeyUpdated())
     {
+        auto &prototype = GetPrototype();
+
         db::Criteria criteria;
         auto it1 = GetForeignKeyNames().begin();
         for (auto it2 = GetReferencedNames().begin(); it2 != GetReferencedNames().end();
              ++it1, ++it2)
-            criteria.AddCondition(*it2, db::Condition::equal, mParent[*it1].Get());
+            criteria.AddCondition(
+                prototype.GetName(), *it2, db::Condition::equal, mParent[*it1].Get());
 
-        auto ids = GetSession()->Find(GetPrototype(), criteria);
+        auto ids = GetSession()->Find(prototype, criteria);
         if (ids.empty())
             throw EntityNonExistentError(
                 "could not find the required entity for this relationship", GetName(),
@@ -227,13 +230,15 @@ void ToManyRelationship::Load(bool cachedOnly)
 {
     assert(GetSession());
 
+    auto &prototype = GetPrototype();
+
     db::Criteria criteria;
     auto it1 = GetForeignKeyNames().begin();
     for (auto it2 = GetReferencedNames().begin(); it2 != GetReferencedNames().end(); ++it1, ++it2)
-        criteria.AddCondition(*it1, db::Condition::equal, mParent[*it2].Get());
+        criteria.AddCondition(prototype.GetName(), *it1, db::Condition::equal, mParent[*it2].Get());
     SetCachedOnly(criteria, cachedOnly);
 
-    auto ids = GetSession()->Find(GetPrototype(), criteria);
+    auto ids = GetSession()->Find(prototype, criteria);
     reserve(ids.size());
     for (auto &id : ids)
         push_back(GetSession()->Get(id));

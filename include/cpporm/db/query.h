@@ -405,52 +405,66 @@ public:
 
     /*!
      * \brief Add equality operator
-     * \param[in] value The value
+     * \param[in] columnOrValue The column name or value
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &Equals(const std::string &value = CPPORM_PLACEHOLDER_MARK);
+    Query &Equals(
+        const std::string &columnOrValue = CPPORM_PLACEHOLDER_MARK, const std::string &table = "");
 
     /*!
      * \brief Add inequality operator
-     * \param[in] value The value
+     * \param[in] columnOrValue The column name or value
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &Differs(const std::string &value = CPPORM_PLACEHOLDER_MARK);
+    Query &Differs(
+        const std::string &columnOrValue = CPPORM_PLACEHOLDER_MARK, const std::string &table = "");
 
     /*!
      * \brief Add less than operator
-     * \param[in] value The value
+     * \param[in] columnOrValue The column name or value
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &LessThan(const std::string &value = CPPORM_PLACEHOLDER_MARK);
+    Query &LessThan(
+        const std::string &columnOrValue = CPPORM_PLACEHOLDER_MARK, const std::string &table = "");
 
     /*!
      * \brief Add greater than operator
-     * \param[in] value The value
+     * \param[in] columnOrValue The column name or value
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &GreaterThan(const std::string &value = CPPORM_PLACEHOLDER_MARK);
+    Query &GreaterThan(
+        const std::string &columnOrValue = CPPORM_PLACEHOLDER_MARK, const std::string &table = "");
 
     /*!
      * \brief Add less or equal operator
-     * \param[in] value The value
+     * \param[in] columnOrValue The column name or value
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &LessOrEqual(const std::string &value = CPPORM_PLACEHOLDER_MARK);
+    Query &LessOrEqual(
+        const std::string &columnOrValue = CPPORM_PLACEHOLDER_MARK, const std::string &table = "");
 
     /*!
      * \brief Add greater or equal operator
-     * \param[in] value The value
+     * \param[in] columnOrValue The column name or value
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &GreaterOrEqual(const std::string &value = CPPORM_PLACEHOLDER_MARK);
+    Query &GreaterOrEqual(
+        const std::string &columnOrValue = CPPORM_PLACEHOLDER_MARK, const std::string &table = "");
 
     /*!
      * \brief Add between operator
-     * \param[in] value The value
+     * \param[in] columnOrValue The column name or value
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &Between(const std::string &value = CPPORM_PLACEHOLDER_MARK);
+    Query &Between(
+        const std::string &columnOrValue = CPPORM_PLACEHOLDER_MARK, const std::string &table = "");
 
     /*!
      * \brief Add is clause

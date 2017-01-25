@@ -26,16 +26,15 @@ protected:
         session.GetConnection().SetParameters(
             {{"Driver", ODBC_SQLITE_DRIVER_NAME}, {"Database", "test.db"}, {"FKSupport", "true"}});
 
-        session.GetConnection().JustExecute(
-            "CREATE TABLE IF NOT EXISTS Test2 ("
-            "id INTEGER,"
-            "name TEXT DEFAULT NULL,"
-            "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
-            "created_by INTEGER NOT NULL,"
-            "PRIMARY KEY(id),"
-            "UNIQUE(name),"
-            "FOREIGN KEY(created_by) REFERENCES Test2(id)"
-            "   ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)");
+        session.GetConnection().JustExecute("CREATE TABLE IF NOT EXISTS Test2 ("
+                                            "id INTEGER,"
+                                            "name TEXT DEFAULT NULL,"
+                                            "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                                            "created_by INTEGER NOT NULL,"
+                                            "PRIMARY KEY(id),"
+                                            "UNIQUE(name),"
+                                            "FOREIGN KEY(created_by) REFERENCES Test2(id)"
+                                            "   ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)");
         session.GetConnection().JustExecute(
             "CREATE TRIGGER IF NOT EXISTS [Test2.UpdateLastTime] "
             "AFTER UPDATE ON Test2 "
@@ -203,7 +202,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet4)
         session.Add(entity1);
         session.Add(entity2);
         ASSERT_EQ(session.Find(prototype, {}), std::vector<std::string>({"Test31", "Test32"}));
-        criteria.AddCondition("id", Condition::equal, "1");
+        criteria.AddCondition(prototype.GetName(), "id", Condition::equal, "1");
         ASSERT_EQ(session.Find(prototype, criteria), std::vector<std::string>({"Test31"}));
     }
     ASSERT_TRUE(session.Find(prototype, {}).empty());
@@ -231,7 +230,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
     Criteria criteria;
     auto ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 2);
-    criteria.AddCondition("id", Condition::equal, "1");
+    criteria.AddCondition(prototype.GetName(), "id", Condition::equal, "1");
     ids = session.Find(prototype, criteria);
     ASSERT_EQ(ids.size(), 1);
     ASSERT_EQ(ids.back(), "Test21");
@@ -245,7 +244,7 @@ TEST_F(CppOrm_Unit_Backend_Nanodbc_Session, TestSet5)
     }
 
     criteria.Reset();
-    criteria.AddCondition("id", Condition::equal, "3");
+    criteria.AddCondition(prototype.GetName(), "id", Condition::equal, "3");
     ASSERT_EQ(session.FindOne(prototype, criteria)->GetId(), "Test23");
 
     session.Delete(*entity1);

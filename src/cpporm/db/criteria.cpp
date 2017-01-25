@@ -16,10 +16,10 @@ CPPORM_BEGIN_SUB_NAMESPACE(db)
  * \details
  */
 Criteria &Criteria::AddJoin(
-    const std::string &table, JoinType join, const std::string &leftColumn,
-    const std::string &rightColumn)
+    JoinType join, const std::string &table, const std::string &column,
+    const std::string &conditionTable, const std::string &conditionColumn)
 {
-    mJoins.emplace(table, join, leftColumn, rightColumn);
+    mJoins.emplace(join, table, column, conditionTable, conditionColumn);
     return *this;
 }
 
@@ -27,9 +27,10 @@ Criteria &Criteria::AddJoin(
  * \details
  */
 Criteria &Criteria::AddCondition(
-    const std::string &name, Condition condition, const std::string &value)
+    const std::string &table, const std::string &column, Condition condition,
+    const std::string &value)
 {
-    mConditions.emplace(name, condition, value);
+    mConditions.emplace(table, column, condition, value);
     return *this;
 }
 
@@ -76,16 +77,19 @@ void Criteria::Compose(Query &query) const
 {
     for (auto &spec : mJoins)
     {
-        query.Join(std::get<0>(spec), std::get<1>(spec))
-            .On(std::get<2>(spec))
-            .Equals(std::get<3>(spec));
+        query.Join(std::get<1>(spec), std::get<0>(spec));
+        if (!std::get<2>(spec).empty())
+        {
+            query.On(std::get<2>(spec), std::get<1>(spec))
+                .Equals(std::get<4>(spec), std::get<3>(spec));
+        }
     }
     if (!mConditions.empty())
     {
         auto it = mConditions.begin();
-        query.Where(std::get<0>(*it)).AddContition(std::get<1>(*it));
+        query.Where(std::get<1>(*it), std::get<0>(*it)).AddContition(std::get<2>(*it));
         for (++it; it != mConditions.end(); ++it)
-            query.And(std::get<0>(*it)).AddContition(std::get<1>(*it));
+            query.And(std::get<1>(*it), std::get<0>(*it)).AddContition(std::get<2>(*it));
     }
     for (auto &spec : mOrderBys)
         query.OrderBy(std::get<1>(spec), std::get<0>(spec), std::get<2>(spec));
@@ -100,8 +104,8 @@ void Criteria::Bind(Statement &statement) const
 {
     std::size_t index = 0;
     for (auto &spec : mConditions)
-        if (std::get<1>(spec) != Condition::isNull)
-            statement.Bind(index++, std::get<2>(spec));
+        if (std::get<2>(spec) != Condition::isNull)
+            statement.Bind(index++, std::get<3>(spec));
 }
 
 /*

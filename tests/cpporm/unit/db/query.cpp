@@ -168,7 +168,7 @@ TEST(CppOrm_Unit_Db_Query, TestSet12)
 {
     Query query;
     query.Join("table");
-    ASSERT_EQ(query.GetAndReset(), ", table;");
+    ASSERT_EQ(query.GetAndReset(), " CROSS JOIN table;");
     query.Join("table", JoinType::inner);
     ASSERT_EQ(query.GetAndReset(), " INNER JOIN table;");
     query.Join("table", JoinType::natural);

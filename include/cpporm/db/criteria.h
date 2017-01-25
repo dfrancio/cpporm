@@ -26,12 +26,12 @@ class Statement;
 /*!
  * \brief Join specification
  */
-typedef std::tuple<std::string, JoinType, std::string, std::string> JoinSpec;
+typedef std::tuple<JoinType, std::string, std::string, std::string, std::string> JoinSpec;
 
 /*!
  * \brief Condition specification
  */
-typedef std::tuple<std::string, Condition, std::string> ConditionSpec;
+typedef std::tuple<std::string, std::string, Condition, std::string> ConditionSpec;
 
 /*!
  * \brief Order-by specification
@@ -46,34 +46,37 @@ class CPPORM_EXPORT Criteria
 public:
     /*
      * \brief Add join
-     * \param[in] table The table name
      * \param[in] join The join type
-     * \param[in] leftColumn The name of the column from the left table
-     * \param[in] leftColumn The name of the column from the right table
+     * \param[in] table The table name
+     * \param[in] column The column name
+     * \param[in] conditionTable The name of the condition table
+     * \param[in] conditionColumn The name of the condition column (from the condition table)
      * \return A reference to *this
      */
     Criteria &AddJoin(
-        const std::string &table, JoinType join, const std::string &leftColumn,
-        const std::string &rightColumn);
+        JoinType join, const std::string &table, const std::string &column = "",
+        const std::string &conditionTable = "", const std::string &conditionColumn = "");
 
     /*
      * \brief Add condition
-     * \param[in] name The column name
+     * \param[in] table The table name
+     * \param[in] column The column name
      * \param[in] condition The condition
      * \param[in] value The column value
      * \return A reference to *this
      */
     Criteria &AddCondition(
-        const std::string &name, Condition condition, const std::string &value = "");
+        const std::string &table, const std::string &column, Condition condition,
+        const std::string &value = "");
 
     /*
      * \brief Add order-by
      * \param[in] table The table name
-     * \param[in] name The column name
+     * \param[in] column The column name
      * \param[in] order The sort order
      * \return A reference to *this
      */
-    Criteria &AddOrderBy(const std::string &table, const std::string &name, SortOrder order);
+    Criteria &AddOrderBy(const std::string &table, const std::string &column, SortOrder order);
 
     /*
      * \brief Set limit count
