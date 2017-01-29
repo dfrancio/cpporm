@@ -152,3 +152,37 @@ TEST(CppOrm_Unit_Entity, TestSet3)
     entity.DropTempSchema(query);
     ASSERT_EQ(query.GetAndReset(), "DROP TEMPORARY TABLE Test2Temp;");
 }
+
+TEST(CppOrm_Unit_Entity, TestSet4)
+{
+    MyEntity3 entity3;
+    ASSERT_TRUE(entity3.GetId().empty());
+    ASSERT_TRUE(entity3.attr.Get().empty());
+    Query query;
+    entity3.Insert(query);
+    ASSERT_EQ(query.GetAndReset(), "INSERT INTO ent3 (name3) VALUES (?);");
+    ASSERT_FALSE(entity3.GetId().empty());
+    ASSERT_FALSE(entity3.attr.Get().empty());
+    entity3.Rollback();
+    ASSERT_TRUE(entity3.GetId().empty());
+    ASSERT_TRUE(entity3.attr.Get().empty());
+    entity3.InsertIntoTemp(query);
+    ASSERT_EQ(query.GetAndReset(), "INSERT INTO ent3Temp (name3) VALUES (?);");
+    ASSERT_FALSE(entity3.GetId().empty());
+    ASSERT_FALSE(entity3.attr.Get().empty());
+
+    MyEntity4 entity4;
+    ASSERT_TRUE(entity4.GetId().empty());
+    ASSERT_TRUE(entity4.attr.Get().empty());
+    entity4.Insert(query);
+    ASSERT_EQ(query.GetAndReset(), "INSERT INTO ent4 (name4) VALUES (?);");
+    ASSERT_FALSE(entity4.GetId().empty());
+    ASSERT_FALSE(entity4.attr.Get().empty());
+    entity4.Rollback();
+    ASSERT_TRUE(entity4.GetId().empty());
+    ASSERT_TRUE(entity4.attr.Get().empty());
+    entity4.InsertIntoTemp(query);
+    ASSERT_EQ(query.GetAndReset(), "INSERT INTO ent4Temp (name4) VALUES (?);");
+    ASSERT_FALSE(entity4.GetId().empty());
+    ASSERT_FALSE(entity4.attr.Get().empty());
+}

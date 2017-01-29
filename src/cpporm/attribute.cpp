@@ -306,11 +306,11 @@ void Attribute::GenerateGuid()
 /*!
  * \details
  */
-std::string Attribute::GetGuid()
+std::string Attribute::GetGuid() const
 {
     InitializeFlags();
     assert(mFlags.isGuidCompliant);
-    if (GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "CHAR")
+    if (mValue.empty() || GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "CHAR")
         return mValue;
 
     auto uuid = reinterpret_cast<unsigned char *>(const_cast<char *>(&mValue[0]));

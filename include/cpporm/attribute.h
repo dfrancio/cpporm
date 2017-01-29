@@ -176,7 +176,7 @@ public:
      * \brief Get GUID
      * \return The GUID
      */
-    std::string GetGuid();
+    std::string GetGuid() const;
 
     /*!
      * \brief Generate GUID

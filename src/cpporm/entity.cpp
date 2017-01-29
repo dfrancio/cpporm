@@ -109,7 +109,7 @@ void Entity::ResetId()
     if (GetProperties().Has(CPPORM_PROP_USE_GUID))
     {
         assert(GetPrimaryKey().size() == 1);
-        auto &attr = GetPrimaryKey().begin()->second(*this);
+        const auto &attr = GetPrimaryKey().begin()->second(*this);
         mUniqueId = attr.GetGuid();
     }
     else
@@ -247,6 +247,13 @@ void Entity::FetchPrimaryKey(db::Query &query)
  */
 void Entity::Insert(db::Query &query)
 {
+    if (GetProperties().Has(CPPORM_PROP_USE_GUID))
+    {
+        assert(GetPrimaryKey().size() == 1);
+        auto &attr = GetPrimaryKey().begin()->second(*this);
+        if (attr.Get().empty())
+            attr.GenerateGuid();
+    }
     query.Insert().Into(GetName());
     for (const auto &pair : GetAttributes())
         pair.second(*this).Insert(query);
@@ -258,6 +265,13 @@ void Entity::Insert(db::Query &query)
  */
 void Entity::InsertIntoTemp(db::Query &query)
 {
+    if (GetProperties().Has(CPPORM_PROP_USE_GUID))
+    {
+        assert(GetPrimaryKey().size() == 1);
+        auto &attr = GetPrimaryKey().begin()->second(*this);
+        if (attr.Get().empty())
+            attr.GenerateGuid();
+    }
     query.Insert().Into(GetName() + "Temp");
     for (const auto &pair : GetPrimaryKey())
         pair.second(*this).Insert(query);

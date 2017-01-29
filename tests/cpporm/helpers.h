@@ -341,6 +341,84 @@ public:
     CPPORM_DECLARE_INDEX(version_fields);
 };
 
+class MyEntity3 : public Entity
+{
+public:
+    MyEntity3()
+    {
+    }
+    Entity *Clone() const override
+    {
+        return new MyEntity3(*this);
+    }
+    const std::string &GetName() const override
+    {
+        static std::string name = "ent3";
+        return name;
+    }
+    const PropertyMap &GetProperties() const override
+    {
+        static PropertyMap map = {{CPPORM_PROP_USE_GUID, ""}};
+        return map;
+    }
+    const AttributeMap &GetAttributes() const override
+    {
+        static AttributeMap map = {CPPORM_MAP_ATTRIBUTE(MyEntity3, attr)};
+        return map;
+    }
+    const RelationshipMap &GetRelationships() const override
+    {
+        static RelationshipMap map;
+        return map;
+    }
+    const IndexMap &GetIndices() const override
+    {
+        static IndexMap map = {CPPORM_MAP_INDEX(MyEntity3, primary_key)};
+        return map;
+    }
+    MyAttribute3 attr;
+    CPPORM_DECLARE_INDEX(primary_key);
+};
+
+class MyEntity4 : public Entity
+{
+public:
+    MyEntity4()
+    {
+    }
+    Entity *Clone() const override
+    {
+        return new MyEntity4(*this);
+    }
+    const std::string &GetName() const override
+    {
+        static std::string name = "ent4";
+        return name;
+    }
+    const PropertyMap &GetProperties() const override
+    {
+        static PropertyMap map = {{CPPORM_PROP_USE_GUID, ""}};
+        return map;
+    }
+    const AttributeMap &GetAttributes() const override
+    {
+        static AttributeMap map = {CPPORM_MAP_ATTRIBUTE(MyEntity4, attr)};
+        return map;
+    }
+    const RelationshipMap &GetRelationships() const override
+    {
+        static RelationshipMap map;
+        return map;
+    }
+    const IndexMap &GetIndices() const override
+    {
+        static IndexMap map = {CPPORM_MAP_INDEX(MyEntity4, primary_key)};
+        return map;
+    }
+    MyAttribute4 attr;
+    CPPORM_DECLARE_INDEX(primary_key);
+};
+
 struct VariadicUnpackTester
 {
     template <typename T>

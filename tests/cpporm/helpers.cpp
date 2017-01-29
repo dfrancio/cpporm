@@ -38,6 +38,41 @@ const cpporm::AttributeMap &MyEntity::_index_version_fields::GetAttributes() con
     return cMap;
 }
 MyEntity::_index_version_fields MyEntity::version_fields;
+
+const std::string &MyEntity3::_index_primary_key::GetName() const
+{
+    static const std::string cName = "primary_key";
+    return cName;
+}
+const cpporm::PropertyMap &MyEntity3::_index_primary_key::GetProperties() const
+{
+    static const cpporm::PropertyMap cMap = {};
+    return cMap;
+}
+const cpporm::AttributeMap &MyEntity3::_index_primary_key::GetAttributes() const
+{
+    static const cpporm::AttributeMap cMap = {CPPORM_MAP_ATTRIBUTE(MyEntity3, attr)};
+    return cMap;
+}
+MyEntity3::_index_primary_key MyEntity3::primary_key;
+
+const std::string &MyEntity4::_index_primary_key::GetName() const
+{
+    static const std::string cName = "primary_key";
+    return cName;
+}
+const cpporm::PropertyMap &MyEntity4::_index_primary_key::GetProperties() const
+{
+    static const cpporm::PropertyMap cMap = {};
+    return cMap;
+}
+const cpporm::AttributeMap &MyEntity4::_index_primary_key::GetAttributes() const
+{
+    static const cpporm::AttributeMap cMap = {CPPORM_MAP_ATTRIBUTE(MyEntity4, attr)};
+    return cMap;
+}
+MyEntity4::_index_primary_key MyEntity4::primary_key;
+
 cpporm::Entity *MyEntity2::Clone() const
 {
     auto *result = new MyEntity2();
