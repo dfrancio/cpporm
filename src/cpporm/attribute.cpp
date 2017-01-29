@@ -9,6 +9,10 @@
 
 // C library includes
 #include <cstdlib>
+#include <cstring>
+
+// External library includes
+#include <uuid/uuid.h>
 
 // Internal library includes
 #include <cpporm/db/cursor.h>
@@ -275,6 +279,28 @@ void Attribute::CreateSchema(db::Query &query) const
     query.IncrementalColumn(
         GetName(), datatype, length, decimals, defaultValue, false, false, isNotNull,
         isAutoIncrement);
+}
+
+/*!
+ * \details
+ */
+void Attribute::GenerateGuid()
+{
+    InitializeFlags();
+    assert(mFlags.isGuidCompliant);
+    uuid_t uuid;
+    uuid_generate_random(uuid);
+
+    if (GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "CHAR")
+    {
+        mValue.resize(36);
+        uuid_unparse_lower(uuid, &mValue[0]);
+    }
+    else
+    {
+        mValue.resize(16);
+        std::memcpy(&mValue[0], uuid, sizeof(uuid_t));
+    }
 }
 
 /*!

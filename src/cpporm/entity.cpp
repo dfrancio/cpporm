@@ -14,21 +14,7 @@
 #include <cpporm/maps.h>
 #include <cpporm/relationship.h>
 
-#include <uuid/uuid.h>
-
 CPPORM_BEGIN_NAMESPACE
-
-struct UuidHash
-{
-    std::size_t operator()(const uuid_t &uuid) const
-    {
-        const std::uint64_t *p = reinterpret_cast<const std::uint64_t *>(&uuid);
-        std::hash<std::uint64_t> hash;
-        return hash(p[0]) ^ hash(p[1]);
-    }
-};
-
-std::unordered_map<uuid_t, std::string, UuidHash> a;
 
 /*!
  * \details

@@ -178,6 +178,11 @@ public:
      */
     std::string GetGuid();
 
+    /*!
+     * \brief Generate GUID
+     */
+    void GenerateGuid();
+
 protected:
     /*!
      * \brief The attribute value
