@@ -12,7 +12,9 @@
 #include <cstring>
 
 // External library includes
-#include <uuid/uuid.h>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 // Internal library includes
 #include <cpporm/db/cursor.h>
@@ -288,18 +290,16 @@ void Attribute::GenerateGuid()
 {
     InitializeFlags();
     assert(mFlags.isGuidCompliant);
-    uuid_t uuid;
-    uuid_generate_random(uuid);
+    auto uuid = boost::uuids::random_generator()();
 
     if (GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "CHAR")
     {
-        mValue.resize(36);
-        uuid_unparse_lower(uuid, &mValue[0]);
+        mValue = boost::uuids::to_string(uuid);
     }
     else
     {
-        mValue.resize(16);
-        std::memcpy(&mValue[0], uuid, sizeof(uuid_t));
+        mValue.resize(uuid.static_size());
+        std::memcpy(&mValue[0], uuid.data, uuid.static_size());
     }
 }
 
@@ -313,10 +313,9 @@ std::string Attribute::GetGuid() const
     if (mValue.empty() || GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "CHAR")
         return mValue;
 
-    auto uuid = reinterpret_cast<unsigned char *>(const_cast<char *>(&mValue[0]));
-    char result[36 + 1];
-    uuid_unparse_lower(uuid, result);
-    return result;
+    boost::uuids::uuid uuid;
+    std::memcpy(uuid.data, &mValue[0], uuid.static_size());
+    return boost::uuids::to_string(uuid);
 }
 
 /*!

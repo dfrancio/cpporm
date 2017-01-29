@@ -54,7 +54,7 @@ setup_target(
             ${EMIT_ABI_TAG_WARNING}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
-        INTERNAL uuid END
+        Boost REQUIRED END
     IS_LIBRARY)
 
 setup_target(

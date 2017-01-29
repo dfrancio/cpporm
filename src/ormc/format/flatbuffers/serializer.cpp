@@ -7,7 +7,11 @@
  */
 #include "serializer.h"
 
+// C++ library includes
+#include <fstream>
+
 // External library includes
+#include <boost/format.hpp>
 #include <gflags/gflags.h>
 
 // Global variables
