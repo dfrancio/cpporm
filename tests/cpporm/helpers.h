@@ -261,6 +261,40 @@ public:
     }
 };
 
+class MyAttribute3 : public Attribute
+{
+    using Attribute::Attribute;
+
+public:
+    const std::string &GetName() const override
+    {
+        static std::string name = "name3";
+        return name;
+    }
+    const PropertyMap &GetProperties() const override
+    {
+        static PropertyMap map = {{"DATA_TYPE", "CHAR"}, {"LENGTH", "36"}};
+        return map;
+    }
+};
+
+class MyAttribute4 : public Attribute
+{
+    using Attribute::Attribute;
+
+public:
+    const std::string &GetName() const override
+    {
+        static std::string name = "name4";
+        return name;
+    }
+    const PropertyMap &GetProperties() const override
+    {
+        static PropertyMap map = {{"DATA_TYPE", "BINARY"}, {"LENGTH", "16"}};
+        return map;
+    }
+};
+
 class MyEntity : public Entity
 {
 public:

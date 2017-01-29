@@ -6,7 +6,7 @@
 #include <gtest/gtest.h>
 
 // Internal program includes
-#include "model_generated.h"
+#include "sample1_generated.h"
 
 TEST(DISABLED_Ormc_Regression_FlatBuffers, TestSet1)
 {

@@ -168,3 +168,17 @@ TEST(CppOrm_Unit_Attribute, TestSet6)
     query.EndIncrementalColumn();
     ASSERT_EQ(query.Get(), " (name2 TEXT DEFAULT 1);");
 }
+
+TEST(CppOrm_Unit_Attribute, TestSet7)
+{
+    MyAttribute attribute;
+    // attribute.GetGuid(); // assertion failure
+
+    MyAttribute3 attribute3;
+    attribute3.Set("b9967e57-fae2-4b60-b1cf-4e4378f93266");
+    ASSERT_EQ(attribute3.GetGuid(), "b9967e57-fae2-4b60-b1cf-4e4378f93266");
+
+    MyAttribute4 attribute4;
+    attribute4.Set("\xb9\x96\x7e\x57\xfa\xe2\x4b\x60\xb1\xcf\x4e\x43\x78\xf9\x32\x66");
+    ASSERT_EQ(attribute4.GetGuid(), "b9967e57-fae2-4b60-b1cf-4e4378f93266");
+}

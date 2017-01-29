@@ -7,11 +7,11 @@
  */
 #include <cpporm/backend/soci/utils.h>
 
+// C library includes
+#include <cmath>
+
 // C++ library includes
 #include <limits>
-
-// External library includes
-#include <boost/math/special_functions/nonfinite_num_facets.hpp>
 
 // Internal library includes
 #include <cpporm/util/string.h>
@@ -24,8 +24,12 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, soci)
 template <>
 CPPORM_SOCI_EXPORT std::string Convert(const double &value)
 {
+    if (std::isnan(value))
+        return "NaN";
+    else if (!std::isfinite(value))
+        return value < 0 ? "-Inf" : "+Inf";
+
     std::ostringstream stream;
-    stream.imbue(std::locale(std::locale(), new boost::math::nonfinite_num_put<char>));
     stream << std::setprecision(std::numeric_limits<long double>::digits10) << value;
     return stream.str();
 }

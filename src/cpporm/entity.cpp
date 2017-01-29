@@ -14,7 +14,21 @@
 #include <cpporm/maps.h>
 #include <cpporm/relationship.h>
 
+#include <uuid/uuid.h>
+
 CPPORM_BEGIN_NAMESPACE
+
+struct UuidHash
+{
+    std::size_t operator()(const uuid_t &uuid) const
+    {
+        const std::uint64_t *p = reinterpret_cast<const std::uint64_t *>(&uuid);
+        std::hash<std::uint64_t> hash;
+        return hash(p[0]) ^ hash(p[1]);
+    }
+};
+
+std::unordered_map<uuid_t, std::string, UuidHash> a;
 
 /*!
  * \details
@@ -106,9 +120,18 @@ const std::string &Entity::GetId()
  */
 void Entity::ResetId()
 {
-    mUniqueId = GetName();
-    for (const auto &pair : GetPrimaryKey())
-        mUniqueId += pair.second(*this).Get();
+    if (GetProperties().Has(CPPORM_PROP_USE_GUID))
+    {
+        assert(GetPrimaryKey().size() == 1);
+        auto &attr = GetPrimaryKey().begin()->second(*this);
+        mUniqueId = attr.GetGuid();
+    }
+    else
+    {
+        mUniqueId = GetName();
+        for (const auto &pair : GetPrimaryKey())
+            mUniqueId += pair.second(*this).Get();
+    }
 }
 
 /*!
@@ -146,7 +169,7 @@ void Entity::Rollback()
         mIsMarkedForRemoval = false;
     if (mIsMarkedForUpdate)
         mIsMarkedForUpdate = false;
-    mUniqueId.clear();
+    ResetId();
 }
 
 /*!
@@ -213,7 +236,7 @@ bool Entity::FetchLastId(db::Query &query)
     for (const auto &pair : GetPrimaryKey())
     {
         const auto &attr = pair.second(*this);
-        if (attr.GetProperties().Has(CPPORM_PROP_IDENTITY))
+        if (attr.Get().empty() && attr.GetProperties().Has(CPPORM_PROP_IDENTITY))
         {
             query.Select().LastInsertId().As(attr.GetName());
             return true;

@@ -172,6 +172,12 @@ public:
      */
     void CreateSchema(db::Query &query) const;
 
+    /*!
+     * \brief Get GUID
+     * \return The GUID
+     */
+    std::string GetGuid();
+
 protected:
     /*!
      * \brief The attribute value
@@ -211,6 +217,7 @@ private:
     {
         bool initialized = false;
         bool notNull = false;
+        bool isGuidCompliant = false;
         bool checkDatetime = false;
         bool skipInsertIfEmpty = false;
     } mFlags;

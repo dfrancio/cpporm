@@ -7,9 +7,6 @@
  */
 #include <cpporm/backend/soci/connection.h>
 
-// External library includes
-#include <boost/algorithm/string.hpp>
-
 // Internal library includes
 #include <cpporm/backend/soci/cursor.h>
 #include <cpporm/backend/soci/statement.h>

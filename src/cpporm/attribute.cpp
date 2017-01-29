@@ -280,14 +280,35 @@ void Attribute::CreateSchema(db::Query &query) const
 /*!
  * \details
  */
+std::string Attribute::GetGuid()
+{
+    InitializeFlags();
+    assert(mFlags.isGuidCompliant);
+    if (GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "CHAR")
+        return mValue;
+
+    auto uuid = reinterpret_cast<unsigned char *>(const_cast<char *>(&mValue[0]));
+    char result[36 + 1];
+    uuid_unparse_lower(uuid, result);
+    return result;
+}
+
+/*!
+ * \details
+ */
 void Attribute::InitializeFlags() const
 {
     if (!mFlags.initialized)
     {
+        auto &datatype = GetProperties().Get(CPPORM_PROP_DATA_TYPE, "");
+        auto isAutoIncrement = GetProperties().Has(CPPORM_PROP_IDENTITY);
+        auto length
+            = std::strtoull(GetProperties().Get(CPPORM_PROP_LENGTH, "0").c_str(), nullptr, 10);
         mFlags.notNull = GetProperties().Has(CPPORM_PROP_NOT_NULL);
-        mFlags.checkDatetime = GetProperties().Get(CPPORM_PROP_DATA_TYPE, "") == "DATETIME";
-        mFlags.skipInsertIfEmpty
-            = GetProperties().Has(CPPORM_PROP_IDENTITY) || GetProperties().Has(CPPORM_PROP_DEFAULT);
+        mFlags.checkDatetime = datatype == "DATETIME";
+        mFlags.isGuidCompliant = datatype == "GUID" || datatype == "UUID"
+            || (datatype == "BINARY" && length == 16) || (datatype == "CHAR" && length == 36);
+        mFlags.skipInsertIfEmpty = isAutoIncrement || GetProperties().Has(CPPORM_PROP_DEFAULT);
         mFlags.initialized = true;
     }
 }

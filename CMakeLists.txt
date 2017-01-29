@@ -41,9 +41,7 @@ setup_target(
         include/cpporm
         src/cpporm
     EXCLUDE_PREFIXES
-        include/cpporm/backend/nanodbc
         include/cpporm/backend/soci
-        src/cpporm/backend/nanodbc
         src/cpporm/backend/soci
     EXPORT_FILE_NAME include/cpporm/export.h
     INCLUDE_DIRS
@@ -55,27 +53,8 @@ setup_target(
             ${CXX_STANDARD_11}
             ${EMIT_ABI_TAG_WARNING}
             ${EMIT_CLASS_DEBUG_ALWAYS}
-    IS_LIBRARY)
-
-setup_target(
-    NAME "cpporm_nanodbc"
-    SOURCE_PREFIXES
-        include/cpporm/backend/nanodbc
-        src/cpporm/backend/nanodbc
-    EXPORT_FILE_NAME include/cpporm/backend/nanodbc/export.h
-    OPTIONS
-        PRIVATE
-            ${CXX_STANDARD_11}
-            ${EMIT_ABI_TAG_WARNING}
-            ${EMIT_CLASS_DEBUG_ALWAYS}
-    DEFINITIONS
-        PUBLIC
-            -DNANODBC_HANDLE_NODATA_BUG=ON
-            -DNANODBC_ODBC_VERSION=SQL_OV_ODBC3
     DEPENDENCIES
-        INTERNAL odbc32 REQUIRED ONLY_IF WIN32 END
-        UnixODBC REQUIRED ONLY_IF NOT WIN32 END
-        INTERNAL cpporm END
+        INTERNAL uuid END
     IS_LIBRARY)
 
 setup_target(
@@ -90,7 +69,6 @@ setup_target(
             ${EMIT_ABI_TAG_WARNING}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
-        Boost REQUIRED END
         INCLUDE PUBLIC SOCI REQUIRED END
         INTERNAL SOCI::soci_core END
         INTERNAL cpporm END
@@ -120,7 +98,6 @@ setup_project(
             include
         TARGETS
             cpporm
-            cpporm_nanodbc
             cpporm_soci
             ormc)
 
@@ -144,7 +121,6 @@ setup_tests(
             -DSOCI_SQLITE_DRIVER_NAME="${SOCI_SQLITE_DRIVER_NAME}"
     DEPENDENCIES
         GMock LIB_VAR_NAMES GMOCK_MAIN_LIBRARIES END
-        INTERNAL cpporm_nanodbc END
         INTERNAL cpporm_soci END
         INTERNAL cpporm END)
 
