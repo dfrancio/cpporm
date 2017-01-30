@@ -64,6 +64,14 @@ protected:
             "END");
         session.GetConnection().JustExecute("DELETE FROM Test3");
 
+        session.GetConnection().Execute("CREATE TABLE IF NOT EXISTS ent3 ("
+                                        "name3 CHAR(36))");
+        session.GetConnection().JustExecute("DELETE FROM ent3");
+
+        session.GetConnection().Execute("CREATE TABLE IF NOT EXISTS ent4 ("
+                                        "name4 BINARY(16))");
+        session.GetConnection().JustExecute("DELETE FROM ent4");
+
         session.GetConnection().JustExecute("PRAGMA foreign_keys = ON");
     }
     cpporm::backend::soci::Session session;
@@ -316,4 +324,21 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet6)
     };
     ASSERT_EQ(entity3->TraverseRelationships(lambda3), Entity::TraverseResult::ok);
     ASSERT_EQ(uniqueIds.size(), 3);
+}
+
+TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet7)
+{
+    cpporm::backend::soci::Session session;
+    session.GetConnection().SetParameters(
+        {{"Driver", SOCI_SQLITE_DRIVER_NAME}, {"dbname", "test.db"}, {"FKSupport", "true"}});
+
+    auto entity1 = std::make_shared<MyEntity3>();
+    ASSERT_TRUE(entity1->attr.Get().empty());
+    session.Add(entity1);
+    ASSERT_FALSE(entity1->attr.Get().empty());
+
+    auto entity2 = std::make_shared<MyEntity4>();
+    ASSERT_TRUE(entity2->attr.Get().empty());
+    session.Add(entity2);
+    ASSERT_FALSE(entity2->attr.Get().empty());
 }
