@@ -186,3 +186,17 @@ TEST(CppOrm_Unit_Entity, TestSet4)
     ASSERT_FALSE(entity4.GetId().empty());
     ASSERT_FALSE(entity4.attr.Get().empty());
 }
+
+TEST(CppOrm_Unit_Entity, TestSet5)
+{
+    MyEntity entity1;
+    entity1.attr.Set("a");
+    entity1.version.Set("1");
+
+    MyEntity entity2;
+    ASSERT_TRUE(entity2.attr.Get().empty());
+    ASSERT_TRUE(entity2.version.Get().empty());
+    entity2.CopyFrom(entity1);
+    ASSERT_EQ(entity1.attr, entity2.attr);
+    ASSERT_EQ(entity1.version, entity2.version);
+}

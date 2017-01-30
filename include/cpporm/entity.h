@@ -296,6 +296,12 @@ public:
      */
     void DissolveRelationships();
 
+    /*!
+     * \brief Copy from
+     * \param[in] entity The other entity
+     */
+    void CopyFrom(Entity &entity);
+
 protected:
     /*!
      * \brief Befriend class Relationship

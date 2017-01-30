@@ -441,4 +441,13 @@ void Entity::DissolveRelationships()
         pair.second(*this).Dissolve();
 }
 
+/*!
+ * \details
+ */
+void Entity::CopyFrom(Entity &entity)
+{
+    for (const auto &pair : entity.GetAttributes())
+        (*this)[pair.first] = entity[pair.first];
+}
+
 CPPORM_END_NAMESPACE
