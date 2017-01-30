@@ -336,9 +336,12 @@ TEST_F(CppOrm_Unit_Backend_Soci_Session, TestSet7)
     ASSERT_TRUE(entity1->attr.Get().empty());
     session.Add(entity1);
     ASSERT_FALSE(entity1->attr.Get().empty());
+    ASSERT_NO_THROW(session.Get(entity1->attr.Get()));
 
     auto entity2 = std::make_shared<MyEntity4>();
     ASSERT_TRUE(entity2->attr.Get().empty());
     session.Add(entity2);
     ASSERT_FALSE(entity2->attr.Get().empty());
+    ASSERT_THROW(session.Get(entity2->attr.Get()), std::exception);
+    ASSERT_NO_THROW(session.Get(entity2->attr.GetGuid()));
 }
