@@ -297,10 +297,16 @@ public:
     void DissolveRelationships();
 
     /*!
-     * \brief Copy from
+     * \brief Copy from (excluding primary key and version fields)
      * \param[in] entity The other entity
      */
     void CopyFrom(Entity &entity);
+
+    /*!
+     * \brief Copy all from
+     * \param[in] entity The other entity
+     */
+    void CopyAllFrom(Entity &entity);
 
 protected:
     /*!

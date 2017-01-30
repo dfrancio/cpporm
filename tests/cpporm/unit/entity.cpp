@@ -206,4 +206,16 @@ TEST(CppOrm_Unit_Entity, TestSet5)
     ASSERT_FALSE(entity2.name.Get().empty());
     ASSERT_TRUE(entity2.datetime.Get().empty());
     ASSERT_FALSE(entity2.created_by.Get().empty());
+
+    Test2 entity3;
+    ASSERT_TRUE(entity3.id.Get().empty());
+    ASSERT_TRUE(entity3.name.Get().empty());
+    ASSERT_TRUE(entity3.datetime.Get().empty());
+    ASSERT_TRUE(entity3.created_by.Get().empty());
+
+    entity3.CopyAllFrom(entity1);
+    ASSERT_FALSE(entity3.id.Get().empty());
+    ASSERT_FALSE(entity3.name.Get().empty());
+    ASSERT_FALSE(entity3.datetime.Get().empty());
+    ASSERT_FALSE(entity3.created_by.Get().empty());
 }

@@ -454,4 +454,13 @@ void Entity::CopyFrom(Entity &entity)
             (*this)[pair.first] = entity[pair.first];
 }
 
+/*!
+ * \details
+ */
+void Entity::CopyAllFrom(Entity &entity)
+{
+    for (const auto &pair : entity.GetAttributes())
+        (*this)[pair.first] = entity[pair.first];
+}
+
 CPPORM_END_NAMESPACE
