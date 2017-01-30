@@ -198,5 +198,5 @@ TEST(CppOrm_Unit_Entity, TestSet5)
     ASSERT_TRUE(entity2.version.Get().empty());
     entity2.CopyFrom(entity1);
     ASSERT_EQ(entity1.attr, entity2.attr);
-    ASSERT_EQ(entity1.version, entity2.version);
+    ASSERT_TRUE(entity2.version.Get().empty());
 }

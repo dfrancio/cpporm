@@ -446,8 +446,10 @@ void Entity::DissolveRelationships()
  */
 void Entity::CopyFrom(Entity &entity)
 {
+    auto &versionFields = GetVersionFields();
     for (const auto &pair : entity.GetAttributes())
-        (*this)[pair.first] = entity[pair.first];
+        if (versionFields.find(pair.first) == versionFields.end())
+            (*this)[pair.first] = entity[pair.first];
 }
 
 CPPORM_END_NAMESPACE
