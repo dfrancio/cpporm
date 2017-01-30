@@ -446,9 +446,11 @@ void Entity::DissolveRelationships()
  */
 void Entity::CopyFrom(Entity &entity)
 {
+    auto &primaryKey = GetPrimaryKey();
     auto &versionFields = GetVersionFields();
     for (const auto &pair : entity.GetAttributes())
-        if (versionFields.find(pair.first) == versionFields.end())
+        if (primaryKey.find(pair.first) == primaryKey.end()
+            && versionFields.find(pair.first) == versionFields.end())
             (*this)[pair.first] = entity[pair.first];
 }
 

@@ -189,14 +189,21 @@ TEST(CppOrm_Unit_Entity, TestSet4)
 
 TEST(CppOrm_Unit_Entity, TestSet5)
 {
-    MyEntity entity1;
-    entity1.attr.Set("a");
-    entity1.version.Set("1");
+    Test2 entity1;
+    entity1.id.Set("a");
+    entity1.name.Set("b");
+    entity1.datetime.Set("d");
+    entity1.created_by.Set("e");
 
-    MyEntity entity2;
-    ASSERT_TRUE(entity2.attr.Get().empty());
-    ASSERT_TRUE(entity2.version.Get().empty());
+    Test2 entity2;
+    ASSERT_TRUE(entity2.id.Get().empty());
+    ASSERT_TRUE(entity2.name.Get().empty());
+    ASSERT_TRUE(entity2.datetime.Get().empty());
+    ASSERT_TRUE(entity2.created_by.Get().empty());
+
     entity2.CopyFrom(entity1);
-    ASSERT_EQ(entity1.attr, entity2.attr);
-    ASSERT_TRUE(entity2.version.Get().empty());
+    ASSERT_TRUE(entity2.id.Get().empty());
+    ASSERT_FALSE(entity2.name.Get().empty());
+    ASSERT_TRUE(entity2.datetime.Get().empty());
+    ASSERT_FALSE(entity2.created_by.Get().empty());
 }
