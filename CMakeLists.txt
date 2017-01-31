@@ -88,18 +88,17 @@ setup_target(
         CUSTOM antlr4 HEADERS antlr4-common.h HEADER_SUFFIXES antlr4 LIBRARIES antlr4-runtime END
         INTERNAL cpporm END)
 
-setup_project(
-    DOCUMENTATION
-        OUTPUT_DIR doc
-        INPUT_FILE doc/Doxyfile.in
-    INSTALLATION
-        DATA_DIR data
-        INCLUDE_DIRS
-            include
-        TARGETS
-            cpporm
-            cpporm_soci
-            ormc)
+setup_doxygen(
+    NAME html
+    CONFIG_FILE doc/Doxyfile.in)
+
+setup_installation(
+    INCLUDE_DIRS
+        include
+    TARGETS
+        cpporm
+        cpporm_soci
+        ormc)
 
 setup_tests(
     NAME "cpporm"

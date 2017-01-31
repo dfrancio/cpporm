@@ -20,6 +20,13 @@ include(cotire)
 
 set(LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
 
+macro(get_path_default _out _in _def _root)
+    get_parameter_default(${_out} ${_in} ${_def})
+    if(NOT IS_ABSOLUTE "${${_out}}")
+        set(${_out} "${_root}/${${_out}}")
+    endif()
+endmacro(get_path_default)
+
 macro(get_parameter_default _out _in _def)
     if(NOT ${_in})
         set(${_out} "${_def}")
@@ -454,11 +461,16 @@ macro(init_project_options)
     set(PROJECT_NAME_UPPERCASE ${PROJECT_NAME_UPPERCASE} PARENT_SCOPE)
     set(PROJECT_DESCRIPTION ${ARG_DESC} PARENT_SCOPE)
 
-    option(BUILD_SHARED_LIBS "whether to build the shared version of the library" ON)
-    option(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL "whether to configure the installation rules" ON)
-    option(${PROJECT_NAME_UPPERCASE}_ENABLE_DOCS "whether to build the documentation (requires Doxygen)" OFF)
-    option(${PROJECT_NAME_UPPERCASE}_ENABLE_PCH "whether to use precompiled headers" ON)
-    option(${PROJECT_NAME_UPPERCASE}_EXCLUDE_DEPRECATED "whether to exclude deprecated symbols" OFF)
+    option(BUILD_SHARED_LIBS
+        "whether to build the shared version of the library" ON)
+    option(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL
+        "whether to configure the installation rules" ON)
+    option(${PROJECT_NAME_UPPERCASE}_ENABLE_DOCS
+        "whether to build the documentation (requires Doxygen)" OFF)
+    option(${PROJECT_NAME_UPPERCASE}_ENABLE_PCH
+        "whether to use precompiled headers" ON)
+    option(${PROJECT_NAME_UPPERCASE}_EXCLUDE_DEPRECATED
+        "whether to exclude deprecated symbols" OFF)
 
     set(CURRENT_OPT)
     foreach(opt ${ARG_OPTIONS})
@@ -476,15 +488,22 @@ endmacro(init_project_options)
 
 macro(init_project_install_paths)
 
-    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_BIN_DIR bin CACHE PATH "Output directory for executables")
-    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_LIB_DIR lib CACHE PATH "Output directory for libraries")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_INC_DIR include CACHE PATH "Installation directory for headers")
+    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_BIN_DIR bin CACHE PATH
+        "Output directory for executables")
+    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_LIB_DIR lib CACHE PATH
+        "Output directory for libraries")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_BIN_DIR bin CACHE PATH
+        "Installation directory for executables")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_LIB_DIR lib CACHE PATH
+        "Installation directory for libraries")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_INC_DIR include CACHE PATH
+        "Installation directory for headers")
     set(${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR share/doc/${PROJECT_NAME} CACHE PATH
         "Installation directory for documentation files")
     set(${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR share/${PROJECT_NAME} CACHE PATH
-        "Installation directory for data files")
+        "Installation directory for read-only data files")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_VAR_DIR /var/lib/${PROJECT_NAME} CACHE PATH
+        "Installation directory for state data files")
 
     if(WIN32 AND NOT CYGWIN AND NOT MINGW)
         set(${PROJECT_NAME_UPPERCASE}_INSTALL_CMAKE_DIR CMake)
@@ -502,21 +521,15 @@ macro(init_project_install_paths)
         ${PROJECT_NAME_UPPERCASE}_INSTALL_INC_DIR
         ${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR
         ${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR
+        ${PROJECT_NAME_UPPERCASE}_INSTALL_VAR_DIR
         ${PROJECT_NAME_UPPERCASE}_INSTALL_CMAKE_DIR)
 
 endmacro(init_project_install_paths)
 
 macro(init_project_configuration)
 
-    get_parameter_default(CONFIG_FILE_NAME ARG_CONFIG_FILE_NAME "config.h")
-    if(NOT IS_ABSOLUTE "${CONFIG_FILE_NAME}")
-        set(CONFIG_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/${CONFIG_FILE_NAME}")
-    endif()
-
-    get_parameter_default(CONFIG_FILE_IN ARG_CONFIG_FILE_IN "config.h.in")
-    if(NOT IS_ABSOLUTE "${CONFIG_FILE_IN}")
-        set(CONFIG_FILE_IN "${CMAKE_CURRENT_SOURCE_DIR}/${CONFIG_FILE_IN}")
-    endif()
+    get_path_default(CONFIG_FILE_NAME ARG_CONFIG_FILE_NAME "config.h" ${CMAKE_CURRENT_BINARY_DIR})
+    get_path_default(CONFIG_FILE_IN ARG_CONFIG_FILE_IN "config.h.in" ${CMAKE_CURRENT_SOURCE_DIR})
 
     if(EXISTS ${CONFIG_FILE_IN})
         set(${PROJECT_NAME}_CONFIG_FILE_IN ${CONFIG_FILE_IN} CACHE INTERNAL "")
@@ -541,37 +554,119 @@ endfunction(init_project)
 
 #===================================================================================================
 #
-#   setup_project([DOCUMENTATION [OUTPUT_DIR <path>] [INPUT_FILE <path>]]
-#                 [INSTALLATION [DATA_DIR <path>] [INCLUDE_DIRS <path>...] [TARGETS <name>...]])
+#   setup_database(NAME <database>
+#                  [BUILD_OUTPUT <path>]
+#                  [INSTALL_DIR <path>]
+#                  [EXTRA_SOURCES <path>...]
+#                  [SOURCE_PREFIXES <path>...]
+#                  [EXCLUDE_PREFIXES <path>...])
 #
 #===================================================================================================
-macro(setup_project_configuration)
-
-    if(EXISTS ${${PROJECT_NAME}_CONFIG_FILE_IN})
-        configure_file("${${PROJECT_NAME}_CONFIG_FILE_IN}"
-            "${${PROJECT_NAME}_CONFIG_FILE_NAME}" @ONLY)
-    endif()
-
-endmacro(setup_project_configuration)
-
-macro(setup_project_documentation)
+function(setup_database)
 
     set(options)
-    set(oneValueArgs OUTPUT_DIR INPUT_FILE)
+    set(oneValueArgs NAME BUILD_OUTPUT INSTALL_DIR)
+    set(multiValueArgs EXTRA_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
+
+    cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    get_path_default(BUILD_OUTPUT ARG_BUILD_OUTPUT
+        "db/${ARG_NAME}.sqlite" ${CMAKE_CURRENT_BINARY_DIR})
+    get_parameter_default(INSTALL_DIR ARG_INSTALL_DIR "db")
+
+    foreach(prefix ${ARG_SOURCE_PREFIXES})
+        file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
+        list(APPEND ${ARG_NAME}_DB_SOURCES ${SOURCES})
+    endforeach()
+    exclude_from_listing(${ARG_NAME}_DB_SOURCES ARG_EXCLUDE_PREFIXES)
+    list(APPEND ${ARG_NAME}_DB_SOURCES ${ARG_EXTRA_SOURCES})
+
+    find_program(SQLITE3_EXECUTABLE sqlite3)
+
+    add_custom_command(
+        OUTPUT "${BUILD_OUTPUT}"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND cat ${${ARG_NAME}_DB_SOURCES} | ${SQLITE3_EXECUTABLE} ${BUILD_OUTPUT}
+        DEPENDS "${${ARG_NAME}_DB_SOURCES}")
+
+    add_custom_target(db_${ARG_NAME} ALL SOURCES "${BUILD_OUTPUT}")
+
+    if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
+        install(FILES ${BUILD_OUTPUT} DESTINATION
+            "${${PROJECT_NAME_UPPERCASE}_INSTALL_VAR_DIR}/${INSTALL_DIR}")
+    endif()
+
+endfunction(setup_database)
+
+#===================================================================================================
+#
+#   setup_locale(NAME <locale>
+#                [DOMAIN <domain>]
+#                [BUILD_OUTPUT <path>]
+#                [INSTALL_DIR <path>]
+#                [EXTRA_SOURCES <path>...]
+#                [SOURCE_PREFIXES <path>...]
+#                [EXCLUDE_PREFIXES <path>...])
+#
+#===================================================================================================
+function(setup_locale)
+
+    set(options)
+    set(oneValueArgs NAME DOMAIN BUILD_OUTPUT INSTALL_DIR)
+    set(multiValueArgs EXTRA_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
+
+    cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    get_parameter_default(DOMAIN ARG_DOMAIN ${PROJECT_NAME})
+    get_path_default(BUILD_OUTPUT ARG_BUILD_OUTPUT
+        "locale/${ARG_NAME}/LC_MESSAGES/${DOMAIN}.mo" ${CMAKE_CURRENT_BINARY_DIR})
+    get_parameter_default(INSTALL_DIR ARG_INSTALL_DIR "locale/${ARG_NAME}/LC_MESSAGES")
+
+    foreach(prefix ${ARG_SOURCE_PREFIXES})
+        file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
+        list(APPEND ${ARG_NAME}_LOCALE_SOURCES ${SOURCES})
+    endforeach()
+    exclude_from_listing(${ARG_NAME}_LOCALE_SOURCES ARG_EXCLUDE_PREFIXES)
+    list(APPEND ${ARG_NAME}_LOCALE_SOURCES ${ARG_EXTRA_SOURCES})
+
+    find_program(MSGCAT_EXECUTABLE msgcat)
+    find_program(MSGFMT_EXECUTABLE msgfmt)
+
+    add_custom_command(
+        OUTPUT "${BUILD_OUTPUT}"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND ${MSGCAT_EXECUTABLE} --force-po ${${ARG_NAME}_LOCALE_SOURCES} |
+                ${MSGFMT_EXECUTABLE} -o ${BUILD_OUTPUT} -
+        DEPENDS "${${ARG_NAME}_LOCALE_SOURCES}")
+
+    add_custom_target(locale_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
+
+    if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
+        install(FILES ${BUILD_OUTPUT} DESTINATION
+            "${${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR}/${INSTALL_DIR}")
+    endif()
+
+endfunction(setup_locale)
+
+#===================================================================================================
+#
+#   setup_doxygen(NAME <doc>
+#                 [CONFIG_FILE <path>]
+#                 [BUILD_OUTPUT <path>]
+#                 [INSTALL_DIR <path>])
+#
+#===================================================================================================
+function(setup_doxygen)
+
+    set(options)
+    set(oneValueArgs NAME CONFIG_FILE BUILD_OUTPUT INSTALL_DIR)
     set(multiValueArgs)
 
-    cmake_parse_arguments(ARG
-        "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARG_DOCUMENTATION})
+    cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    get_parameter_default(INPUT_FILE ARG_INPUT_FILE "Doxyfile.in")
-    if(NOT IS_ABSOLUTE "${INPUT_FILE}")
-        set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${INPUT_FILE}")
-    endif()
-
-    get_parameter_default(OUTPUT_DOC_DIR ARG_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
-    if(NOT IS_ABSOLUTE "${OUTPUT_DOC_DIR}")
-        set(OUTPUT_DOC_DIR "${CMAKE_CURRENT_BINARY_DIR}/${OUTPUT_DOC_DIR}")
-    endif()
+    get_path_default(CONFIG_FILE ARG_CONFIG_FILE "Doxyfile.in" ${CMAKE_CURRENT_SOURCE_DIR})
+    get_path_default(BUILD_OUTPUT ARG_BUILD_OUTPUT "doc" ${CMAKE_CURRENT_BINARY_DIR})
+    get_parameter_default(INSTALL_DIR ARG_INSTALL_DIR "doxygen")
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_DOCS)
         find_package(Doxygen REQUIRED)
@@ -580,36 +675,70 @@ macro(setup_project_documentation)
         if(NOT CONF_SOURCE_DIR)
             set(CONF_SOURCE_DIR ".")
         endif()
-        file(RELATIVE_PATH CONF_OUTPUT_DOC_DIR ${CMAKE_CURRENT_BINARY_DIR} ${OUTPUT_DOC_DIR})
-        if(NOT CONF_OUTPUT_DOC_DIR)
-            set(CONF_OUTPUT_DOC_DIR ".")
+        file(RELATIVE_PATH CONF_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR} ${BUILD_OUTPUT})
+        if(NOT CONF_OUTPUT_DIR)
+            set(CONF_OUTPUT_DIR ".")
         endif()
         set(CONF_PROJECT_DESCRIPTION ${PROJECT_DESCRIPTION})
         set(DOXYFILE_OUT "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
-        configure_file("${INPUT_FILE}" "${DOXYFILE_OUT}" @ONLY)
+        configure_file("${CONFIG_FILE}" "${DOXYFILE_OUT}" @ONLY)
 
-        set(DOXYGEN_OUTPUT_FILE "doxygen_sqlite3.db")
-        add_custom_command(OUTPUT ${DOXYGEN_OUTPUT_FILE}
+        add_custom_command(OUTPUT ${BUILD_OUTPUT}
             COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            COMMENT "Generating documentation with Doxygen"
+            COMMENT "Generating ${ARG_NAME} documentation with Doxygen"
             DEPENDS ${DOXYFILE_OUT} ${${PROJECT_NAME_UPPERCASE}_SOURCES}
             VERBATIM)
-        add_custom_target(doc ALL SOURCES ${DOXYGEN_OUTPUT_FILE})
+
+        add_custom_target(doc_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
+
+        if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
+            install(DIRECTORY "${BUILD_OUTPUT}/"
+                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}/${INSTALL_DIR}")
+        endif()
     endif()
 
-endmacro(setup_project_documentation)
+endfunction(setup_doxygen)
 
-macro(setup_project_installation)
+#===================================================================================================
+#
+#   setup_installation([DATA_DIR <path>]
+#                      [DOC_DIR <path>]
+#                      [VAR_DIR <path>]
+#                      [INCLUDE_DIRS <path>...]
+#                      [TARGETS <name>...])
+#
+#===================================================================================================
+function(setup_installation)
 
     set(options)
-    set(oneValueArgs DATA_DIR)
+    set(oneValueArgs DATA_DIR DOC_DIR VAR_DIR)
     set(multiValueArgs INCLUDE_DIRS TARGETS)
 
-    cmake_parse_arguments(ARG
-        "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARG_INSTALLATION})
+    cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    if(EXISTS ${${PROJECT_NAME}_CONFIG_FILE_IN})
+        configure_file("${${PROJECT_NAME}_CONFIG_FILE_IN}"
+            "${${PROJECT_NAME}_CONFIG_FILE_NAME}" @ONLY)
+    endif()
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
+        get_path_default(DATA_DIR ARG_DATA_DIR "data" ${CMAKE_CURRENT_SOURCE_DIR})
+        get_path_default(DOC_DIR ARG_DOC_DIR "doc" ${CMAKE_CURRENT_SOURCE_DIR})
+        get_path_default(VAR_DIR ARG_VAR_DIR "var" ${CMAKE_CURRENT_SOURCE_DIR})
+
+        if(EXISTS "${DATA_DIR}")
+            install(DIRECTORY "${DATA_DIR}/"
+                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR}")
+        endif()
+        if(EXISTS "${DOC_DIR}")
+            install(DIRECTORY "${DOC_DIR}/"
+                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}")
+        endif()
+        if(EXISTS "${VAR_DIR}")
+            install(DIRECTORY "${VAR_DIR}/"
+                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_VAR_DIR}")
+        endif()
+
         set(PATH_VARS)
         list(LENGTH ARG_INCLUDE_DIRS TOTAL)
         foreach(index RANGE ${TOTAL})
@@ -622,40 +751,9 @@ macro(setup_project_installation)
             install_project(TARGETS ${ARG_TARGETS}
                 PATH_VARS ${PATH_VARS} KEEP_PUBLIC_HEADER_HIERARCHY)
         endif()
-
-        get_parameter_default(DATA_DIR ARG_DATA_DIR "data")
-        if(NOT IS_ABSOLUTE "${DATA_DIR}")
-            set(DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_DIR}")
-        endif()
-        if(EXISTS "${DATA_DIR}")
-            install(DIRECTORY "${DATA_DIR}/" DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR}")
-        endif()
-
-        if(${PROJECT_NAME_UPPERCASE}_ENABLE_DOCS)
-            install(DIRECTORY "${OUTPUT_DOC_DIR}/"
-                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}")
-        endif()
     endif()
 
-endmacro(setup_project_installation)
-
-function(setup_project)
-
-    set(options)
-    set(oneValueArgs)
-    set(multiValueArgs DOCUMENTATION INSTALLATION)
-
-    cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-    setup_project_configuration()
-    if(ARG_DOCUMENTATION)
-        setup_project_documentation()
-    endif()
-    if(ARG_INSTALLATION)
-        setup_project_installation()
-    endif()
-
-endfunction(setup_project)
+endfunction(setup_installation)
 
 #===================================================================================================
 #
@@ -705,10 +803,8 @@ macro(setup_target_listings)
         endif()
 
         if(NOT TARGET_HEADER_ONLY)
-            get_parameter_default(EXPORT_FILE_NAME TARGET_EXPORT_FILE_NAME "${TARGET_NAME}-export.h")
-            if(NOT IS_ABSOLUTE "${EXPORT_FILE_NAME}")
-                set(EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/${EXPORT_FILE_NAME}")
-            endif()
+            get_path_default(EXPORT_FILE_NAME TARGET_EXPORT_FILE_NAME
+                "${TARGET_NAME}-export.h" ${CMAKE_CURRENT_BINARY_DIR})
             list(APPEND TARGET_SOURCES ${EXPORT_FILE_NAME})
             list(APPEND TARGET_PUBLIC_HEADERS ${EXPORT_FILE_NAME})
         endif()
@@ -987,8 +1083,8 @@ macro(setup_tests_listings)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_TEST_SOURCES ${SOURCES})
     endforeach()
-
     exclude_from_listing(${ARG_NAME}_TEST_SOURCES ARG_EXCLUDE_PREFIXES)
+    list(APPEND ${ARG_NAME}_TEST_SOURCES ${ARG_EXTRA_SOURCES})
 
     foreach(source ${${ARG_NAME}_TEST_SOURCES})
         foreach(prefix ${ARG_SOURCE_PREFIXES})
@@ -1028,9 +1124,21 @@ macro(setup_tests_flags)
 
 endmacro(setup_tests_flags)
 
-macro(setup_tests_targets)
+macro(setup_tests_data)
 
-    list(APPEND ARG_DEFINITIONS_PRIVATE -DDATADIR="${CMAKE_CURRENT_BINARY_DIR}/data")
+    get_path_default(INPUT_DATA_DIR ARG_INPUT_DATA_DIR "tests/data" ${CMAKE_CURRENT_SOURCE_DIR})
+    get_path_default(OUTPUT_DATA_DIR ARG_OUTPUT_DATA_DIR "data" ${CMAKE_CURRENT_BINARY_DIR})
+
+    if(EXISTS "${INPUT_DATA_DIR}")
+        message(STATUS "Copying ${ARG_NAME} test data files to build tree...")
+        file(COPY "${INPUT_DATA_DIR}/" DESTINATION "${OUTPUT_DATA_DIR}")
+    endif()
+
+    list(APPEND ARG_DEFINITIONS_PRIVATE -DDATADIR="${OUTPUT_DATA_DIR}")
+
+endmacro(setup_tests_data)
+
+macro(setup_tests_targets)
 
     foreach(test_name ${${ARG_NAME}_TESTS})
         setup_target(
@@ -1051,19 +1159,6 @@ macro(setup_tests_targets)
 
 endmacro(setup_tests_targets)
 
-macro(setup_tests_data)
-
-    get_parameter_default(DATA_DIR ARG_DATA_DIR "testdata")
-    if(NOT IS_ABSOLUTE "${DATA_DIR}")
-        set(DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_DIR}")
-    endif()
-    if(EXISTS "${DATA_DIR}")
-        message(STATUS "Copying ${ARG_NAME} test data files to build tree...")
-        file(COPY "${DATA_DIR}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-    endif()
-
-endmacro(setup_tests_data)
-
 function(setup_tests)
 
     if(NOT BUILD_TESTING)
@@ -1071,7 +1166,7 @@ function(setup_tests)
     endif()
 
     set(options)
-    set(oneValueArgs NAME DATA_DIR)
+    set(oneValueArgs NAME INPUT_DATA_DIR OUTPUT_DATA_DIR)
     set(multiValueArgs
         SOURCE_PREFIXES
         EXCLUDE_PREFIXES
@@ -1085,7 +1180,7 @@ function(setup_tests)
 
     setup_tests_listings()
     setup_tests_flags()
-    setup_tests_targets()
     setup_tests_data()
+    setup_tests_targets()
 
 endfunction(setup_tests)
