@@ -61,7 +61,7 @@ data_type:
     | char_type (LPAREN length RPAREN)? (BINARY)? (charset)? (collation)?
     | binary_type (LPAREN length RPAREN)?
     | blob_type
-    | text_type (BINARY)? (charset)? (collation)?
+    | text_type (LPAREN length RPAREN)? (BINARY)? (charset)? (collation)?
     | enum_type enum_value_list (charset)? (collation)?
     | spatial_type
     | JSON
@@ -177,7 +177,7 @@ list_column_list: LPAREN identifier (COMMA identifier)* RPAREN;
 table_union_list: LPAREN table_name (COMMA table_name)* RPAREN;
 
 constraint: CONSTRAINT (symbol)?;
-charset: CHARACTER SET (EQUAL)? charset_name;
+charset: (CHARACTER SET | CHARSET) (EQUAL)? charset_name;
 collation: COLLATE (EQUAL)? collation_name;
 index_structure: BTREE | HASH;
 index_column: column_name (LPAREN length RPAREN)? (ASC | DESC)?;

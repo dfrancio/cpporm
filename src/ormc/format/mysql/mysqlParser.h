@@ -1,5 +1,5 @@
 
-// Generated from ./mysql.g4 by ANTLR 4.5.3
+// Generated from grammars/mysql/mysql.g4 by ANTLR 4.5.3
 
 #pragma once
 
@@ -1781,9 +1781,10 @@ public:
     public:
         CharsetContext(std::weak_ptr<ParserRuleContext> parent, int invokingState);
         virtual ssize_t getRuleIndex() const override;
+        Ref<Charset_nameContext> charset_name();
         Ref<tree::TerminalNode> CHARACTER();
         Ref<tree::TerminalNode> SET();
-        Ref<Charset_nameContext> charset_name();
+        Ref<tree::TerminalNode> CHARSET();
         Ref<tree::TerminalNode> EQUAL();
 
         virtual void enterRule(tree::ParseTreeListener *listener) override;
