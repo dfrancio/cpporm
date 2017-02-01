@@ -581,12 +581,17 @@ function(setup_database)
     exclude_from_listing(${ARG_NAME}_DB_SOURCES ARG_EXCLUDE_PREFIXES)
     list(APPEND ${ARG_NAME}_DB_SOURCES ${ARG_EXTRA_SOURCES})
 
+    find_program(CAT_EXECUTABLE cat)
+    file(TO_NATIVE_PATH ${CAT_EXECUTABLE} CAT_EXECUTABLE)
+
     find_program(SQLITE3_EXECUTABLE sqlite3)
+    file(TO_NATIVE_PATH ${SQLITE3_EXECUTABLE} SQLITE3_EXECUTABLE)
 
     add_custom_command(
         OUTPUT "${BUILD_OUTPUT}"
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND cat ${${ARG_NAME}_DB_SOURCES} | ${SQLITE3_EXECUTABLE} ${BUILD_OUTPUT}
+        COMMAND ${CAT_EXECUTABLE} ${${ARG_NAME}_DB_SOURCES} |
+                ${SQLITE3_EXECUTABLE} ${BUILD_OUTPUT}
         DEPENDS "${${ARG_NAME}_DB_SOURCES}")
 
     add_custom_target(db_${ARG_NAME} ALL SOURCES "${BUILD_OUTPUT}")
@@ -630,7 +635,10 @@ function(setup_locale)
     list(APPEND ${ARG_NAME}_LOCALE_SOURCES ${ARG_EXTRA_SOURCES})
 
     find_program(MSGCAT_EXECUTABLE msgcat)
+    file(TO_NATIVE_PATH ${MSGCAT_EXECUTABLE} MSGCAT_EXECUTABLE)
+
     find_program(MSGFMT_EXECUTABLE msgfmt)
+    file(TO_NATIVE_PATH ${MSGFMT_EXECUTABLE} MSGFMT_EXECUTABLE)
 
     add_custom_command(
         OUTPUT "${BUILD_OUTPUT}"
