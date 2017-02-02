@@ -136,11 +136,17 @@ public:
     bool VisitField(const FieldContext &context) override
     {
         std::string props;
+        std::string length;
+        std::string decimals;
         for (auto &pair : context.field.properties)
         {
-            if (pair.first == "LENGTH")
+            if (pair.first == CPPORM_PROP_LENGTH)
             {
-                props = "(" + pair.second + ")" + props;
+                length = pair.second;
+            }
+            else if (pair.first == CPPORM_PROP_DECIMALS)
+            {
+                decimals = pair.second;
             }
             else if (pair.first != CPPORM_PROP_IDENTITY && pair.first != CPPORM_PROP_ON_UPDATE)
             {
@@ -148,6 +154,14 @@ public:
                 std::replace(name.begin(), name.end(), '_', ' ');
                 props += " " + name + (pair.second.empty() ? "" : ' ' + pair.second);
             }
+        }
+
+        if (!length.empty())
+        {
+            if (!decimals.empty())
+                props = '(' + length + ',' + decimals + ')' + props;
+            else
+                props = '(' + length + ')' + props;
         }
 
         mStream << boost::format(cColumn) % CPPORM_BACKQUOTE(context.field.name)
@@ -164,14 +178,18 @@ public:
      */
     bool VisitIndex(const IndexContext &context) override
     {
-        if (context.index.type != "FOREIGN_KEY" && context.index.type != "INDEX")
+        if (context.index.type != "FOREIGN_KEY" && context.index.type != "INDEX"
+            && context.index.type != "KEY")
         {
             std::string refs;
             for (auto &name : context.index.fieldNames)
                 refs += refs.empty() ? CPPORM_BACKQUOTE(name) : ", " + CPPORM_BACKQUOTE(name);
             auto type = context.index.type;
             std::replace(type.begin(), type.end(), '_', ' ');
-            mStream << boost::format(cIndex) % type % context.index.name % refs;
+            if (context.index.name.empty())
+                mStream << boost::format(cUnnamedIndex) % type % refs;
+            else
+                mStream << boost::format(cNamedIndex) % type % context.index.name % refs;
         }
         return true;
     }
@@ -225,7 +243,12 @@ private:
     /*!
      * \brief
      */
-    static const std::string cIndex;
+    static const std::string cNamedIndex;
+
+    /*!
+     * \brief
+     */
+    static const std::string cUnnamedIndex;
 
     /*!
      * \brief
@@ -396,14 +419,25 @@ public:
      */
     bool VisitIndex(const IndexContext &context) override
     {
-        if (context.index.type == "INDEX")
+        if (context.index.type == "INDEX" || context.index.type == "KEY")
         {
             std::string refs;
             for (auto &name : context.index.fieldNames)
                 refs += refs.empty() ? CPPORM_BACKQUOTE(name) : ", " + CPPORM_BACKQUOTE(name);
+
             auto name = context.index.name;
             if (name.empty())
-                name = context.node.name + "_index";
+            {
+                name = CPPORM_BACKQUOTE(context.node.name + "_index");
+            }
+            else if (name.find(context.node.name) == std::string::npos)
+            {
+                if (name.find('`') == std::string::npos)
+                    name = context.node.name + '_' + name;
+                else
+                    name.insert(1, context.node.name + '_');
+            }
+
             mStream << boost::format(cIndex) % name % context.node.name % refs;
         }
         return true;
@@ -459,7 +493,12 @@ const std::string CreateTableWriter::cColumn = "    %s %s%s,\n";
 /*!
  * \details
  */
-const std::string CreateTableWriter::cIndex = "    %s %s (%s),\n";
+const std::string CreateTableWriter::cNamedIndex = "    %s %s (%s),\n";
+
+/*!
+ * \details
+ */
+const std::string CreateTableWriter::cUnnamedIndex = "    %s (%s),\n";
 
 /*!
  * \details
