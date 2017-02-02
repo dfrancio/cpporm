@@ -1,5 +1,5 @@
 
-// Generated from grammars/mysql/mysql.g4 by ANTLR 4.5.3
+// Generated from grammars/mysql/mysql.g4 by ANTLR 4.6
 
 #pragma once
 
@@ -7,15 +7,15 @@
 
 #define SAVED_NULL NULL
 #undef NULL
+#define SAVED_TRUE TRUE
+#undef TRUE
 #define SAVED_UNICODE UNICODE
 #undef UNICODE
-
-using namespace antlr4;
 
 namespace mysql
 {
 
-class mysqlLexer : public Lexer
+class mysqlLexer : public antlr4::Lexer
 {
 public:
     enum
@@ -665,35 +665,33 @@ public:
         EQUAL = 643
     };
 
-    mysqlLexer(CharStream *input);
+    mysqlLexer(antlr4::CharStream *input);
     ~mysqlLexer();
 
     virtual std::string getGrammarFileName() const override;
     virtual const std::vector<std::string> &getRuleNames() const override;
 
+    virtual const std::vector<std::string> &getChannelNames() const override;
     virtual const std::vector<std::string> &getModeNames() const override;
     virtual const std::vector<std::string> &getTokenNames()
         const override; // deprecated, use vocabulary instead
-    virtual dfa::Vocabulary &getVocabulary() const override;
+    virtual antlr4::dfa::Vocabulary &getVocabulary() const override;
 
     virtual const std::vector<uint16_t> getSerializedATN() const override;
-    virtual const atn::ATN &getATN() const override;
-
-#ifdef __linux__
-    virtual std::string getSourceName() override;
-#endif
+    virtual const antlr4::atn::ATN &getATN() const override;
 
 private:
-    static std::vector<dfa::DFA> _decisionToDFA;
-    static atn::PredictionContextCache _sharedContextCache;
+    static std::vector<antlr4::dfa::DFA> _decisionToDFA;
+    static antlr4::atn::PredictionContextCache _sharedContextCache;
     static std::vector<std::string> _ruleNames;
     static std::vector<std::string> _tokenNames;
     static std::vector<std::string> _modeNames;
+    static std::vector<std::string> _channelNames;
 
     static std::vector<std::string> _literalNames;
     static std::vector<std::string> _symbolicNames;
-    static dfa::Vocabulary _vocabulary;
-    static atn::ATN _atn;
+    static antlr4::dfa::Vocabulary _vocabulary;
+    static antlr4::atn::ATN _atn;
     static std::vector<uint16_t> _serializedATN;
 
     // Individual action functions triggered by action() above.
@@ -710,4 +708,5 @@ private:
 } // namespace mysql
 
 #define NULL SAVED_NULL
+#define TRUE SAVED_TRUE
 #define UNICODE SAVED_UNICODE

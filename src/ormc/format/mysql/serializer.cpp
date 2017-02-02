@@ -57,7 +57,7 @@ protected:
     template <typename C>
     std::string GetLiteral(C *ctx)
     {
-        return ctx->literal() ? GetStringLiteral(ctx->literal().get()) : ctx->getText();
+        return ctx->literal() ? GetStringLiteral(ctx->literal()) : ctx->getText();
     }
 
     /*!
@@ -469,6 +469,7 @@ public:
         case State::createTable:
             mNodeName = GetIdentifier(ctx);
             GetCurrentNode().name = mNodeName;
+            break;
         case State::alterTable:
             mNodeName = GetIdentifier(ctx);
             break;
@@ -525,19 +526,33 @@ public:
         else if (ctx->KEY())
             GetCurrentIndex().type = "KEY";
 
-        auto result = EnterState(ctx, State::indexDef);
-        if (GetCurrentIndex().type == "FOREIGN_KEY")
-        {
-            auto &edge = GetCurrentEdge();
-            edge.indexNumber = GetCurrentNode().indices.size();
-            edge.refNodeName = mRefNodeName;
-        }
-        return result;
+        return EnterState(ctx, State::indexDef);
     }
 
     antlrcpp::Any visitReference_definition(mysqlParser::Reference_definitionContext *ctx) override
     {
-        return EnterState(ctx, State::reference);
+        if (mStates.top() == State::columnDef)
+        {
+            AddIndex();
+            GetCurrentIndex().type = "FOREIGN_KEY";
+        }
+        auto result = EnterState(ctx, State::reference);
+        auto &edge = GetCurrentEdge();
+        if (edge.refFieldNames.empty())
+        {
+            GetCurrentIndex().fieldNames.push_back(mFieldName);
+            edge.refFieldNames.push_back(mFieldName);
+        }
+        edge.indexNumber = GetCurrentNode().indices.size();
+        edge.refNodeName = mRefNodeName;
+        return result;
+    }
+
+    antlrcpp::Any visitIndex_name(mysqlParser::Index_nameContext *ctx) override
+    {
+        if (mStates.top() == State::indexDef)
+            GetCurrentIndex().name = ctx->getText();
+        return visitChildren(ctx);
     }
 
     antlrcpp::Any visitMatch_option(mysqlParser::Match_optionContext *ctx) override
@@ -762,9 +777,9 @@ void Serializer::Parse(const std::string &filename, ListGraph &graph)
 {
     std::ifstream stream(filename);
 
-    ANTLRInputStream input(stream);
+    antlr4::ANTLRInputStream input(stream);
     mysqlLexer lexer(&input);
-    CommonTokenStream tokens(&lexer);
+    antlr4::CommonTokenStream tokens(&lexer);
     tokens.fill();
 
 #ifndef NDEBUG
@@ -780,7 +795,7 @@ void Serializer::Parse(const std::string &filename, ListGraph &graph)
 #endif
 
     SchemaDefinitionVisitor schemaDefinitionVisitor(graph);
-    schemaDefinitionVisitor.visit(tree.get());
+    schemaDefinitionVisitor.visit(tree);
 }
 
 /*!

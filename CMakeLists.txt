@@ -85,7 +85,8 @@ setup_target(
     DEPENDENCIES
         Boost REQUIRED END
         Gflags REQUIRED END
-        CUSTOM antlr4 HEADERS antlr4-common.h HEADER_SUFFIXES antlr4 LIBRARIES antlr4-runtime END
+        CUSTOM antlr4 HEADERS antlr4-runtime.h
+            HEADER_SUFFIXES antlr4-runtime LIBRARIES antlr4-runtime END
         INTERNAL cpporm END)
 
 setup_doxygen(

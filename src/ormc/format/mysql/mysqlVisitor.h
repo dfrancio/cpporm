@@ -1,5 +1,5 @@
 
-// Generated from grammars/mysql/mysql.g4 by ANTLR 4.5.3
+// Generated from grammars/mysql/mysql.g4 by ANTLR 4.6
 
 #pragma once
 
@@ -97,6 +97,10 @@ public:
     virtual antlrcpp::Any visitIndex_column_list(mysqlParser::Index_column_listContext *context)
         = 0;
 
+    virtual antlrcpp::Any visitReference_column_list(
+        mysqlParser::Reference_column_listContext *context)
+        = 0;
+
     virtual antlrcpp::Any visitLess_than_value_list(
         mysqlParser::Less_than_value_listContext *context)
         = 0;
@@ -123,6 +127,8 @@ public:
     virtual antlrcpp::Any visitIndex_structure(mysqlParser::Index_structureContext *context) = 0;
 
     virtual antlrcpp::Any visitIndex_column(mysqlParser::Index_columnContext *context) = 0;
+
+    virtual antlrcpp::Any visitReference_column(mysqlParser::Reference_columnContext *context) = 0;
 
     virtual antlrcpp::Any visitFsp(mysqlParser::FspContext *context) = 0;
 

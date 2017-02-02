@@ -82,26 +82,14 @@ struct Model
 /*!
  * \brief List graph
  */
-typedef boost::adjacency_list<boost::multisetS, boost::vecS, boost::directedS, Node, Edge, Model>
-    ListGraph;
+typedef boost::
+    adjacency_list<boost::multisetS, boost::listS, boost::bidirectionalS, Node, Edge, Model>
+        ListGraph;
 
 /*!
  * \brief Labeled graph
  */
 typedef boost::labeled_graph<ListGraph *, std::string> LabeledGraph;
-
-/*!
- * \brief Matrix graph
- */
-class MatrixGraph : public boost::adjacency_matrix<boost::directedS, Node, Edge, Model>
-{
-public:
-    /*!
-     * \brief Constructor
-     * \param[in] graph The graph
-     */
-    MatrixGraph(const ListGraph &graph);
-};
 
 /*!
  * \brief %Graph builder
@@ -207,9 +195,8 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      */
-    GraphVisitor(const ListGraph &listGraph, const MatrixGraph &matrixGraph);
+    GraphVisitor(const ListGraph &listGraph);
 
     /*!
      * \brief Visit
@@ -317,9 +304,4 @@ private:
      * \brief The adjacency list graph
      */
     const ListGraph &mListGraph;
-
-    /*!
-     * \brief The adjacency matrix graph
-     */
-    const MatrixGraph &mMatrixGraph;
 };

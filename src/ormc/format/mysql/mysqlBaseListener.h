@@ -1,5 +1,5 @@
 
-// Generated from grammars/mysql/mysql.g4 by ANTLR 4.5.3
+// Generated from grammars/mysql/mysql.g4 by ANTLR 4.6
 
 #pragma once
 
@@ -229,6 +229,15 @@ public:
     {
     }
 
+    virtual void enterReference_column_list(
+        mysqlParser::Reference_column_listContext * /*ctx*/) override
+    {
+    }
+    virtual void exitReference_column_list(
+        mysqlParser::Reference_column_listContext * /*ctx*/) override
+    {
+    }
+
     virtual void enterLess_than_value_list(
         mysqlParser::Less_than_value_listContext * /*ctx*/) override
     {
@@ -312,6 +321,13 @@ public:
     {
     }
     virtual void exitIndex_column(mysqlParser::Index_columnContext * /*ctx*/) override
+    {
+    }
+
+    virtual void enterReference_column(mysqlParser::Reference_columnContext * /*ctx*/) override
+    {
+    }
+    virtual void exitReference_column(mysqlParser::Reference_columnContext * /*ctx*/) override
     {
     }
 
@@ -925,16 +941,16 @@ public:
     {
     }
 
-    virtual void enterEveryRule(ParserRuleContext * /*ctx*/) override
+    virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override
     {
     }
-    virtual void exitEveryRule(ParserRuleContext * /*ctx*/) override
+    virtual void exitEveryRule(antlr4::ParserRuleContext * /*ctx*/) override
     {
     }
-    virtual void visitTerminal(tree::TerminalNode * /*node*/) override
+    virtual void visitTerminal(antlr4::tree::TerminalNode * /*node*/) override
     {
     }
-    virtual void visitErrorNode(tree::ErrorNode * /*node*/) override
+    virtual void visitErrorNode(antlr4::tree::ErrorNode * /*node*/) override
     {
     }
 };

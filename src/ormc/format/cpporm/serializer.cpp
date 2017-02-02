@@ -43,14 +43,12 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] dir The output directory
      * \param[in] name The output name
      */
     HeaderPreambleWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
-        const std::string &name)
-        : GraphVisitor(listGraph, matrixGraph)
+        const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph)
     {
         mStream.open(dir + "/" + name + ".h", cOutputStreamFlags);
         if (FLAGS_namespace.empty())
@@ -151,14 +149,11 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] dir The output directory
      * \param[in] name The output name
      */
-    HeaderSchemaWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
-        const std::string &name)
-        : GraphVisitor(listGraph, matrixGraph)
+    HeaderSchemaWriter(const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph)
     {
         mStream.open(dir + "/" + name + ".h", cOutputStreamFlags | cAppendStreamFlags);
     }
@@ -336,14 +331,12 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] dir The output directory
      * \param[in] name The output name
      */
     ImplementationPreambleWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
-        const std::string &name)
-        : GraphVisitor(listGraph, matrixGraph)
+        const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph)
     {
         mStream.open(dir + "/" + name + ".cpp", cOutputStreamFlags);
         if (FLAGS_namespace.empty())
@@ -417,14 +410,12 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] dir The output directory
      * \param[in] name The output name
      */
     ImplementationEntityWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
-        const std::string &name)
-        : GraphVisitor(listGraph, matrixGraph), mDirectory(dir), mName(name)
+        const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph), mDirectory(dir), mName(name)
     {
         mStream.open(dir + "/" + name + ".cpp", cOutputStreamFlags | cAppendStreamFlags);
     }
@@ -1063,11 +1054,10 @@ void Serializer::Parse(const std::string &, ListGraph &)
  */
 void Serializer::Write(const std::string &dir, const std::string &name, const ListGraph &graph)
 {
-    MatrixGraph mMatrixGraph(graph);
-    HeaderPreambleWriter(graph, mMatrixGraph, dir, name).Visit();
-    HeaderSchemaWriter(graph, mMatrixGraph, dir, name).Visit();
-    ImplementationPreambleWriter(graph, mMatrixGraph, dir, name).Visit();
-    ImplementationEntityWriter(graph, mMatrixGraph, dir, name).Visit();
+    HeaderPreambleWriter(graph, dir, name).Visit();
+    HeaderSchemaWriter(graph, dir, name).Visit();
+    ImplementationPreambleWriter(graph, dir, name).Visit();
+    ImplementationEntityWriter(graph, dir, name).Visit();
 }
 
 } // namespace cpporm

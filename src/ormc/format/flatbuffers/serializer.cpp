@@ -29,14 +29,11 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] stream The stream
      * \param[in] filename The filename to put in boilerplate code
      */
-    IdlPreambleWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, std::ostream &stream,
-        const std::string &filename)
-        : GraphVisitor(listGraph, matrixGraph), mStream(stream)
+    IdlPreambleWriter(const ListGraph &listGraph, std::ostream &stream, const std::string &filename)
+        : GraphVisitor(listGraph), mStream(stream)
     {
         if (FLAGS_namespace.empty())
             mStream << boost::format(cPreambleTextNoNamespace) % filename % CPPORM_VERSION;
@@ -70,12 +67,10 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] stream The stream
      */
-    IdlSchemaWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, std::ostream &stream)
-        : GraphVisitor(listGraph, matrixGraph), mStream(stream)
+    IdlSchemaWriter(const ListGraph &listGraph, std::ostream &stream)
+        : GraphVisitor(listGraph), mStream(stream)
     {
     }
 
@@ -348,12 +343,10 @@ void Serializer::Parse(const std::string &, ListGraph &)
  */
 void Serializer::Write(const std::string &dir, const std::string &name, const ListGraph &graph)
 {
-    MatrixGraph mMatrixGraph(graph);
-
     std::ofstream idlStream(dir + "/" + name + ".fbs");
-    IdlPreambleWriter idlPreambleWriter(graph, mMatrixGraph, idlStream, name + ".fbs");
+    IdlPreambleWriter idlPreambleWriter(graph, idlStream, name + ".fbs");
     idlPreambleWriter.Visit();
-    IdlSchemaWriter idlSchemaWriter(graph, mMatrixGraph, idlStream);
+    IdlSchemaWriter idlSchemaWriter(graph, idlStream);
     idlSchemaWriter.Visit();
     RootTypeWriter{idlStream};
 }

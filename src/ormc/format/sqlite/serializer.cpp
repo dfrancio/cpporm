@@ -42,14 +42,11 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] dir The output directory
      * \param[in] name The output name
      */
-    DropTableWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
-        const std::string &name)
-        : GraphVisitor(listGraph, matrixGraph)
+    DropTableWriter(const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph)
     {
         mStream.open(dir + "/" + name + ".sqlite.sql", cOutputStreamFlags);
         mStream << boost::format(cForeignKeysOff);
@@ -105,14 +102,11 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] dir The output directory
      * \param[in] name The output name
      */
-    CreateTableWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
-        const std::string &name)
-        : GraphVisitor(listGraph, matrixGraph)
+    CreateTableWriter(const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph)
     {
         mStream.open(dir + "/" + name + ".sqlite.sql", cOutputStreamFlags | cAppendStreamFlags);
     }
@@ -170,14 +164,14 @@ public:
      */
     bool VisitIndex(const IndexContext &context) override
     {
-        if (context.index.type != "FOREIGN_KEY")
+        if (context.index.type != "FOREIGN_KEY" && context.index.type != "INDEX")
         {
             std::string refs;
             for (auto &name : context.index.fieldNames)
                 refs += refs.empty() ? CPPORM_BACKQUOTE(name) : ", " + CPPORM_BACKQUOTE(name);
             auto type = context.index.type;
             std::replace(type.begin(), type.end(), '_', ' ');
-            mStream << boost::format(cIndex) % type % refs;
+            mStream << boost::format(cIndex) % type % context.index.name % refs;
         }
         return true;
     }
@@ -266,14 +260,11 @@ public:
     /*!
      * \brief Constructor
      * \param[in] listGraph The list graph
-     * \param[in] matrixGraph The matrix graph
      * \param[in] dir The output directory
      * \param[in] name The output name
      */
-    CreateTriggerWriter(
-        const ListGraph &listGraph, const MatrixGraph &matrixGraph, const std::string &dir,
-        const std::string &name)
-        : GraphVisitor(listGraph, matrixGraph), mDirectory(dir), mName(name), mNodesVisited(false)
+    CreateTriggerWriter(const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph), mDirectory(dir), mName(name), mNodesVisited(false)
     {
         mStream.open(dir + "/" + name + ".sqlite.sql", cOutputStreamFlags | cAppendStreamFlags);
     }
@@ -363,6 +354,84 @@ private:
 };
 
 /*!
+ * \brief Create index writer
+ */
+class CreateIndexWriter : public GraphVisitor
+{
+public:
+    /*!
+     * \brief Destructor
+     */
+    ~CreateIndexWriter()
+    {
+        mStream.close();
+    }
+
+    /*!
+     * \brief Constructor
+     * \param[in] listGraph The list graph
+     * \param[in] dir The output directory
+     * \param[in] name The output name
+     */
+    CreateIndexWriter(const ListGraph &listGraph, const std::string &dir, const std::string &name)
+        : GraphVisitor(listGraph), mDirectory(dir), mName(name)
+    {
+        mStream.open(dir + "/" + name + ".sqlite.sql", cOutputStreamFlags | cAppendStreamFlags);
+    }
+
+    /*!
+     * \brief Visit node
+     * \param[in] context The context
+     * \return True if the remaining siblings should be visited; false otherwise
+     */
+    bool VisitNode(const NodeContext &context) override
+    {
+        return VisitChildren(context);
+    }
+
+    /*!
+     * \brief Visit index
+     * \param[in] context The context
+     * \return True if the remaining siblings should be visited; false otherwise
+     */
+    bool VisitIndex(const IndexContext &context) override
+    {
+        if (context.index.type == "INDEX")
+        {
+            std::string refs;
+            for (auto &name : context.index.fieldNames)
+                refs += refs.empty() ? CPPORM_BACKQUOTE(name) : ", " + CPPORM_BACKQUOTE(name);
+            auto name = context.index.name;
+            if (name.empty())
+                name = context.node.name + "_index";
+            mStream << boost::format(cIndex) % name % context.node.name % refs;
+        }
+        return true;
+    }
+
+private:
+    /*!
+     * \brief
+     */
+    static const std::string cIndex;
+
+    /*!
+     * \brief The output stream
+     */
+    std::ofstream mStream;
+
+    /*!
+     * \brief The output directory
+     */
+    std::string mDirectory;
+
+    /*!
+     * \brief The output name
+     */
+    std::string mName;
+};
+
+/*!
  * \details
  */
 const std::string DropTableWriter::cForeignKeysOff = "PRAGMA foreign_keys = OFF;\n";
@@ -380,8 +449,7 @@ const std::string DropTableWriter::cForeignKeysOn = "PRAGMA foreign_keys = ON;\n
 /*!
  * \details
  */
-const std::string CreateTableWriter::cCreateTable = "\n"
-                                                    "CREATE TABLE %s (\n";
+const std::string CreateTableWriter::cCreateTable = "CREATE TABLE %s (\n";
 
 /*!
  * \details
@@ -391,7 +459,7 @@ const std::string CreateTableWriter::cColumn = "    %s %s%s,\n";
 /*!
  * \details
  */
-const std::string CreateTableWriter::cIndex = "    %s (%s),\n";
+const std::string CreateTableWriter::cIndex = "    %s %s (%s),\n";
 
 /*!
  * \details
@@ -408,6 +476,11 @@ const std::string CreateTriggerWriter::cTrigger
 /*!
  * \details
  */
+const std::string CreateIndexWriter::cIndex = "CREATE INDEX %s ON %s (%s);\n";
+
+/*!
+ * \details
+ */
 void Serializer::Parse(const std::string &, ListGraph &)
 {
     throw cpporm::NotImplementedError(
@@ -419,10 +492,10 @@ void Serializer::Parse(const std::string &, ListGraph &)
  */
 void Serializer::Write(const std::string &dir, const std::string &name, const ListGraph &graph)
 {
-    MatrixGraph mMatrixGraph(graph);
-    DropTableWriter(graph, mMatrixGraph, dir, name).Visit();
-    CreateTableWriter(graph, mMatrixGraph, dir, name).Visit();
-    CreateTriggerWriter(graph, mMatrixGraph, dir, name).Visit();
+    DropTableWriter(graph, dir, name).Visit();
+    CreateTableWriter(graph, dir, name).Visit();
+    CreateTriggerWriter(graph, dir, name).Visit();
+    CreateIndexWriter(graph, dir, name).Visit();
 }
 
 } // namespace sqlite

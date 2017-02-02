@@ -1,5 +1,5 @@
 
-// Generated from grammars/mysql/mysql.g4 by ANTLR 4.5.3
+// Generated from grammars/mysql/mysql.g4 by ANTLR 4.6
 
 #include "mysqlLexer.h"
 
@@ -27,6 +27,11 @@ const std::vector<std::string> &mysqlLexer::getRuleNames() const
     return _ruleNames;
 }
 
+const std::vector<std::string> &mysqlLexer::getChannelNames() const
+{
+    return _channelNames;
+}
+
 const std::vector<std::string> &mysqlLexer::getModeNames() const
 {
     return _modeNames;
@@ -51,13 +56,6 @@ const atn::ATN &mysqlLexer::getATN() const
 {
     return _atn;
 }
-
-#ifdef __linux__
-std::string mysqlLexer::getSourceName()
-{
-    return Lexer::getSourceName();
-}
-#endif
 
 // Static vars and initialization.
 std::vector<dfa::DFA> mysqlLexer::_decisionToDFA;
@@ -1436,6 +1434,7 @@ std::vector<std::string> mysqlLexer::_symbolicNames = {"",
 dfa::Vocabulary mysqlLexer::_vocabulary(_literalNames, _symbolicNames);
 
 std::vector<std::string> mysqlLexer::_tokenNames;
+std::vector<std::string> mysqlLexer::_channelNames;
 
 mysqlLexer::Initializer::Initializer()
 {
@@ -6652,9 +6651,11 @@ mysqlLexer::Initializer::Initializer()
     atn::ATNDeserializer deserializer;
     _atn = deserializer.deserialize(_serializedATN);
 
-    for (int i = 0; i < _atn.getNumberOfDecisions(); i++)
+    size_t count = _atn.getNumberOfDecisions();
+    _decisionToDFA.reserve(count);
+    for (size_t i = 0; i < count; i++)
     {
-        _decisionToDFA.push_back(dfa::DFA(_atn.getDecisionState(i), i));
+        _decisionToDFA.emplace_back(_atn.getDecisionState(i), i);
     }
 }
 

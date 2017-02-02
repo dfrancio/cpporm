@@ -7,6 +7,9 @@
  */
 #include "graph.h"
 
+// External library includes
+#include <boost/graph/copy.hpp>
+
 /*!
  * \details
  */
@@ -26,6 +29,9 @@ GraphBuilder::GraphBuilder(ListGraph &graph) : mLabeledGraph(&graph)
  */
 void GraphBuilder::AddEdge()
 {
+    if (mLabeledGraph.vertex(mRefNodeName) == mLabeledGraph.null_vertex())
+        throw std::runtime_error(
+            mRefNodeName + " does not yet exist in the graph. Perhaps the input is ill-formed?");
     boost::add_edge_by_label(mNodeName, mRefNodeName, mLabeledGraph);
 }
 
@@ -51,7 +57,7 @@ void GraphBuilder::AddCheck()
 Node &GraphBuilder::GetCurrentNode()
 {
     auto vertex = mLabeledGraph.vertex(mNodeName);
-    if (vertex > boost::num_vertices(mLabeledGraph))
+    if (vertex == mLabeledGraph.null_vertex())
         vertex = mLabeledGraph.add_vertex(mNodeName);
     return mLabeledGraph.graph()[vertex];
 }
@@ -114,19 +120,7 @@ GraphVisitor::~GraphVisitor()
 /*!
  * \details
  */
-MatrixGraph::MatrixGraph(const ListGraph &graph)
-    : boost::adjacency_matrix<boost::directedS, Node, Edge, Model>(boost::num_vertices(graph))
-{
-    auto edges = boost::edges(graph);
-    for (auto edge = edges.first; edge != edges.second; ++edge)
-        boost::add_edge(boost::source(*edge, graph), boost::target(*edge, graph), *this);
-}
-
-/*!
- * \details
- */
-GraphVisitor::GraphVisitor(const ListGraph &listGraph, const MatrixGraph &matrixGraph)
-    : mListGraph(listGraph), mMatrixGraph(matrixGraph)
+GraphVisitor::GraphVisitor(const ListGraph &listGraph) : mListGraph(listGraph)
 {
 }
 
@@ -216,31 +210,20 @@ bool GraphVisitor::NodeContext::Accept(GraphVisitor &visitor) const
         if (!visitor.VisitCheck(context))
             break;
     }
-    auto outEdges = boost::out_edges(vertexId, visitor.mMatrixGraph);
-    for (auto eit = outEdges.first; eit != outEdges.second; ++eit)
+    auto outEdges = boost::out_edges(vertexId, visitor.mListGraph);
+    for (auto it = outEdges.first; it != outEdges.second; ++it)
     {
-        auto source = boost::source(*eit, visitor.mMatrixGraph);
-        auto target = boost::target(*eit, visitor.mMatrixGraph);
-        auto edges = boost::edge_range(source, target, visitor.mListGraph);
-        for (auto eit2 = edges.first; eit2 != edges.second; ++eit2)
-        {
-            EdgeContext context(*eit2, node, node, visitor.mListGraph[*eit2]);
-            if (!visitor.VisitOutEdge(context))
-                break;
-        }
+        EdgeContext context(*it, node, node, visitor.mListGraph[*it]);
+        if (!visitor.VisitOutEdge(context))
+            break;
     }
-    auto inEedges = boost::in_edges(vertexId, visitor.mMatrixGraph);
-    for (auto eit = inEedges.first; eit != inEedges.second; ++eit)
+    auto inEedges = boost::in_edges(vertexId, visitor.mListGraph);
+    for (auto it = inEedges.first; it != inEedges.second; ++it)
     {
-        auto source = boost::source(*eit, visitor.mMatrixGraph);
-        auto target = boost::target(*eit, visitor.mMatrixGraph);
-        auto edges = boost::edge_range(source, target, visitor.mListGraph);
-        for (auto eit2 = edges.first; eit2 != edges.second; ++eit2)
-        {
-            EdgeContext context(*eit2, node, visitor.mListGraph[source], visitor.mListGraph[*eit2]);
-            if (!visitor.VisitInEdge(context))
-                break;
-        }
+        auto source = boost::source(*it, visitor.mListGraph);
+        EdgeContext context(*it, node, visitor.mListGraph[source], visitor.mListGraph[*it]);
+        if (!visitor.VisitInEdge(context))
+            break;
     }
     return true;
 }
