@@ -51,7 +51,7 @@ PROJECT_BRIEF          = "@CONF_PROJECT_DESCRIPTION@"
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = "@CONF_SOURCE_DIR@/doc/logo.png"
+PROJECT_LOGO           = "@CONF_SOURCE_DIR@/doxygen/logo.png"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
@@ -694,7 +694,7 @@ FILE_VERSION_FILTER    =
 # DoxygenLayout.xml, doxygen will parse it automatically even if the LAYOUT_FILE
 # tag is left empty.
 
-LAYOUT_FILE            = "@CONF_SOURCE_DIR@/doc/layout.xml"
+LAYOUT_FILE            = "@CONF_SOURCE_DIR@/doxygen/layout.xml"
 
 # The CITE_BIB_FILES tag can be used to specify one or more bib files containing
 # the reference definitions. This must be a list of .bib files. The .bib
@@ -1116,7 +1116,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            = "@CONF_SOURCE_DIR@/doc/header.html"
+HTML_HEADER            = "@CONF_SOURCE_DIR@/doxygen/header.html"
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank doxygen will generate a standard
@@ -1126,7 +1126,7 @@ HTML_HEADER            = "@CONF_SOURCE_DIR@/doc/header.html"
 # that doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_FOOTER            = "@CONF_SOURCE_DIR@/doc/footer.html"
+HTML_FOOTER            = "@CONF_SOURCE_DIR@/doxygen/footer.html"
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1138,7 +1138,7 @@ HTML_FOOTER            = "@CONF_SOURCE_DIR@/doc/footer.html"
 # obsolete.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_STYLESHEET        = "@CONF_SOURCE_DIR@/doc/stylesheet.css"
+HTML_STYLESHEET        = "@CONF_SOURCE_DIR@/doxygen/stylesheet.css"
 
 # The HTML_EXTRA_STYLESHEET tag can be used to specify additional user-defined
 # cascading style sheets that are included after the standard style sheets
