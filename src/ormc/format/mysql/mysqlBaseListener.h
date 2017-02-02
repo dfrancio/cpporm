@@ -229,15 +229,6 @@ public:
     {
     }
 
-    virtual void enterReference_column_list(
-        mysqlParser::Reference_column_listContext * /*ctx*/) override
-    {
-    }
-    virtual void exitReference_column_list(
-        mysqlParser::Reference_column_listContext * /*ctx*/) override
-    {
-    }
-
     virtual void enterLess_than_value_list(
         mysqlParser::Less_than_value_listContext * /*ctx*/) override
     {
@@ -321,13 +312,6 @@ public:
     {
     }
     virtual void exitIndex_column(mysqlParser::Index_columnContext * /*ctx*/) override
-    {
-    }
-
-    virtual void enterReference_column(mysqlParser::Reference_columnContext * /*ctx*/) override
-    {
-    }
-    virtual void exitReference_column(mysqlParser::Reference_columnContext * /*ctx*/) override
     {
     }
 

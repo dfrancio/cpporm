@@ -158,7 +158,7 @@ index_option:
     ;
 
 reference_definition:
-    REFERENCES table_name (reference_column_list)?
+    REFERENCES table_name (index_column_list)?
         (MATCH match_option)?
         (ON DELETE on_delete_option)?
         (ON UPDATE on_update_option)?
@@ -168,7 +168,6 @@ create_definition_list: LPAREN create_definition (COMMA create_definition)* RPAR
 table_option_list: table_option ((COMMA)? table_option)*;
 index_option_list: (index_option)*;
 index_column_list: LPAREN index_column (COMMA index_column)* RPAREN;
-reference_column_list: LPAREN reference_column (COMMA reference_column)* RPAREN;
 less_than_value_list: LPAREN literal (COMMA literal)* RPAREN;
 in_value_list: LPAREN literal (COMMA literal)* RPAREN;
 enum_value_list: LPAREN literal (COMMA literal)* RPAREN;
@@ -182,7 +181,6 @@ charset: (CHARACTER SET | CHARSET) (EQUAL)? charset_name;
 collation: COLLATE (EQUAL)? collation_name;
 index_structure: BTREE | HASH;
 index_column: column_name (LPAREN length RPAREN)? (ASC | DESC)?;
-reference_column: column_name (LPAREN length RPAREN)? (ASC | DESC)?;
 
 fsp: integer_literal;
 length: integer_literal;

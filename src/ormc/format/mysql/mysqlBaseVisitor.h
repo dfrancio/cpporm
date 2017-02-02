@@ -170,12 +170,6 @@ public:
         return visitChildren(ctx);
     }
 
-    virtual antlrcpp::Any visitReference_column_list(
-        mysqlParser::Reference_column_listContext *ctx) override
-    {
-        return visitChildren(ctx);
-    }
-
     virtual antlrcpp::Any visitLess_than_value_list(
         mysqlParser::Less_than_value_listContext *ctx) override
     {
@@ -234,11 +228,6 @@ public:
     }
 
     virtual antlrcpp::Any visitIndex_column(mysqlParser::Index_columnContext *ctx) override
-    {
-        return visitChildren(ctx);
-    }
-
-    virtual antlrcpp::Any visitReference_column(mysqlParser::Reference_columnContext *ctx) override
     {
         return visitChildren(ctx);
     }

@@ -140,7 +140,7 @@ public:
         {
             if (pair.first == "LENGTH")
             {
-                props += "(" + pair.second + ")" + props;
+                props = "(" + pair.second + ")" + props;
             }
             else if (pair.first != CPPORM_PROP_IDENTITY && pair.first != CPPORM_PROP_ON_UPDATE)
             {

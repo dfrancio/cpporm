@@ -107,9 +107,6 @@ public:
     virtual void enterIndex_column_list(mysqlParser::Index_column_listContext *ctx) = 0;
     virtual void exitIndex_column_list(mysqlParser::Index_column_listContext *ctx) = 0;
 
-    virtual void enterReference_column_list(mysqlParser::Reference_column_listContext *ctx) = 0;
-    virtual void exitReference_column_list(mysqlParser::Reference_column_listContext *ctx) = 0;
-
     virtual void enterLess_than_value_list(mysqlParser::Less_than_value_listContext *ctx) = 0;
     virtual void exitLess_than_value_list(mysqlParser::Less_than_value_listContext *ctx) = 0;
 
@@ -145,9 +142,6 @@ public:
 
     virtual void enterIndex_column(mysqlParser::Index_columnContext *ctx) = 0;
     virtual void exitIndex_column(mysqlParser::Index_columnContext *ctx) = 0;
-
-    virtual void enterReference_column(mysqlParser::Reference_columnContext *ctx) = 0;
-    virtual void exitReference_column(mysqlParser::Reference_columnContext *ctx) = 0;
 
     virtual void enterFsp(mysqlParser::FspContext *ctx) = 0;
     virtual void exitFsp(mysqlParser::FspContext *ctx) = 0;

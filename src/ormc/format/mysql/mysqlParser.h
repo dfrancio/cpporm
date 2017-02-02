@@ -695,106 +695,104 @@ public:
         RuleTable_option_list = 25,
         RuleIndex_option_list = 26,
         RuleIndex_column_list = 27,
-        RuleReference_column_list = 28,
-        RuleLess_than_value_list = 29,
-        RuleIn_value_list = 30,
-        RuleEnum_value_list = 31,
-        RuleKey_column_list = 32,
-        RuleRange_column_list = 33,
-        RuleList_column_list = 34,
-        RuleTable_union_list = 35,
-        RuleConstraint = 36,
-        RuleCharset = 37,
-        RuleCollation = 38,
-        RuleIndex_structure = 39,
-        RuleIndex_column = 40,
-        RuleReference_column = 41,
-        RuleFsp = 42,
-        RuleLength = 43,
-        RuleDecimals = 44,
-        RulePartition_count = 45,
-        RuleSubpartition_count = 46,
-        RuleAuto_increment = 47,
-        RuleAvg_row_length = 48,
-        RuleKey_block_size = 49,
-        RuleMax_number_of_rows = 50,
-        RuleMin_number_of_rows = 51,
-        RuleStats_sample_pages = 52,
-        RuleChecksum = 53,
-        RuleCompression = 54,
-        RuleDelay_key_write = 55,
-        RuleEncryption = 56,
-        RuleInsert_method = 57,
-        RulePack_keys = 58,
-        RuleRow_format = 59,
-        RuleStats_auto_recalc = 60,
-        RuleStats_persistent = 61,
-        RuleKey_algorithm = 62,
-        RuleMatch_option = 63,
-        RuleOn_delete_option = 64,
-        RuleOn_update_option = 65,
-        RuleColumn_format = 66,
-        RuleColumn_storage = 67,
-        RuleInteger_type = 68,
-        RuleReal_type = 69,
-        RuleText_type = 70,
-        RuleBlob_type = 71,
-        RuleSpatial_type = 72,
-        RuleEnum_type = 73,
-        RuleBinary_type = 74,
-        RuleChar_type = 75,
-        RuleDatetime_type = 76,
-        RuleOn_update_set = 77,
-        RuleDefault_value = 78,
-        RuleComment = 79,
-        RuleConnection = 80,
-        RulePassword = 81,
-        RuleData_directory = 82,
-        RuleIndex_directory = 83,
-        RuleAs_expression = 84,
-        RuleQuery_expression = 85,
-        RuleCheck_expression = 86,
-        RuleHash_expression = 87,
-        RuleRange_expression = 88,
-        RuleList_expression = 89,
-        RuleLess_than_expression = 90,
-        RuleExpression = 91,
-        RuleSymbol = 92,
-        RuleEngine_name = 93,
-        RuleOld_table_name = 94,
-        RuleColumn_name = 95,
-        RuleIndex_name = 96,
-        RuleTablespace_name = 97,
-        RuleTable_name = 98,
-        RuleDatabase_name = 99,
-        RuleParser_name = 100,
-        RuleCharset_name = 101,
-        RuleCollation_name = 102,
-        RulePartition_name = 103,
-        RuleLogical_name = 104,
-        RuleLiteral = 105,
-        RuleIdentifier = 106,
-        RuleBool_literal = 107,
-        RuleFloat_literal = 108,
-        RuleInteger_literal = 109,
-        RuleString_literal = 110,
-        RuleDatetime_literal = 111,
-        RuleAlter_table = 112,
-        RuleAlter_specification = 113,
-        RuleAlter_specification_list = 114,
-        RuleColumn_name_list = 115,
-        RulePartition_name_list = 116,
-        RuleColumn_definition_list = 117,
-        RuleTable_algorithm = 118,
-        RuleTable_lock = 119,
-        RuleFirst_after = 120,
-        RuleFk_symbol = 121,
-        RuleNew_table_name = 122,
-        RuleOld_column_name = 123,
-        RuleNew_column_name = 124,
-        RuleOld_index_name = 125,
-        RuleNew_index_name = 126,
-        RulePartition_number = 127
+        RuleLess_than_value_list = 28,
+        RuleIn_value_list = 29,
+        RuleEnum_value_list = 30,
+        RuleKey_column_list = 31,
+        RuleRange_column_list = 32,
+        RuleList_column_list = 33,
+        RuleTable_union_list = 34,
+        RuleConstraint = 35,
+        RuleCharset = 36,
+        RuleCollation = 37,
+        RuleIndex_structure = 38,
+        RuleIndex_column = 39,
+        RuleFsp = 40,
+        RuleLength = 41,
+        RuleDecimals = 42,
+        RulePartition_count = 43,
+        RuleSubpartition_count = 44,
+        RuleAuto_increment = 45,
+        RuleAvg_row_length = 46,
+        RuleKey_block_size = 47,
+        RuleMax_number_of_rows = 48,
+        RuleMin_number_of_rows = 49,
+        RuleStats_sample_pages = 50,
+        RuleChecksum = 51,
+        RuleCompression = 52,
+        RuleDelay_key_write = 53,
+        RuleEncryption = 54,
+        RuleInsert_method = 55,
+        RulePack_keys = 56,
+        RuleRow_format = 57,
+        RuleStats_auto_recalc = 58,
+        RuleStats_persistent = 59,
+        RuleKey_algorithm = 60,
+        RuleMatch_option = 61,
+        RuleOn_delete_option = 62,
+        RuleOn_update_option = 63,
+        RuleColumn_format = 64,
+        RuleColumn_storage = 65,
+        RuleInteger_type = 66,
+        RuleReal_type = 67,
+        RuleText_type = 68,
+        RuleBlob_type = 69,
+        RuleSpatial_type = 70,
+        RuleEnum_type = 71,
+        RuleBinary_type = 72,
+        RuleChar_type = 73,
+        RuleDatetime_type = 74,
+        RuleOn_update_set = 75,
+        RuleDefault_value = 76,
+        RuleComment = 77,
+        RuleConnection = 78,
+        RulePassword = 79,
+        RuleData_directory = 80,
+        RuleIndex_directory = 81,
+        RuleAs_expression = 82,
+        RuleQuery_expression = 83,
+        RuleCheck_expression = 84,
+        RuleHash_expression = 85,
+        RuleRange_expression = 86,
+        RuleList_expression = 87,
+        RuleLess_than_expression = 88,
+        RuleExpression = 89,
+        RuleSymbol = 90,
+        RuleEngine_name = 91,
+        RuleOld_table_name = 92,
+        RuleColumn_name = 93,
+        RuleIndex_name = 94,
+        RuleTablespace_name = 95,
+        RuleTable_name = 96,
+        RuleDatabase_name = 97,
+        RuleParser_name = 98,
+        RuleCharset_name = 99,
+        RuleCollation_name = 100,
+        RulePartition_name = 101,
+        RuleLogical_name = 102,
+        RuleLiteral = 103,
+        RuleIdentifier = 104,
+        RuleBool_literal = 105,
+        RuleFloat_literal = 106,
+        RuleInteger_literal = 107,
+        RuleString_literal = 108,
+        RuleDatetime_literal = 109,
+        RuleAlter_table = 110,
+        RuleAlter_specification = 111,
+        RuleAlter_specification_list = 112,
+        RuleColumn_name_list = 113,
+        RulePartition_name_list = 114,
+        RuleColumn_definition_list = 115,
+        RuleTable_algorithm = 116,
+        RuleTable_lock = 117,
+        RuleFirst_after = 118,
+        RuleFk_symbol = 119,
+        RuleNew_table_name = 120,
+        RuleOld_column_name = 121,
+        RuleNew_column_name = 122,
+        RuleOld_index_name = 123,
+        RuleNew_index_name = 124,
+        RulePartition_number = 125
     };
 
     mysqlParser(antlr4::TokenStream *input);
@@ -840,7 +838,6 @@ public:
     class Table_option_listContext;
     class Index_option_listContext;
     class Index_column_listContext;
-    class Reference_column_listContext;
     class Less_than_value_listContext;
     class In_value_listContext;
     class Enum_value_listContext;
@@ -853,7 +850,6 @@ public:
     class CollationContext;
     class Index_structureContext;
     class Index_columnContext;
-    class Reference_columnContext;
     class FspContext;
     class LengthContext;
     class DecimalsContext;
@@ -1531,7 +1527,7 @@ public:
         virtual size_t getRuleIndex() const override;
         antlr4::tree::TerminalNode *REFERENCES();
         Table_nameContext *table_name();
-        Reference_column_listContext *reference_column_list();
+        Index_column_listContext *index_column_list();
         antlr4::tree::TerminalNode *MATCH();
         Match_optionContext *match_option();
         std::vector<antlr4::tree::TerminalNode *> ON();
@@ -1622,26 +1618,6 @@ public:
     };
 
     Index_column_listContext *index_column_list();
-
-    class Reference_column_listContext : public antlr4::ParserRuleContext
-    {
-    public:
-        Reference_column_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-        virtual size_t getRuleIndex() const override;
-        antlr4::tree::TerminalNode *LPAREN();
-        std::vector<Reference_columnContext *> reference_column();
-        Reference_columnContext *reference_column(size_t i);
-        antlr4::tree::TerminalNode *RPAREN();
-        std::vector<antlr4::tree::TerminalNode *> COMMA();
-        antlr4::tree::TerminalNode *COMMA(size_t i);
-
-        virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-        virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-        virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-    };
-
-    Reference_column_listContext *reference_column_list();
 
     class Less_than_value_listContext : public antlr4::ParserRuleContext
     {
@@ -1870,26 +1846,6 @@ public:
     };
 
     Index_columnContext *index_column();
-
-    class Reference_columnContext : public antlr4::ParserRuleContext
-    {
-    public:
-        Reference_columnContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-        virtual size_t getRuleIndex() const override;
-        Column_nameContext *column_name();
-        antlr4::tree::TerminalNode *LPAREN();
-        LengthContext *length();
-        antlr4::tree::TerminalNode *RPAREN();
-        antlr4::tree::TerminalNode *ASC();
-        antlr4::tree::TerminalNode *DESC();
-
-        virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-        virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-        virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-    };
-
-    Reference_columnContext *reference_column();
 
     class FspContext : public antlr4::ParserRuleContext
     {
