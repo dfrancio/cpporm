@@ -671,7 +671,6 @@ public:
     virtual std::string getGrammarFileName() const override;
     virtual const std::vector<std::string> &getRuleNames() const override;
 
-    virtual const std::vector<std::string> &getChannelNames() const override;
     virtual const std::vector<std::string> &getModeNames() const override;
     virtual const std::vector<std::string> &getTokenNames()
         const override; // deprecated, use vocabulary instead
@@ -686,7 +685,6 @@ private:
     static std::vector<std::string> _ruleNames;
     static std::vector<std::string> _tokenNames;
     static std::vector<std::string> _modeNames;
-    static std::vector<std::string> _channelNames;
 
     static std::vector<std::string> _literalNames;
     static std::vector<std::string> _symbolicNames;

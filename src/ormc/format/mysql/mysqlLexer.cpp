@@ -27,11 +27,6 @@ const std::vector<std::string> &mysqlLexer::getRuleNames() const
     return _ruleNames;
 }
 
-const std::vector<std::string> &mysqlLexer::getChannelNames() const
-{
-    return _channelNames;
-}
-
 const std::vector<std::string> &mysqlLexer::getModeNames() const
 {
     return _modeNames;
@@ -1434,7 +1429,6 @@ std::vector<std::string> mysqlLexer::_symbolicNames = {"",
 dfa::Vocabulary mysqlLexer::_vocabulary(_literalNames, _symbolicNames);
 
 std::vector<std::string> mysqlLexer::_tokenNames;
-std::vector<std::string> mysqlLexer::_channelNames;
 
 mysqlLexer::Initializer::Initializer()
 {
