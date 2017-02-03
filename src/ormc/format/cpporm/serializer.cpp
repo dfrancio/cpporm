@@ -22,6 +22,10 @@ static const auto cOutputStreamFlags = std::ios_base::binary | std::fstream::out
 static const auto cAppendStreamFlags = std::ios_base::ate | std::fstream::in;
 CPPORM_REGISTER(SerializerFactory, cpporm::Serializer, cpporm, "cpporm");
 DEFINE_string(version_fields, "", "comma-separated list of names of version fields");
+DEFINE_string(guid_tables, "", "comma-separated list of names of GUID-enabled tables");
+DEFINE_string(
+    guid_fields, "",
+    "comma-separated list of names of columns used for detection of GUID-enabled tables");
 
 namespace cpporm
 {
@@ -156,6 +160,9 @@ public:
         : GraphVisitor(listGraph)
     {
         mStream.open(dir + "/" + name + ".h", cOutputStreamFlags | cAppendStreamFlags);
+        boost::tokenizer<boost::char_separator<char>> tokenizer(
+            FLAGS_version_fields, boost::char_separator<char>(","));
+        mVersionFields.insert(tokenizer.begin(), tokenizer.end());
     }
 
     /*!
@@ -256,15 +263,8 @@ private:
         if (mVersionFieldsWritten)
             return;
 
-        std::set<std::string> fieldNames;
         for (const auto &field : node.fields)
-            fieldNames.insert(field.name);
-
-        boost::tokenizer<boost::char_separator<char>> tokenizer(
-            FLAGS_version_fields, boost::char_separator<char>(","));
-
-        for (auto &token : tokenizer)
-            if (fieldNames.find(token) != fieldNames.end())
+            if (mVersionFields.find(field.name) != mVersionFields.end())
             {
                 mStream << boost::format(cDeclareIndex) % CPPORM_INDEX_VERSION;
                 break;
@@ -309,8 +309,9 @@ private:
     std::ofstream mStream;
 
     /*
-     * Internal flags
+     * Internal variables
      */
+    std::set<std::string> mVersionFields;
     bool mVersionFieldsWritten;
 };
 /*!
@@ -418,6 +419,21 @@ public:
         : GraphVisitor(listGraph), mDirectory(dir), mName(name)
     {
         mStream.open(dir + "/" + name + ".cpp", cOutputStreamFlags | cAppendStreamFlags);
+        {
+            boost::tokenizer<boost::char_separator<char>> tokenizer(
+                FLAGS_version_fields, boost::char_separator<char>(","));
+            mVersionFields.insert(tokenizer.begin(), tokenizer.end());
+        }
+        {
+            boost::tokenizer<boost::char_separator<char>> tokenizer(
+                FLAGS_guid_tables, boost::char_separator<char>(","));
+            mGuidTables.insert(tokenizer.begin(), tokenizer.end());
+        }
+        {
+            boost::tokenizer<boost::char_separator<char>> tokenizer(
+                FLAGS_guid_fields, boost::char_separator<char>(","));
+            mGuidFields.insert(tokenizer.begin(), tokenizer.end());
+        }
     }
 
     /*!
@@ -430,6 +446,9 @@ public:
         std::ostringstream propertiesStream;
         for (auto &pair : context.node.properties)
             propertiesStream << boost::format(cMapProperty) % pair.first % pair.second;
+
+        if (UseGuid(context.node))
+            propertiesStream << boost::format(cMapProperty) % CPPORM_PROP_USE_GUID % "";
 
         mAttributeStream.str(std::string());
         mIndexStream.str(std::string());
@@ -604,17 +623,13 @@ private:
         if (mVersionFieldsWritten)
             return;
 
-        std::set<std::string> fieldNames;
-        for (const auto &field : node.fields)
-            fieldNames.insert(field.name);
-
-        boost::tokenizer<boost::char_separator<char>> tokenizer(
-            FLAGS_version_fields, boost::char_separator<char>(","));
-
         std::ostringstream attributeStream;
-        for (auto &token : tokenizer)
-            if (fieldNames.find(token) != fieldNames.end())
-                attributeStream << boost::format(cMapAttribute) % node.name % token;
+        for (const auto &field : node.fields)
+            if (mVersionFields.find(field.name) != mVersionFields.end())
+            {
+                attributeStream << boost::format(cMapAttribute) % node.name % field.name;
+                break;
+            }
 
         auto attributes = attributeStream.str();
         if (!attributes.empty())
@@ -626,6 +641,23 @@ private:
         }
 
         mVersionFieldsWritten = true;
+    }
+
+    /*!
+     * \brief Check use GUID
+     * \param[in] node The current node
+     * \return True if GUID support for this table should be enabled; false otherwise
+     */
+    bool UseGuid(const Node &node)
+    {
+        if (mGuidTables.find(node.name) != mGuidTables.end())
+            return true;
+
+        for (auto &field : node.fields)
+            if (mGuidFields.find(field.name) != mGuidFields.end())
+                return true;
+
+        return false;
     }
 
     /*!
@@ -714,6 +746,9 @@ private:
     std::ostringstream mAttributeStream;
     std::ostringstream mIndexStream;
     std::ostringstream mRelationshipStream;
+    std::set<std::string> mVersionFields;
+    std::set<std::string> mGuidTables;
+    std::set<std::string> mGuidFields;
     bool mVersionFieldsWritten;
 };
 
