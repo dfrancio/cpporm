@@ -326,24 +326,8 @@ public:
                 mNodesVisited = true;
             }
 
-            for (const auto &index : context.node.indices)
-            {
-                if (index.type == "PRIMARY_KEY")
-                {
-                    for (const auto &name : index.fieldNames)
-                    {
-                        if (!whereClause.empty())
-                            whereClause += " AND ";
-                        whereClause += "[" + name + "]=[OLD].[" + name + "]";
-                    }
-                }
-            }
-            if (whereClause.empty())
-                throw cpporm::Error(
-                    "entity has version field but does not have primary key", context.node.name);
-
             mStream << boost::format(cTrigger) % context.node.name % context.node.name % whenClause
-                    % context.node.name % setClause % whereClause;
+                    % context.node.name % setClause;
         }
 
         return true;
@@ -510,7 +494,7 @@ const std::string CreateTableWriter::cForeignKey = "    FOREIGN KEY (%s) REFEREN
  */
 const std::string CreateTriggerWriter::cTrigger
     = "CREATE TRIGGER IF NOT EXISTS [%s.UpdateVersionFields] AFTER UPDATE ON [%s] FOR EACH ROW "
-      "WHEN %s BEGIN UPDATE [%s] SET %s WHERE %s; END;\n";
+      "WHEN %s BEGIN UPDATE [%s] SET %s WHERE [rowid]=[OLD].[rowid]; END;\n";
 
 /*!
  * \details

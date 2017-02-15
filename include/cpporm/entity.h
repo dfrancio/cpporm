@@ -97,6 +97,13 @@ public:
     Attribute &operator[](const std::string &name);
 
     /*!
+     * \brief operator[]
+     * \param[in] name The attribute name
+     * \return The attribute
+     */
+    const Attribute &operator[](const std::string &name) const;
+
+    /*!
      * \brief Get relationship
      * \param[in] name The relationship name
      * \return The relationship

@@ -55,6 +55,14 @@ Attribute &Entity::operator[](const std::string &name)
 /*!
  * \details
  */
+const Attribute &Entity::operator[](const std::string &name) const
+{
+    return GetAttributes().Get(name)(const_cast<Entity &>(*this));
+}
+
+/*!
+ * \details
+ */
 Relationship &Entity::GetRelationship(const std::string &name)
 {
     return GetRelationships().Get(name)(*this);
