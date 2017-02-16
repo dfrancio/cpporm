@@ -83,9 +83,12 @@ Entity::TraverseResult Entity::TraverseRelationships(
     {
         if (auto *relationship = dynamic_cast<ToOneRelationship *>(&pair.second(*this)))
         {
-            result = relationship->Get<Entity>()->TraverseRelationships(function);
-            if (result == TraverseResult::halt)
-                return result;
+            if (*relationship)
+            {
+                result = relationship->Get<Entity>()->TraverseRelationships(function);
+                if (result == TraverseResult::halt)
+                    return result;
+            }
         }
     }
     return TraverseResult::ok;
