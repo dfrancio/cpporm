@@ -35,13 +35,16 @@ macro(get_parameter_default _out _in _def)
     endif()
 endmacro(get_parameter_default)
 
-macro(exclude_from_listing _sources _exclude_prefixes)
+macro(exclude_from_listing _sources _exclude_prefixes _exclude_sources)
     foreach(exclude ${${_exclude_prefixes}})
         foreach(source ${${_sources}})
             if(source MATCHES "^.[/\\]${exclude}(.*)$" OR source MATCHES "^${exclude}/(.*)$")
                 list(REMOVE_ITEM ${_sources} ${source})
             endif()
         endforeach()
+    endforeach()
+    foreach(exclude ${${_exclude_sources}})
+        list(REMOVE_ITEM ${_sources} ${exclude})
     endforeach()
 endmacro(exclude_from_listing)
 
@@ -558,6 +561,7 @@ endfunction(init_project)
 #                  [BUILD_OUTPUT <path>]
 #                  [INSTALL_DIR <path>]
 #                  [EXTRA_SOURCES <path>...]
+#                  [EXCLUDE_SOURCES <path>...]
 #                  [SOURCE_PREFIXES <path>...]
 #                  [EXCLUDE_PREFIXES <path>...])
 #
@@ -566,7 +570,7 @@ function(setup_database)
 
     set(options)
     set(oneValueArgs NAME BUILD_OUTPUT INSTALL_DIR)
-    set(multiValueArgs EXTRA_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
+    set(multiValueArgs EXTRA_SOURCES EXCLUDE_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -578,7 +582,7 @@ function(setup_database)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_DB_SOURCES ${SOURCES})
     endforeach()
-    exclude_from_listing(${ARG_NAME}_DB_SOURCES ARG_EXCLUDE_PREFIXES)
+    exclude_from_listing(${ARG_NAME}_DB_SOURCES ARG_EXCLUDE_PREFIXES ARG_EXCLUDE_SOURCES)
     list(APPEND ${ARG_NAME}_DB_SOURCES ${ARG_EXTRA_SOURCES})
 
     find_program(CAT_EXECUTABLE cat)
@@ -610,6 +614,7 @@ endfunction(setup_database)
 #                [BUILD_OUTPUT <path>]
 #                [INSTALL_DIR <path>]
 #                [EXTRA_SOURCES <path>...]
+#                [EXCLUDE_SOURCES <path>...]
 #                [SOURCE_PREFIXES <path>...]
 #                [EXCLUDE_PREFIXES <path>...])
 #
@@ -618,7 +623,7 @@ function(setup_locale)
 
     set(options)
     set(oneValueArgs NAME DOMAIN BUILD_OUTPUT INSTALL_DIR)
-    set(multiValueArgs EXTRA_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
+    set(multiValueArgs EXTRA_SOURCES EXCLUDE_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -631,7 +636,7 @@ function(setup_locale)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_LOCALE_SOURCES ${SOURCES})
     endforeach()
-    exclude_from_listing(${ARG_NAME}_LOCALE_SOURCES ARG_EXCLUDE_PREFIXES)
+    exclude_from_listing(${ARG_NAME}_LOCALE_SOURCES ARG_EXCLUDE_PREFIXES ARG_EXCLUDE_SOURCES)
     list(APPEND ${ARG_NAME}_LOCALE_SOURCES ${ARG_EXTRA_SOURCES})
 
     find_program(MSGCAT_EXECUTABLE msgcat)
@@ -768,6 +773,7 @@ endfunction(setup_installation)
 #   setup_target(NAME <target>
 #                [INCLUDE_DIRS <path>...]
 #                [EXTRA_SOURCES <path>...]
+#                [EXCLUDE_SOURCES <path>...]
 #                [SOURCE_PREFIXES <path>...]
 #                [EXCLUDE_PREFIXES <path>...]
 #                [EXPORT_FILE_NAME <path>]
@@ -792,8 +798,8 @@ macro(setup_target_listings)
                 list(APPEND TARGET_PUBLIC_HEADERS ${PUBLIC_HEADERS})
             endif()
         endforeach()
-        exclude_from_listing(TARGET_SOURCES TARGET_EXCLUDE_PREFIXES)
-        exclude_from_listing(TARGET_PUBLIC_HEADERS TARGET_EXCLUDE_PREFIXES)
+        exclude_from_listing(TARGET_SOURCES TARGET_EXCLUDE_PREFIXES TARGET_EXCLUDE_SOURCES)
+        exclude_from_listing(TARGET_PUBLIC_HEADERS TARGET_EXCLUDE_PREFIXES TARGET_EXCLUDE_SOURCES)
     else()
         set(TARGET_SOURCES ${${TARGET_NAME}_SOURCES})
     endif()
@@ -1049,12 +1055,13 @@ function(setup_target)
     set(options IS_LIBRARY IS_TEST HEADER_ONLY TEST_NO_SHARED)
     set(oneValueArgs NAME EXPORT_FILE_NAME)
     set(multiValueArgs
+        EXTRA_SOURCES
+        EXCLUDE_SOURCES
         SOURCE_PREFIXES
         EXCLUDE_PREFIXES
         OPTIONS
         DEFINITIONS
         INCLUDE_DIRS
-        EXTRA_SOURCES
         DEPENDENCIES)
 
     cmake_parse_arguments(TARGET "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -1075,6 +1082,7 @@ endfunction(setup_target)
 #               [DATA_DIR <path>]
 #               [INCLUDE_DIRS <path>...]
 #               [EXTRA_SOURCES <path>...]
+#               [EXCLUDE_SOURCES <path>...]
 #               [SOURCE_PREFIXES <path>...]
 #               [EXCLUDE_PREFIXES <path>...]
 #               [OPTIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
@@ -1091,7 +1099,7 @@ macro(setup_tests_listings)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_TEST_SOURCES ${SOURCES})
     endforeach()
-    exclude_from_listing(${ARG_NAME}_TEST_SOURCES ARG_EXCLUDE_PREFIXES)
+    exclude_from_listing(${ARG_NAME}_TEST_SOURCES ARG_EXCLUDE_PREFIXES ARG_EXCLUDE_SOURCES)
     list(APPEND ${ARG_NAME}_TEST_SOURCES ${ARG_EXTRA_SOURCES})
 
     foreach(source ${${ARG_NAME}_TEST_SOURCES})
@@ -1155,6 +1163,8 @@ macro(setup_tests_targets)
                 ${ARG_INCLUDE_DIRS}
             EXTRA_SOURCES
                 ${ARG_EXTRA_SOURCES}
+            EXCLUDE_SOURCES
+                ${ARG_EXCLUDE_SOURCES}
             OPTIONS
                 PUBLIC ${ARG_OPTIONS_PUBLIC}
                 PRIVATE ${ARG_OPTIONS_PRIVATE}
@@ -1176,12 +1186,13 @@ function(setup_tests)
     set(options)
     set(oneValueArgs NAME INPUT_DATA_DIR OUTPUT_DATA_DIR)
     set(multiValueArgs
+        EXTRA_SOURCES
+        EXCLUDE_SOURCES
         SOURCE_PREFIXES
         EXCLUDE_PREFIXES
         OPTIONS
         DEFINITIONS
         INCLUDE_DIRS
-        EXTRA_SOURCES
         DEPENDENCIES)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
