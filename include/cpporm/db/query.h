@@ -82,9 +82,11 @@ public:
 
     /*!
      * \brief Begin sub-query
+     * \param[in] column The column name
+     * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &SubQueryBegin();
+    Query &SubQueryBegin(const std::string &column = "", const std::string &table = "");
 
     /*!
      * \brief End sub-query
@@ -326,7 +328,15 @@ public:
      * \param[in] table The table name
      * \return A reference to *this
      */
-    Query &Where(const std::string &column, const std::string &table = "");
+    Query &Where(const std::string &column = "", const std::string &table = "");
+
+    /*!
+     * \brief Add column
+     * \param[in] column The column name
+     * \param[in] table The table name
+     * \return A reference to *this
+     */
+    Query &Column(const std::string &column, const std::string &table = "");
 
     /*!
      * \brief Add average function
@@ -574,6 +584,13 @@ public:
     Query &Intersect();
 
     /*!
+     * \brief Add individual column to a match clause
+     * \param[in] column The column name
+     * \return A reference to *this
+     */
+    Query &IncrementalMatch(const std::string &column);
+
+    /*!
      * \brief Add date and time of now
      * \return A reference to *this
      */
@@ -634,6 +651,17 @@ public:
     virtual Query &RollbackToSavePoint(const std::string &name);
 
     /*!
+     * \brief Finish the match clause in incremental mode
+     * \param[in] pattern The search pattern
+     * \param[in] table The table name (optional)
+     * \param[in] option The match option (optional)
+     * \return A reference to *this
+     */
+    virtual Query &EndIncrementalMatch(
+        const std::string &pattern = CPPORM_PLACEHOLDER_MARK, const std::string &table = "",
+        const std::string &option = "");
+
+    /*!
      * \brief Get binding index
      * \return A reference to *this
      */
@@ -681,16 +709,21 @@ protected:
      */
     std::string mState;
 
+    /*!
+     * \brief The columns
+     */
+    std::vector<std::string> mColumns;
+
+    /*!
+     * \brief The current binding index
+     */
+    short mBindingIndex;
+
 private:
     /*!
      * \brief The product
      */
     std::string mProduct;
-
-    /*!
-     * \brief The columns
-     */
-    std::vector<std::string> mColumns;
 
     /*!
      * \brief The values
@@ -706,11 +739,6 @@ private:
      * \brief The column definitions
      */
     std::vector<std::string> mColumnDefs;
-
-    /*!
-     * \brief The current binding index
-     */
-    short mBindingIndex = -1;
 };
 
 /*!
@@ -728,7 +756,7 @@ public:
      * \param[in] temp A flag to indicate whether table should be dropped only if it exists
      * \return A reference to *this
      */
-    Query &DropTable(const std::string &name, bool temp = false, bool ifExists = false) override;
+    Query &DropTable(const std::string &name, bool temp, bool ifExists) override;
 
     /*!
      * \brief Add date and time of now
@@ -768,6 +796,16 @@ public:
      * \return A reference to *this
      */
     Query &ResetSequence(const std::string &table) override;
+
+    /*!
+     * \brief Finish the match clause in incremental mode
+     * \param[in] pattern The search pattern
+     * \param[in] table The table name (optional)
+     * \param[in] option The match option (optional)
+     * \return A reference to *this
+     */
+    Query &EndIncrementalMatch(
+        const std::string &pattern, const std::string &table, const std::string &option) override;
 
 protected:
     /*!
@@ -856,6 +894,16 @@ public:
      * \return A reference to *this
      */
     Query &RollbackToSavePoint(const std::string &name) override;
+
+    /*!
+     * \brief Finish the match clause in incremental mode
+     * \param[in] pattern The search pattern
+     * \param[in] table The table name (optional)
+     * \param[in] option The match option (optional)
+     * \return A reference to *this
+     */
+    Query &EndIncrementalMatch(
+        const std::string &pattern, const std::string &table, const std::string &option) override;
 };
 
 /*!
@@ -904,6 +952,16 @@ public:
      * \return A reference to *this
      */
     Query &ResetSequence(const std::string &table) override;
+
+    /*!
+     * \brief Finish the match clause in incremental mode
+     * \param[in] pattern The search pattern
+     * \param[in] table The table name (optional)
+     * \param[in] option The match option (optional)
+     * \return A reference to *this
+     */
+    Query &EndIncrementalMatch(
+        const std::string &pattern, const std::string &table, const std::string &option) override;
 };
 
 /*!
@@ -952,6 +1010,16 @@ public:
      * \return A reference to *this
      */
     Query &ResetSequence(const std::string &table) override;
+
+    /*!
+     * \brief Finish the match clause in incremental mode
+     * \param[in] pattern The search pattern
+     * \param[in] table The table name (optional)
+     * \param[in] option The match option (optional)
+     * \return A reference to *this
+     */
+    Query &EndIncrementalMatch(
+        const std::string &pattern, const std::string &table, const std::string &option) override;
 };
 
 CPPORM_END_SUB_NAMESPACE

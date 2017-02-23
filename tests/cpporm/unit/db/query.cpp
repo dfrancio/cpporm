@@ -153,11 +153,11 @@ TEST(CppOrm_Unit_Db_Query, TestSet11)
     query.Null();
     ASSERT_EQ(query.GetAndReset(), " NULL;");
     query.And();
-    ASSERT_EQ(query.GetAndReset(), " AND ;");
+    ASSERT_EQ(query.GetAndReset(), " AND;");
     query.And("col");
     ASSERT_EQ(query.GetAndReset(), " AND col;");
     query.Or();
-    ASSERT_EQ(query.GetAndReset(), " OR ;");
+    ASSERT_EQ(query.GetAndReset(), " OR;");
     query.Or("col");
     ASSERT_EQ(query.GetAndReset(), " OR col;");
     query.Not();
@@ -521,6 +521,8 @@ TEST(CppOrm_Unit_Db_Query, TestSet34)
 
 TEST(CppOrm_Unit_Db_Query, TestSet35)
 {
+    const std::string cSqlQuery
+        = " (col INT(12,5) DEFAULT 10 PRIMARY KEY UNIQUE NOT NULL AUTO_INCREMENT);";
     Query query;
     query.IncrementalColumn("col", "TEXT", 0, 0, "", false, false, false, false);
     ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col TEXT);");
@@ -537,9 +539,7 @@ TEST(CppOrm_Unit_Db_Query, TestSet35)
     query.IncrementalColumn("col", "INT", 0, 0, "", false, false, false, true);
     ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), " (col INT AUTO_INCREMENT);");
     query.IncrementalColumn("col", "INT", 12, 5, "10", true, true, true, true);
-    ASSERT_EQ(
-        query.EndIncrementalColumn().GetAndReset(),
-        " (col INT(12,5) DEFAULT 10 PRIMARY KEY UNIQUE NOT NULL AUTO_INCREMENT);");
+    ASSERT_EQ(query.EndIncrementalColumn().GetAndReset(), cSqlQuery);
 }
 
 TEST(CppOrm_Unit_Db_Query, TestSet36)
@@ -568,6 +568,13 @@ TEST(CppOrm_Unit_Db_Query, TestSet37)
 
 TEST(CppOrm_Unit_Db_Query, TestSet38)
 {
+    const std::string cSqlQuery = "CREATE TABLE Temp ("
+                                  "id INTEGER NOT NULL AUTO_INCREMENT,"
+                                  "name TEXT UNIQUE,"
+                                  "age INT(3) NOT NULL,"
+                                  "updated DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                                  "PRIMARY KEY (id),"
+                                  "UNIQUE (age,updated));";
     Query query;
     query.CreateTable("Temp");
     query.IncrementalColumn("id", "INTEGER", 0, 0, "", false, false, true, true);
@@ -581,14 +588,7 @@ TEST(CppOrm_Unit_Db_Query, TestSet38)
     query.IncrementalIndex("updated");
     query.EndIncrementalIndex("UNIQUE");
     query.EndIncrementalColumn();
-    ASSERT_EQ(
-        query.GetAndReset(), "CREATE TABLE Temp ("
-                             "id INTEGER NOT NULL AUTO_INCREMENT,"
-                             "name TEXT UNIQUE,"
-                             "age INT(3) NOT NULL,"
-                             "updated DATETIME DEFAULT CURRENT_TIMESTAMP,"
-                             "PRIMARY KEY (id),"
-                             "UNIQUE (age,updated));");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery);
 }
 
 TEST(CppOrm_Unit_Db_Query, TestSet39)
@@ -603,4 +603,98 @@ TEST(CppOrm_Unit_Db_Query, TestSet39)
         .Where("col")
         .Like("\"*a\"");
     ASSERT_EQ(query.GetAndReset(), cSqlQuery);
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet40)
+{
+    const std::string cSqlQuery = "SELECT FROM table WHERE;";
+    Query query;
+    query.Select().From("table").Where().EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery);
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet41)
+{
+    const std::string cSqlQuery1 = "SELECT FROM table WHERE table MATCH pattern;";
+    const std::string cSqlQuery2 = "SELECT FROM table WHERE table MATCH {c1} : pattern;";
+    const std::string cSqlQuery3 = "SELECT FROM table WHERE table MATCH {c1 c2} : pattern;";
+    SqliteQuery query;
+    query.Select().From("table").Where().EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery1);
+    query.Select().From("table").Where().IncrementalMatch("c1").EndIncrementalMatch(
+        "pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery2);
+    query.Select()
+        .From("table")
+        .Where()
+        .IncrementalMatch("c1")
+        .IncrementalMatch("c2")
+        .EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery3);
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet42)
+{
+    const std::string cSqlQuery1 = "SELECT FROM table WHERE FREETEXT(*, pattern, option);";
+    const std::string cSqlQuery2 = "SELECT FROM table WHERE FREETEXT(table.c1, pattern, option);";
+    const std::string cSqlQuery3
+        = "SELECT FROM table WHERE FREETEXT((table.c1,table.c2), pattern, option);";
+    SqlServerQuery query;
+    query.Select().From("table").Where().EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery1);
+    query.Select().From("table").Where().IncrementalMatch("c1").EndIncrementalMatch(
+        "pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery2);
+    query.Select()
+        .From("table")
+        .Where()
+        .IncrementalMatch("c1")
+        .IncrementalMatch("c2")
+        .EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery3);
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet43)
+{
+    const std::string cSqlQuery1 = "SELECT FROM table WHERE MATCH (*) AGAINST (pattern option);";
+    const std::string cSqlQuery2
+        = "SELECT FROM table WHERE MATCH (table.c1) AGAINST (pattern option);";
+    const std::string cSqlQuery3
+        = "SELECT FROM table WHERE MATCH (table.c1,table.c2) AGAINST (pattern option);";
+    MySqlQuery query;
+    query.Select().From("table").Where().EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery1);
+    query.Select().From("table").Where().IncrementalMatch("c1").EndIncrementalMatch(
+        "pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery2);
+    query.Select()
+        .From("table")
+        .Where()
+        .IncrementalMatch("c1")
+        .IncrementalMatch("c2")
+        .EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery3);
+}
+
+TEST(CppOrm_Unit_Db_Query, TestSet44)
+{
+    const std::string cSqlQuery1
+        = "SELECT FROM table WHERE to_tsvector(option, *) @@ to_tsquery(option, pattern);";
+    const std::string cSqlQuery2
+        = "SELECT FROM table WHERE to_tsvector(option, table.c1) @@ to_tsquery(option, pattern);";
+    const std::string cSqlQuery3 = "SELECT FROM table WHERE to_tsvector(option, table.c1 || ' ' || "
+                                   "table.c2) @@ to_tsquery(option, pattern);";
+    PostgreSqlQuery query;
+    query.Select().From("table").Where().EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery1);
+    query.Select().From("table").Where().IncrementalMatch("c1").EndIncrementalMatch(
+        "pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery2);
+    query.Select()
+        .From("table")
+        .Where()
+        .IncrementalMatch("c1")
+        .IncrementalMatch("c2")
+        .EndIncrementalMatch("pattern", "table", "option");
+    ASSERT_EQ(query.GetAndReset(), cSqlQuery3);
 }

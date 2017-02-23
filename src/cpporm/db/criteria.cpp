@@ -47,6 +47,24 @@ Criteria &Criteria::AddCondition(
 /*
  * \details
  */
+Criteria &Criteria::OpenScope(LogicalConnective value)
+{
+    mScopeOpenings.emplace(mConditions.size(), value);
+    return *this;
+}
+
+/*
+ * \details
+ */
+Criteria &Criteria::CloseScope()
+{
+    mScopeEndings.emplace(mConditions.size());
+    return *this;
+}
+
+/*
+ * \details
+ */
 Criteria &Criteria::AddOrderBy(const std::string &table, const std::string &name, SortOrder order)
 {
     mOrderBys.emplace_back(table, name, order);
@@ -94,26 +112,9 @@ Criteria &Criteria::SetCachedOnly(bool value)
  */
 void Criteria::Compose(Query &query) const
 {
-    for (auto &spec : mJoins)
-    {
-        query.Join(std::get<1>(spec), std::get<0>(spec));
-        if (!std::get<2>(spec).empty())
-        {
-            query.On(std::get<2>(spec), std::get<1>(spec))
-                .Equals(std::get<4>(spec), std::get<3>(spec));
-        }
-    }
-    if (!mConditions.empty())
-    {
-        auto it = mConditions.begin();
-        query.Where(std::get<1>(*it), std::get<0>(*it)).AddContition(std::get<2>(*it));
-        for (++it; it != mConditions.end(); ++it)
-            query.And(std::get<1>(*it), std::get<0>(*it)).AddContition(std::get<2>(*it));
-    }
-    for (auto &spec : mOrderBys)
-        query.OrderBy(std::get<1>(spec), std::get<0>(spec), std::get<2>(spec));
-    if (mLimitCount > 0)
-        query.Limit(mLimitCount, mLimitOffset);
+    ProcessJoins(query);
+    ProcessConditions(query);
+    ProcessOrderByAndLimit(query);
 }
 
 /*
@@ -133,6 +134,8 @@ void Criteria::Bind(Statement &statement) const
 Criteria &Criteria::Reset()
 {
     mConditions.clear();
+    mScopeOpenings.clear();
+    mScopeEndings.clear();
     mJoins.clear();
     mOrderBys.clear();
     return *this;
@@ -144,6 +147,98 @@ Criteria &Criteria::Reset()
 bool Criteria::GetCachedOnly() const
 {
     return mCachedOnly;
+}
+
+/*
+ * \details
+ */
+void Criteria::ProcessJoins(Query &query) const
+{
+    for (auto &spec : mJoins)
+    {
+        query.Join(std::get<1>(spec), std::get<0>(spec));
+        if (!std::get<2>(spec).empty())
+        {
+            query.On(std::get<2>(spec), std::get<1>(spec))
+                .Equals(std::get<4>(spec), std::get<3>(spec));
+        }
+    }
+}
+
+/*
+ * \details
+ */
+void Criteria::ProcessConditions(Query &query) const
+{
+    assert(mScopeOpenings.size() == mScopeEndings.size());
+    if (mConditions.empty())
+        return;
+
+    std::size_t i = 0;
+    std::stack<LogicalConnective> connectives;
+    query.Where();
+    ProcessScopeOpenings(query, connectives, i);
+
+    auto &spec = mConditions[i];
+    query.Column(std::get<1>(spec), std::get<0>(spec)).AddContition(std::get<2>(spec));
+
+    for (++i; i < mConditions.size(); ++i)
+    {
+        ProcessScopeEndings(query, connectives, i);
+        switch (connectives.empty() ? LogicalConnective::conjunction : connectives.top())
+        {
+        case LogicalConnective::conjunction:
+            query.And();
+            break;
+        case LogicalConnective::disjunction:
+            query.Or();
+            break;
+        }
+        auto &spec = mConditions[i];
+        ProcessScopeOpenings(query, connectives, i);
+        query.Column(std::get<1>(spec), std::get<0>(spec)).AddContition(std::get<2>(spec));
+    }
+    ProcessScopeEndings(query, connectives, i);
+}
+
+/*
+ * \details
+ */
+void Criteria::ProcessOrderByAndLimit(Query &query) const
+{
+    for (auto &spec : mOrderBys)
+        query.OrderBy(std::get<1>(spec), std::get<0>(spec), std::get<2>(spec));
+    if (mLimitCount > 0)
+        query.Limit(mLimitCount, mLimitOffset);
+}
+
+/*
+ * \details
+ */
+void Criteria::ProcessScopeOpenings(
+    Query &query, std::stack<LogicalConnective> &connectives, std::size_t i) const
+{
+    auto end = mScopeOpenings.upper_bound(i);
+    for (auto it = mScopeOpenings.lower_bound(i); it != end; ++it)
+    {
+        query.SubQueryBegin();
+        connectives.push(it->second);
+    }
+}
+
+/*
+ * \details
+ */
+void Criteria::ProcessScopeEndings(
+    Query &query, std::stack<LogicalConnective> &connectives, std::size_t i) const
+{
+    auto end = mScopeEndings.upper_bound(i);
+    for (auto it = mScopeEndings.lower_bound(i); it != end; ++it)
+    {
+        query.SubQueryEnd();
+        assert(!connectives.empty());
+        connectives.pop();
+    }
 }
 
 CPPORM_END_SUB_NAMESPACE

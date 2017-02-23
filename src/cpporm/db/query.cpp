@@ -12,14 +12,14 @@ CPPORM_BEGIN_SUB_NAMESPACE(db)
 /*!
  * \details
  */
-Query::Query()
+Query::Query() : mBindingIndex(-1)
 {
 }
 
 /*!
  * \details
  */
-Query::Query(const std::string &sql) : mState(sql)
+Query::Query(const std::string &sql) : mState(sql), mBindingIndex(-1)
 {
 }
 
@@ -65,9 +65,11 @@ Query &Query::AddContition(Condition condition, const std::string &value)
 /*!
  * \details
  */
-Query &Query::SubQueryBegin()
+Query &Query::SubQueryBegin(const std::string &column, const std::string &table)
 {
     mState += " (";
+    if (!column.empty())
+        mState += " " + CPPORM_ADD_TABLE_SCOPE(table) + column;
     return *this;
 }
 
@@ -109,8 +111,8 @@ Query &Query::EndIncrementalSelect(const std::string &table)
         for (auto &column : mColumns)
             mState += CPPORM_ADD_TABLE_SCOPE(table) + column + ",";
         mState.pop_back();
+        mColumns.clear();
     }
-    mColumns.clear();
     return *this;
 }
 
@@ -142,13 +144,13 @@ Query &Query::EndIncrementalInsert()
         for (auto &value : mValues)
             mState += value + ",";
         mState.back() = ')';
+        mColumns.clear();
+        mValues.clear();
     }
     else
     {
         mState += " DEFAULT VALUES";
     }
-    mColumns.clear();
-    mValues.clear();
     return *this;
 }
 
@@ -177,9 +179,9 @@ Query &Query::EndIncrementalUpdate()
         for (auto cit = mColumns.begin(); cit != mColumns.end(); ++cit, ++vit)
             mState += *cit + "=" + *vit + ",";
         mState.pop_back();
+        mColumns.clear();
+        mValues.clear();
     }
-    mColumns.clear();
-    mValues.clear();
     return *this;
 }
 
@@ -218,10 +220,10 @@ Query &Query::EndIncrementalWhere()
         }
         mState.resize(mState.size() - 5);
         mBindingIndex = savedBindingIndex;
+        mColumns.clear();
+        mConditions.clear();
+        mValues.clear();
     }
-    mColumns.clear();
-    mConditions.clear();
-    mValues.clear();
     return *this;
 }
 
@@ -277,8 +279,8 @@ Query &Query::EndIncrementalIndex(const std::string &type)
         indexDef.pop_back();
         indexDef += ')';
         mColumnDefs.push_back(indexDef);
+        mColumns.clear();
     }
-    mColumns.clear();
     return *this;
 }
 
@@ -371,7 +373,19 @@ Query &Query::From(const std::string &table)
  */
 Query &Query::Where(const std::string &column, const std::string &table)
 {
-    mState += " WHERE " + CPPORM_ADD_TABLE_SCOPE(table) + column;
+    mState += " WHERE";
+    return column.empty() ? *this : Column(column, table);
+}
+
+/*!
+ * \details
+ */
+Query &Query::Column(const std::string &column, const std::string &table)
+{
+    assert(!column.empty());
+    if (!mState.empty() && mState.back() != '(')
+        mState += " ";
+    mState += CPPORM_ADD_TABLE_SCOPE(table) + column;
     return *this;
 }
 
@@ -567,7 +581,9 @@ Query &Query::Null()
  */
 Query &Query::And(const std::string &column, const std::string &table)
 {
-    mState += " AND " + CPPORM_ADD_TABLE_SCOPE(table) + column;
+    mState += " AND";
+    if (!column.empty())
+        mState += " " + CPPORM_ADD_TABLE_SCOPE(table) + column;
     return *this;
 }
 
@@ -576,7 +592,9 @@ Query &Query::And(const std::string &column, const std::string &table)
  */
 Query &Query::Or(const std::string &column, const std::string &table)
 {
-    mState += " OR " + CPPORM_ADD_TABLE_SCOPE(table) + column;
+    mState += " OR";
+    if (!column.empty())
+        mState += " " + CPPORM_ADD_TABLE_SCOPE(table) + column;
     return *this;
 }
 
@@ -716,6 +734,15 @@ Query &Query::Intersect()
 /*!
  * \details
  */
+Query &Query::IncrementalMatch(const std::string &column)
+{
+    mColumns.push_back(column);
+    return *this;
+}
+
+/*!
+ * \details
+ */
 Query &Query::Now()
 {
     return *this;
@@ -740,7 +767,7 @@ Query &Query::CurrentTime()
 /*!
  * \details
  */
-Query &Query::Limit(unsigned int count, unsigned int offset)
+Query &Query::Limit(unsigned int, unsigned int)
 {
     return *this;
 }
@@ -756,7 +783,7 @@ Query &Query::LastInsertId()
 /*!
  * \details
  */
-Query &Query::ResetSequence(const std::string &table)
+Query &Query::ResetSequence(const std::string &)
 {
     return *this;
 }
@@ -785,6 +812,15 @@ Query &Query::ReleaseSavePoint(const std::string &name)
 Query &Query::RollbackToSavePoint(const std::string &name)
 {
     mState += "ROLLBACK TO SAVEPOINT " + name;
+    return *this;
+}
+
+/*!
+ * \details
+ */
+Query &Query::EndIncrementalMatch(const std::string &, const std::string &, const std::string &)
+{
+    mColumns.clear();
     return *this;
 }
 
@@ -916,6 +952,28 @@ Query &SqliteQuery::ResetSequence(const std::string &table)
 /*!
  * \details
  */
+Query &SqliteQuery::EndIncrementalMatch(
+    const std::string &pattern, const std::string &table, const std::string &option)
+{
+    mState += " " + table + " MATCH ";
+    if (!mColumns.empty())
+    {
+        mState += "{";
+        for (auto &column : mColumns)
+            mState += column + ' ';
+        mState.pop_back();
+        mState += "} : ";
+        mColumns.clear();
+    }
+    mState += pattern;
+    if (pattern == CPPORM_PLACEHOLDER_MARK)
+        ++mBindingIndex;
+    return *this;
+}
+
+/*!
+ * \details
+ */
 std::string SqliteQuery::FormatColumnDefinition(
     const std::string &name, const std::string &type, unsigned long long length,
     unsigned int decimals, const std::string &defaultValue, bool primaryKey, bool unique,
@@ -1014,6 +1072,40 @@ Query &SqlServerQuery::RollbackToSavePoint(const std::string &name)
 /*!
  * \details
  */
+Query &SqlServerQuery::EndIncrementalMatch(
+    const std::string &pattern, const std::string &table, const std::string &option)
+{
+    mState += " FREETEXT(";
+    if (mColumns.empty())
+    {
+        mState += "*, ";
+    }
+    else if (mColumns.size() == 1)
+    {
+        mState += CPPORM_ADD_TABLE_SCOPE(table) + mColumns.front() + ", ";
+        mColumns.clear();
+    }
+    else
+    {
+        mState += "(";
+        for (auto &column : mColumns)
+            mState += CPPORM_ADD_TABLE_SCOPE(table) + column + ',';
+        mState.pop_back();
+        mState += "), ";
+        mColumns.clear();
+    }
+    mState += pattern;
+    if (!option.empty())
+        mState += ", " + option;
+    mState += ")";
+    if (pattern == CPPORM_PLACEHOLDER_MARK)
+        ++mBindingIndex;
+    return *this;
+}
+
+/*!
+ * \details
+ */
 Query &MySqlQuery::Now()
 {
     mState += " NOW()";
@@ -1070,6 +1162,33 @@ Query &MySqlQuery::ResetSequence(const std::string &table)
 /*!
  * \details
  */
+Query &MySqlQuery::EndIncrementalMatch(
+    const std::string &pattern, const std::string &table, const std::string &option)
+{
+    mState += " MATCH (";
+    if (mColumns.empty())
+    {
+        mState += '*';
+    }
+    else
+    {
+        for (auto &column : mColumns)
+            mState += CPPORM_ADD_TABLE_SCOPE(table) + column + ',';
+        mState.pop_back();
+        mColumns.clear();
+    }
+    mState += ") AGAINST (" + pattern;
+    if (!option.empty())
+        mState += " " + option;
+    mState += ")";
+    if (pattern == CPPORM_PLACEHOLDER_MARK)
+        ++mBindingIndex;
+    return *this;
+}
+
+/*!
+ * \details
+ */
 Query &PostgreSqlQuery::Now()
 {
     mState += " CURRENT_TIMESTAMP()";
@@ -1120,6 +1239,35 @@ Query &PostgreSqlQuery::LastInsertId()
 Query &PostgreSqlQuery::ResetSequence(const std::string &table)
 {
     mState += "ALTER SEQUENCE " + table + "_id_seq RESTART WITH 1";
+    return *this;
+}
+
+/*!
+ * \details
+ */
+Query &PostgreSqlQuery::EndIncrementalMatch(
+    const std::string &pattern, const std::string &table, const std::string &option)
+{
+    mState += " to_tsvector(";
+    if (!option.empty())
+        mState += option + ", ";
+    if (mColumns.empty())
+    {
+        mState += '*';
+    }
+    else
+    {
+        for (auto &column : mColumns)
+            mState += CPPORM_ADD_TABLE_SCOPE(table) + column + " || ' ' || ";
+        mState.resize(mState.size() - std::strlen(" || ' ' || "));
+        mColumns.clear();
+    }
+    mState += ") @@ to_tsquery(";
+    if (!option.empty())
+        mState += option + ", ";
+    mState += pattern + ")";
+    if (pattern == CPPORM_PLACEHOLDER_MARK)
+        ++mBindingIndex;
     return *this;
 }
 

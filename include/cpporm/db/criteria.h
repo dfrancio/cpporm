@@ -39,6 +39,15 @@ typedef std::tuple<std::string, std::string, Condition, std::string> ConditionSp
 typedef std::tuple<std::string, std::string, SortOrder> OrderBySpec;
 
 /*!
+ * \brief Logical connective
+ */
+enum class LogicalConnective
+{
+    conjunction,
+    disjunction
+};
+
+/*!
  * \brief %Criteria
  */
 class CPPORM_EXPORT Criteria
@@ -78,6 +87,19 @@ public:
      */
     Criteria &AddCondition(
         const std::string &column, Condition condition, const std::string &value = "");
+
+    /*
+     * \brief Open new scope
+     * \param[in] value The logical connctive
+     * \return A reference to *this
+     */
+    Criteria &OpenScope(LogicalConnective value);
+
+    /*
+     * \brief Close current scope
+     * \return A reference to *this
+     */
+    Criteria &CloseScope();
 
     /*
      * \brief Add order-by
@@ -152,10 +174,56 @@ private:
      */
     bool GetCachedOnly() const;
 
+    /*
+     * \brief Process joins
+     * \param[in] query The query
+     */
+    void ProcessJoins(Query &query) const;
+
+    /*
+     * \brief Process conditions
+     * \param[in] query The query
+     */
+    void ProcessConditions(Query &query) const;
+
+    /*
+     * \brief Process order-by and limit
+     * \param[in] query The query
+     */
+    void ProcessOrderByAndLimit(Query &query) const;
+
+    /*
+     * \brief Process scope openings
+     * \param[in] query The query
+     * \param[in] connectives The logical connectives
+     * \param[in] i The the current condition index
+     */
+    void ProcessScopeOpenings(
+        Query &query, std::stack<LogicalConnective> &connectives, std::size_t i) const;
+
+    /*
+     * \brief Process scope endings
+     * \param[in] query The query
+     * \param[in] connectives The logical connectives
+     * \param[in] i The the current condition index
+     */
+    void ProcessScopeEndings(
+        Query &query, std::stack<LogicalConnective> &connectives, std::size_t i) const;
+
     /*!
      * \brief The set of condition specifications
      */
     std::vector<ConditionSpec> mConditions;
+
+    /*!
+     * \brief The set of scope openings
+     */
+    std::multimap<std::size_t, LogicalConnective> mScopeOpenings;
+
+    /*!
+     * \brief The set of scope endings
+     */
+    std::multiset<std::size_t> mScopeEndings;
 
     /*!
      * \brief The set of join specifications
