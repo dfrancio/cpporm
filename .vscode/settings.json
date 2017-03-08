@@ -1,9 +1,0 @@
-// Place your settings in this file to overwrite default and user settings.
-{
-    // CMake variables to set on the command line
-    "cmake.configureSettings": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-        "BUILD_TESTING": true,
-        "BUILD_SHARED_LIBS": false
-    }
-}
