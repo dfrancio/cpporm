@@ -35,7 +35,7 @@ macro(get_parameter_default _out _in _def)
     endif()
 endmacro(get_parameter_default)
 
-macro(exclude_from_listing _sources _exclude_prefixes _exclude_sources)
+macro(exclude_from_listing _sources _exclude_prefixes)
     foreach(exclude ${${_exclude_prefixes}})
         foreach(source ${${_sources}})
             if(source MATCHES "^.[/\\]${exclude}(.*)$" OR source MATCHES "^${exclude}/(.*)$")
@@ -43,128 +43,7 @@ macro(exclude_from_listing _sources _exclude_prefixes _exclude_sources)
             endif()
         endforeach()
     endforeach()
-    foreach(exclude ${${_exclude_sources}})
-        list(REMOVE_ITEM ${_sources} ${exclude})
-    endforeach()
 endmacro(exclude_from_listing)
-
-#===================================================================================================
-#
-#   download_project(PROJ projectName
-#                    [PREFIX prefixDir]
-#                    [DOWNLOAD_DIR downloadDir]
-#                    [SOURCE_DIR srcDir]
-#                    [BINARY_DIR binDir]
-#                    [QUIET])
-#
-#       Provides the ability to download and unpack a tarball, zip file, git repository,
-#       etc. at configure time (i.e. when the cmake command is run). How the downloaded
-#       and unpacked contents are used is up to the caller, but the motivating case is
-#       to download source code which can then be included directly in the build with
-#       add_subdirectory() after the call to download_project(). Source and build
-#       directories are set up with this in mind.
-#
-#       The PROJ argument is required. The projectName value will be used to construct
-#       the following variables upon exit (obviously replace projectName with its actual
-#       value):
-#
-#           projectName_SOURCE_DIR
-#           projectName_BINARY_DIR
-#
-#       The SOURCE_DIR and BINARY_DIR arguments are optional and would not typically
-#       need to be provided. They can be specified if you want the downloaded source
-#       and build directories to be located in a specific place. The contents of
-#       projectName_SOURCE_DIR and projectName_BINARY_DIR will be populated with the
-#       locations used whether you provide SOURCE_DIR/BINARY_DIR or not.
-#
-#       The DOWNLOAD_DIR argument does not normally need to be set. It controls the
-#       location of the temporary CMake build used to perform the download.
-#
-#       The PREFIX argument can be provided to change the base location of the default
-#       values of DOWNLOAD_DIR, SOURCE_DIR and BINARY_DIR. If all of those three arguments
-#       are provided, then PREFIX will have no effect. The default value for PREFIX is
-#       CMAKE_BINARY_DIR.
-#
-#       The QUIET option can be given if you do not want to show the output associated
-#       with downloading the specified project.
-#
-#       In addition to the above, any other options are passed through unmodified to
-#       ExternalProject_Add() to perform the actual download, patch and update steps.
-#       The following ExternalProject_Add() options are explicitly prohibited (they
-#       are reserved for use by the download_project() command):
-#
-#           CONFIGURE_COMMAND
-#           BUILD_COMMAND
-#           INSTALL_COMMAND
-#           TEST_COMMAND
-#
-#       Only those ExternalProject_Add() arguments which relate to downloading, patching
-#       and updating of the project sources are intended to be used. Also note that at
-#       least one set of download-related arguments are required.
-#
-#       If using CMake 3.2 or later, the UPDATE_DISCONNECTED option can be used to
-#       prevent a check at the remote end for changes every time CMake is run
-#       after the first successful download. See the documentation of the ExternalProject
-#       module for more information. It is likely you will want to use this option if it
-#       is available to you.
-#
-#===================================================================================================
-function(download_project)
-
-    set(options QUIET)
-    set(oneValueArgs
-        PROJ
-        PREFIX
-        DOWNLOAD_DIR
-        SOURCE_DIR
-        BINARY_DIR
-        # Prevent the following from being passed through
-        CONFIGURE_COMMAND
-        BUILD_COMMAND
-        INSTALL_COMMAND
-        TEST_COMMAND)
-    set(multiValueArgs "")
-
-    cmake_parse_arguments(DL_ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-    # Hide output if requested
-    if (DL_ARGS_QUIET)
-        set(OUTPUT_QUIET "OUTPUT_QUIET")
-    else()
-        unset(OUTPUT_QUIET)
-        message(STATUS "Downloading/updating ${DL_ARGS_PROJ}")
-    endif()
-
-    # Set up where we will put our temporary CMakeLists.txt file and also
-    # the base point below which the default source and binary dirs will be
-    if (NOT DL_ARGS_PREFIX)
-        set(DL_ARGS_PREFIX "${CMAKE_BINARY_DIR}")
-    endif()
-    if (NOT DL_ARGS_DOWNLOAD_DIR)
-        set(DL_ARGS_DOWNLOAD_DIR "${DL_ARGS_PREFIX}/${DL_ARGS_PROJ}-download")
-    endif()
-
-    # Ensure the caller can know where to find the source and build directories
-    if (NOT DL_ARGS_SOURCE_DIR)
-        set(DL_ARGS_SOURCE_DIR "${DL_ARGS_PREFIX}/${DL_ARGS_PROJ}-src")
-    endif()
-    if (NOT DL_ARGS_BINARY_DIR)
-        set(DL_ARGS_BINARY_DIR "${DL_ARGS_PREFIX}/${DL_ARGS_PROJ}-build")
-    endif()
-    set(${DL_ARGS_PROJ}_SOURCE_DIR "${DL_ARGS_SOURCE_DIR}" PARENT_SCOPE)
-    set(${DL_ARGS_PROJ}_BINARY_DIR "${DL_ARGS_BINARY_DIR}" PARENT_SCOPE)
-
-    # Create and build a separate CMake project to carry out the download.
-    # If we've already previously done these steps, they will not cause
-    # anything to be updated, so extra rebuilds of the project won't occur.
-    configure_file("${LIST_DIR}/download.cmake.in"
-                   "${DL_ARGS_DOWNLOAD_DIR}/CMakeLists.txt")
-    execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" . ${OUTPUT_QUIET}
-                    WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}")
-    execute_process(COMMAND ${CMAKE_COMMAND} --build . ${OUTPUT_QUIET}
-                    WORKING_DIRECTORY "${DL_ARGS_DOWNLOAD_DIR}")
-
-endfunction()
 
 #===================================================================================================
 #
@@ -561,7 +440,6 @@ endfunction(init_project)
 #                  [BUILD_OUTPUT <path>]
 #                  [INSTALL_DIR <path>]
 #                  [EXTRA_SOURCES <path>...]
-#                  [EXCLUDE_SOURCES <path>...]
 #                  [SOURCE_PREFIXES <path>...]
 #                  [EXCLUDE_PREFIXES <path>...])
 #
@@ -570,7 +448,7 @@ function(setup_database)
 
     set(options)
     set(oneValueArgs NAME BUILD_OUTPUT INSTALL_DIR)
-    set(multiValueArgs EXTRA_SOURCES EXCLUDE_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
+    set(multiValueArgs EXTRA_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -582,7 +460,7 @@ function(setup_database)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_DB_SOURCES ${SOURCES})
     endforeach()
-    exclude_from_listing(${ARG_NAME}_DB_SOURCES ARG_EXCLUDE_PREFIXES ARG_EXCLUDE_SOURCES)
+    exclude_from_listing(${ARG_NAME}_DB_SOURCES ARG_EXCLUDE_PREFIXES)
     list(APPEND ${ARG_NAME}_DB_SOURCES ${ARG_EXTRA_SOURCES})
 
     find_program(CAT_EXECUTABLE cat)
@@ -614,7 +492,6 @@ endfunction(setup_database)
 #                [BUILD_OUTPUT <path>]
 #                [INSTALL_DIR <path>]
 #                [EXTRA_SOURCES <path>...]
-#                [EXCLUDE_SOURCES <path>...]
 #                [SOURCE_PREFIXES <path>...]
 #                [EXCLUDE_PREFIXES <path>...])
 #
@@ -623,7 +500,7 @@ function(setup_locale)
 
     set(options)
     set(oneValueArgs NAME DOMAIN BUILD_OUTPUT INSTALL_DIR)
-    set(multiValueArgs EXTRA_SOURCES EXCLUDE_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
+    set(multiValueArgs EXTRA_SOURCES SOURCE_PREFIXES EXCLUDE_PREFIXES)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
@@ -636,7 +513,7 @@ function(setup_locale)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_LOCALE_SOURCES ${SOURCES})
     endforeach()
-    exclude_from_listing(${ARG_NAME}_LOCALE_SOURCES ARG_EXCLUDE_PREFIXES ARG_EXCLUDE_SOURCES)
+    exclude_from_listing(${ARG_NAME}_LOCALE_SOURCES ARG_EXCLUDE_PREFIXES)
     list(APPEND ${ARG_NAME}_LOCALE_SOURCES ${ARG_EXTRA_SOURCES})
 
     find_program(MSGCAT_EXECUTABLE msgcat)
@@ -773,7 +650,6 @@ endfunction(setup_installation)
 #   setup_target(NAME <target>
 #                [INCLUDE_DIRS <path>...]
 #                [EXTRA_SOURCES <path>...]
-#                [EXCLUDE_SOURCES <path>...]
 #                [SOURCE_PREFIXES <path>...]
 #                [EXCLUDE_PREFIXES <path>...]
 #                [EXPORT_FILE_NAME <path>]
@@ -798,8 +674,8 @@ macro(setup_target_listings)
                 list(APPEND TARGET_PUBLIC_HEADERS ${PUBLIC_HEADERS})
             endif()
         endforeach()
-        exclude_from_listing(TARGET_SOURCES TARGET_EXCLUDE_PREFIXES TARGET_EXCLUDE_SOURCES)
-        exclude_from_listing(TARGET_PUBLIC_HEADERS TARGET_EXCLUDE_PREFIXES TARGET_EXCLUDE_SOURCES)
+        exclude_from_listing(TARGET_SOURCES TARGET_EXCLUDE_PREFIXES)
+        exclude_from_listing(TARGET_PUBLIC_HEADERS TARGET_EXCLUDE_PREFIXES)
     else()
         set(TARGET_SOURCES ${${TARGET_NAME}_SOURCES})
     endif()
@@ -829,7 +705,7 @@ endmacro(setup_target_listings)
 macro(setup_target_dependency)
 
     list(GET DEP_UNPARSED_ARGUMENTS 0 DEP_TYPE)
-    if(DEP_TYPE STREQUAL "CUSTOM")
+    if(DEP_TYPE STREQUAL "CUSTOM" OR DEP_TYPE STREQUAL "EXTERNAL")
         list(GET DEP_UNPARSED_ARGUMENTS 1 DEP_NAME)
         list(REMOVE_AT DEP_UNPARSED_ARGUMENTS 0)
     elseif(DEP_TYPE STREQUAL "INTERNAL")
@@ -849,21 +725,19 @@ macro(setup_target_dependency)
         elseif(DEP_TYPE STREQUAL "INTERNAL")
             set(${DEP_NAME}_LIBRARIES ${DEP_NAME} CACHE INTERNAL "")
             set(${DEP_NAME}_FOUND TRUE CACHE INTERNAL "")
+        elseif(DEP_TYPE STREQUAL "EXTERNAL")
+            file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/${DEP_NAME}")
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" "${LIST_DIR}/../Download/${DEP_NAME}"
+                WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${DEP_NAME}")
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} --build .
+                WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/${DEP_NAME}")
+            include("${LIST_DIR}/../Download/${DEP_NAME}/postbuild.cmake")
+            set(${DEP_NAME}_FOUND TRUE CACHE INTERNAL "")
         else()
             find_package(${DEP_UNPARSED_ARGUMENTS})
         endif()
-    endif()
-
-    if(NOT ${DEP_NAME}_FOUND AND NOT ${DEP_NAME_UPPERCASE}_FOUND
-        AND EXISTS "${LIST_DIR}/Download${DEP_NAME}.cmake")
-        include("${LIST_DIR}/Download${DEP_NAME}.cmake")
-        download_project(
-            PROJ ${DEP_NAME}
-            GIT_REPOSITORY ${${DEP_NAME}_GIT_URL}
-            GIT_TAG ${${DEP_NAME}_GIT_TAG}
-            UPDATE_DISCONNECTED ${${DEP_NAME}_UPDATE_DISCONNECTED})
-        add_subdirectory(${${DEP_NAME}_SOURCE_DIR} ${${DEP_NAME}_BINARY_DIR})
-        set(${DEP_NAME}_FOUND TRUE CACHE INTERNAL "")
     endif()
 
     if(${DEP_NAME}_FOUND OR ${DEP_NAME_UPPERCASE}_FOUND)
@@ -1055,13 +929,12 @@ function(setup_target)
     set(options IS_LIBRARY IS_TEST HEADER_ONLY TEST_NO_SHARED)
     set(oneValueArgs NAME EXPORT_FILE_NAME)
     set(multiValueArgs
-        EXTRA_SOURCES
-        EXCLUDE_SOURCES
         SOURCE_PREFIXES
         EXCLUDE_PREFIXES
         OPTIONS
         DEFINITIONS
         INCLUDE_DIRS
+        EXTRA_SOURCES
         DEPENDENCIES)
 
     cmake_parse_arguments(TARGET "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -1082,7 +955,6 @@ endfunction(setup_target)
 #               [DATA_DIR <path>]
 #               [INCLUDE_DIRS <path>...]
 #               [EXTRA_SOURCES <path>...]
-#               [EXCLUDE_SOURCES <path>...]
 #               [SOURCE_PREFIXES <path>...]
 #               [EXCLUDE_PREFIXES <path>...]
 #               [OPTIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
@@ -1099,7 +971,7 @@ macro(setup_tests_listings)
         file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
         list(APPEND ${ARG_NAME}_TEST_SOURCES ${SOURCES})
     endforeach()
-    exclude_from_listing(${ARG_NAME}_TEST_SOURCES ARG_EXCLUDE_PREFIXES ARG_EXCLUDE_SOURCES)
+    exclude_from_listing(${ARG_NAME}_TEST_SOURCES ARG_EXCLUDE_PREFIXES)
     list(APPEND ${ARG_NAME}_TEST_SOURCES ${ARG_EXTRA_SOURCES})
 
     foreach(source ${${ARG_NAME}_TEST_SOURCES})
@@ -1163,8 +1035,6 @@ macro(setup_tests_targets)
                 ${ARG_INCLUDE_DIRS}
             EXTRA_SOURCES
                 ${ARG_EXTRA_SOURCES}
-            EXCLUDE_SOURCES
-                ${ARG_EXCLUDE_SOURCES}
             OPTIONS
                 PUBLIC ${ARG_OPTIONS_PUBLIC}
                 PRIVATE ${ARG_OPTIONS_PRIVATE}
@@ -1186,13 +1056,12 @@ function(setup_tests)
     set(options)
     set(oneValueArgs NAME INPUT_DATA_DIR OUTPUT_DATA_DIR)
     set(multiValueArgs
-        EXTRA_SOURCES
-        EXCLUDE_SOURCES
         SOURCE_PREFIXES
         EXCLUDE_PREFIXES
         OPTIONS
         DEFINITIONS
         INCLUDE_DIRS
+        EXTRA_SOURCES
         DEPENDENCIES)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
