@@ -1,7 +1,6 @@
 if(WIN32)
     set(gtest_disable_pthreads ON CACHE INTERNAL "")
 endif()
-message(STATUS ${googletest_DIR})
 add_subdirectory(${googletest_DIR}/src/googletest
                  ${googletest_DIR}/src/googletest-build)
 
