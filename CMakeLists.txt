@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 
+if(POLICY CMP0048)
+    cmake_policy(SET CMP0048 NEW)
+endif()
+
 file(STRINGS "VERSION" VERSION)
 project(cpporm VERSION ${VERSION} LANGUAGES CXX)
 
