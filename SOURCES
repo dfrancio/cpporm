@@ -102,7 +102,5 @@ tests/cpporm/unit/util/factory.cpp
 tests/cpporm/unit/util/preprocessor.cpp
 tests/cpporm/unit/util/string.cpp
 tests/cpporm/unit/util/stringmap.cpp
-tests/ormc/regression/flatbuffers.cpp
 tests/ormc/regression/mysql.cpp
-tests/ormc/sample1_generated.h
 tests/ormc/unit/source1.cpp
