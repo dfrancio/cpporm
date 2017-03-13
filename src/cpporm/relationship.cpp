@@ -56,6 +56,7 @@ Relationship::Relationship(Entity &parent) : mParent(parent)
  */
 Relationship &Relationship::operator=(const Relationship &other)
 {
+    return *this;
 }
 
 /*!

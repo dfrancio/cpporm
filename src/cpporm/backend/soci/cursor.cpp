@@ -138,8 +138,6 @@ std::string Cursor::GetString(short column) const
 {
     switch (mStatement.mNativeRow.get_properties(column).get_data_type())
     {
-    case ::soci::dt_string:
-        return mStatement.mNativeRow.get<std::string>(column);
     case ::soci::dt_double:
         return Convert(mStatement.mNativeRow.get<double>(column));
     case ::soci::dt_integer:
@@ -150,7 +148,10 @@ std::string Cursor::GetString(short column) const
         return Convert(mStatement.mNativeRow.get<unsigned long long>(column));
     case ::soci::dt_date:
         return Convert(mStatement.mNativeRow.get<std::tm>(column));
+    case ::soci::dt_string:
     case ::soci::dt_blob:
+    case ::soci::dt_xml:
+    default:
         return mStatement.mNativeRow.get<std::string>(column);
     }
 }
@@ -162,8 +163,6 @@ std::string Cursor::GetString(const std::string &name) const
 {
     switch (mStatement.mNativeRow.get_properties(name).get_data_type())
     {
-    case ::soci::dt_string:
-        return mStatement.mNativeRow.get<std::string>(name);
     case ::soci::dt_double:
         return Convert(mStatement.mNativeRow.get<double>(name));
     case ::soci::dt_integer:
@@ -174,7 +173,10 @@ std::string Cursor::GetString(const std::string &name) const
         return Convert(mStatement.mNativeRow.get<unsigned long long>(name));
     case ::soci::dt_date:
         return Convert(mStatement.mNativeRow.get<std::tm>(name));
+    case ::soci::dt_string:
     case ::soci::dt_blob:
+    case ::soci::dt_xml:
+    default:
         return mStatement.mNativeRow.get<std::string>(name);
     }
 }
