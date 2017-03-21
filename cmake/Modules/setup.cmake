@@ -71,7 +71,7 @@ endmacro(exclude_from_listing)
 macro(find_custom_package_set_search_dirs)
 
     if(NOT ARG_ROOT_DIR)
-        if(${ARG_NAME}_ROOT_DIR})
+        if(${ARG_NAME}_ROOT_DIR)
             set(ARG_ROOT_DIR ${${ARG_NAME}_ROOT_DIR})
         elseif($ENV{${ARG_NAME}_ROOT_DIR})
             set(ARG_ROOT_DIR $ENV{${ARG_NAME}_ROOT_DIR})
