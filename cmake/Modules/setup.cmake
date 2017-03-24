@@ -473,9 +473,11 @@ function(setup_database)
     find_program(SQLITE3_EXECUTABLE sqlite3)
     file(TO_NATIVE_PATH ${SQLITE3_EXECUTABLE} SQLITE3_EXECUTABLE)
 
+    get_filename_component(BUILD_OUTPUT_DIR ${BUILD_OUTPUT} DIRECTORY)
     add_custom_command(
         OUTPUT "${BUILD_OUTPUT}"
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${BUILD_OUTPUT_DIR}
         COMMAND ${CAT_EXECUTABLE} ${${ARG_NAME}_DB_SOURCES} |
                 ${SQLITE3_EXECUTABLE} ${BUILD_OUTPUT}
         DEPENDS "${${ARG_NAME}_DB_SOURCES}")
@@ -527,9 +529,11 @@ function(setup_locale)
     find_program(MSGFMT_EXECUTABLE msgfmt)
     file(TO_NATIVE_PATH ${MSGFMT_EXECUTABLE} MSGFMT_EXECUTABLE)
 
+    get_filename_component(BUILD_OUTPUT_DIR ${BUILD_OUTPUT} DIRECTORY)
     add_custom_command(
         OUTPUT "${BUILD_OUTPUT}"
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${BUILD_OUTPUT_DIR}
         COMMAND ${MSGCAT_EXECUTABLE} --force-po ${${ARG_NAME}_LOCALE_SOURCES} |
                 ${MSGFMT_EXECUTABLE} -o ${BUILD_OUTPUT} -
         DEPENDS "${${ARG_NAME}_LOCALE_SOURCES}")
