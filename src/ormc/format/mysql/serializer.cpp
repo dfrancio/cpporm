@@ -199,7 +199,7 @@ public:
     antlrcpp::Any visitDefault_value(mysqlParser::Default_valueContext *ctx) override
     {
         if (mStates.top() == State::columnOpt)
-            GetCurrentField().properties["DEFAULT"] = GetLiteral(ctx);
+            GetCurrentField().properties[CPPORM_PROP_DEFAULT] = GetLiteral(ctx);
         return visitChildren(ctx);
     }
 

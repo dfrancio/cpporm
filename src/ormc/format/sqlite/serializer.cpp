@@ -135,6 +135,9 @@ public:
      */
     bool VisitField(const FieldContext &context) override
     {
+        static const std::set<std::string> cLiteralTokens
+            = {"CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP"};
+
         std::string props;
         std::string length;
         std::string decimals;
@@ -148,11 +151,18 @@ public:
             {
                 decimals = pair.second;
             }
+            else if (pair.first == CPPORM_PROP_DEFAULT)
+            {
+                if (cLiteralTokens.find(pair.second) != cLiteralTokens.end())
+                    props += ' ' + pair.first + ' ' + pair.second;
+                else
+                    props += ' ' + pair.first + " '" + pair.second + '\'';
+            }
             else if (pair.first != CPPORM_PROP_IDENTITY && pair.first != CPPORM_PROP_ON_UPDATE)
             {
                 auto name = pair.first;
                 std::replace(name.begin(), name.end(), '_', ' ');
-                props += " " + name + (pair.second.empty() ? "" : ' ' + pair.second);
+                props += ' ' + name + (pair.second.empty() ? "" : ' ' + pair.second);
             }
         }
 
