@@ -10,6 +10,12 @@
 // Internal program includes
 #include "../../serializer.h"
 
+// Global variables
+DECLARE_string(version_fields);
+DECLARE_string(guid_tables);
+DECLARE_string(guid_fields);
+DECLARE_bool(amalgamate);
+
 namespace cpporm
 {
 /*!
