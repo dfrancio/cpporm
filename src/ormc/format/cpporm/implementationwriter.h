@@ -38,6 +38,13 @@ public:
      */
     bool VisitOutEdge(const EdgeContext &context) override;
 
+    /*!
+     * \brief Visit in edge
+     * \param[in] context The context
+     * \return True if the remaining siblings should be visited; false otherwise
+     */
+    bool VisitInEdge(const EdgeContext &context) override;
+
 private:
     /*!
      * \brief

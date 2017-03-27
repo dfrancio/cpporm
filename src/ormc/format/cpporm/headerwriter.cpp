@@ -45,6 +45,8 @@ bool HeaderPreambleWriter::VisitNode(const NodeContext &context)
 
     mForwardDecls.clear();
     auto result = VisitChildren(context);
+    for (auto &name : mForwardDecls)
+        mStream << boost::format(cForwardDeclareEntity) % name;
     mStream.close();
     return result;
 }
@@ -55,8 +57,7 @@ bool HeaderPreambleWriter::VisitNode(const NodeContext &context)
 bool HeaderPreambleWriter::VisitOutEdge(const EdgeContext &context)
 {
     assert(context.edge.indexNumber > 0 && context.edge.indexNumber <= context.node.indices.size());
-    if (mForwardDecls.insert(context.edge.refNodeName).second)
-        mStream << boost::format(cForwardDeclareEntity) % context.edge.refNodeName;
+    mForwardDecls.insert(context.edge.refNodeName);
     return true;
 }
 

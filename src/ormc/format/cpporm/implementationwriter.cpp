@@ -43,6 +43,13 @@ bool ImplementationPreambleWriter::VisitNode(const NodeContext &context)
 
     mIncludes.clear();
     auto result = VisitChildren(context);
+
+    for (auto &name : mIncludes)
+    {
+        auto filename = boost::algorithm::to_lower_copy(name) + ".h";
+        mStream << boost::format(cIncludeEntityHeader) % filename;
+    }
+
     if (!FLAGS_namespace.empty())
         mStream << boost::format(cBeginNamespace) % FLAGS_namespace;
     mStream.close();
@@ -55,11 +62,19 @@ bool ImplementationPreambleWriter::VisitNode(const NodeContext &context)
 bool ImplementationPreambleWriter::VisitOutEdge(const EdgeContext &context)
 {
     assert(context.edge.indexNumber > 0 && context.edge.indexNumber <= context.node.indices.size());
-    if (mIncludes.insert(context.edge.refNodeName).second)
-    {
-        auto filename = boost::algorithm::to_lower_copy(context.edge.refNodeName) + ".h";
-        mStream << boost::format(cIncludeEntityHeader) % filename;
-    }
+    mIncludes.insert(context.edge.refNodeName);
+    return true;
+}
+
+/*!
+ * \details
+ */
+bool ImplementationPreambleWriter::VisitInEdge(const EdgeContext &context)
+{
+    assert(
+        context.edge.indexNumber > 0
+        && context.edge.indexNumber <= context.sourceNode.indices.size());
+    mIncludes.insert(context.sourceNode.name);
     return true;
 }
 
