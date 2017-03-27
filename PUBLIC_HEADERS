@@ -24,6 +24,6 @@ include/cpporm/index.h
 include/cpporm/maps.h
 include/cpporm/relationship.h
 include/cpporm/util/factory.h
-include/cpporm/util/preprocessor.h
+include/cpporm/util/macros.h
 include/cpporm/util/string.h
 include/cpporm/util/stringmap.h
