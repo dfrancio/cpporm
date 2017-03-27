@@ -482,7 +482,7 @@ function(setup_database)
                 ${SQLITE3_EXECUTABLE} ${BUILD_OUTPUT}
         DEPENDS "${${ARG_NAME}_DB_SOURCES}")
 
-    add_custom_target(db_${ARG_NAME} ALL SOURCES "${BUILD_OUTPUT}")
+    add_custom_target(${PROJECT_NAME}_db_${ARG_NAME} ALL SOURCES "${BUILD_OUTPUT}")
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
         install(FILES ${BUILD_OUTPUT} DESTINATION
@@ -538,7 +538,7 @@ function(setup_locale)
                 ${MSGFMT_EXECUTABLE} -o ${BUILD_OUTPUT} -
         DEPENDS "${${ARG_NAME}_LOCALE_SOURCES}")
 
-    add_custom_target(locale_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
+    add_custom_target(${PROJECT_NAME}_locale_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
         install(FILES ${BUILD_OUTPUT} DESTINATION
@@ -588,7 +588,7 @@ function(setup_doxygen)
             DEPENDS ${DOXYFILE_OUT} ${${PROJECT_NAME_UPPERCASE}_SOURCES}
             VERBATIM)
 
-        add_custom_target(doc_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
+        add_custom_target(${PROJECT_NAME}_doc_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
 
         if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
             install(DIRECTORY "${BUILD_OUTPUT}/"
