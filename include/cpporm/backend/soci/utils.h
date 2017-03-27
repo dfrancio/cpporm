@@ -12,7 +12,7 @@
 
 // Internal library includes
 #include <cpporm/backend/soci/export.h>
-#include <cpporm/util/preprocessor.h>
+#include <cpporm/util/macros.h>
 
 CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, soci)
 

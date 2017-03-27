@@ -7,7 +7,7 @@
  */
 #pragma once
 
-#include <cpporm/util/preprocessor.h>
+#include <cpporm/util/macros.h>
 
 /*
  * Forward declarations

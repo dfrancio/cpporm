@@ -8,7 +8,6 @@
 #include "implementationwriter.h"
 
 // C++ library includes
-#include <fstream>
 #include <sstream>
 
 // External library includes

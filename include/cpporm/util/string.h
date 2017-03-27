@@ -10,7 +10,7 @@
  */
 #pragma once
 
-#include <cpporm/util/preprocessor.h>
+#include <cpporm/util/macros.h>
 
 CPPORM_BEGIN_SUB_NAMESPACE(util)
 

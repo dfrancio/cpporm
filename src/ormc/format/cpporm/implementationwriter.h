@@ -7,6 +7,9 @@
  */
 #include "serializer.h"
 
+// C++ library includes
+#include <fstream>
+
 namespace cpporm
 {
 /*!

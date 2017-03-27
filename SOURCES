@@ -24,7 +24,7 @@ include/cpporm/index.h
 include/cpporm/maps.h
 include/cpporm/relationship.h
 include/cpporm/util/factory.h
-include/cpporm/util/preprocessor.h
+include/cpporm/util/macros.h
 include/cpporm/util/string.h
 include/cpporm/util/stringmap.h
 src/cpporm/attribute.cpp
@@ -109,7 +109,7 @@ tests/cpporm/unit/error.cpp
 tests/cpporm/unit/index.cpp
 tests/cpporm/unit/relationship.cpp
 tests/cpporm/unit/util/factory.cpp
-tests/cpporm/unit/util/preprocessor.cpp
+tests/cpporm/unit/util/macros.cpp
 tests/cpporm/unit/util/string.cpp
 tests/cpporm/unit/util/stringmap.cpp
 tests/ormc/regression/mysql.cpp

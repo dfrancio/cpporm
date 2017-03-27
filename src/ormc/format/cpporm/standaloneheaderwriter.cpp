@@ -7,10 +7,6 @@
  */
 #include "standaloneheaderwriter.h"
 
-// C++ library includes
-#include <fstream>
-#include <sstream>
-
 // External library includes
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
