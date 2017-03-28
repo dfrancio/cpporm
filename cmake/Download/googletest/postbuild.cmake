@@ -25,14 +25,3 @@ endif()
 add_subdirectory(${googletest_DIR}/src/googletest
                  ${googletest_DIR}/src/googletest-build
                  EXCLUDE_FROM_ALL)
-
-set(googletest_INCLUDE_DIR
-    "${gmock_SOURCE_DIR}/include"
-    "${gtest_SOURCE_DIR}/include"
-    CACHE INTERNAL "")
-set(googletest_INCLUDE_DIRS ${googletest_INCLUDE_DIR} CACHE INTERNAL "")
-set(googletest_LIBRARY gmock CACHE INTERNAL "")
-set(googletest_LIBRARIES gmock CACHE INTERNAL "")
-set(googletest_MAIN_LIBRARY gmock_main CACHE INTERNAL "")
-set(googletest_MAIN_LIBRARIES gmock_main CACHE INTERNAL "")
-set(googletest_FOUND TRUE CACHE INTERNAL "")
