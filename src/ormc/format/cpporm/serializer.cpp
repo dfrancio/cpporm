@@ -13,6 +13,7 @@
 #include <boost/tokenizer.hpp>
 
 // Internal library includes
+#include "entityfactorywriter.h"
 #include "entrypointwriter.h"
 #include "headerwriter.h"
 #include "implementationwriter.h"
@@ -45,6 +46,7 @@ void Serializer::Write(const std::string &dir, const std::string &name, const Li
 {
     if (!FLAGS_amalgamate)
     {
+        EntityFactoryWriter(graph, dir, name).Visit();
         EntryPointHeaderWriter(graph, dir, name).Visit();
         EntryPointImplementationWriter(graph, dir, name).Visit();
         HeaderPreambleWriter(graph, dir, name).Visit();

@@ -91,13 +91,6 @@ public:
     EntryPointImplementationWriter(
         const ListGraph &listGraph, const std::string &dir, const std::string &name);
 
-    /*!
-     * \brief Visit node
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
-    bool VisitNode(const NodeContext &context) override;
-
 private:
     /*!
      * \brief
@@ -108,16 +101,6 @@ private:
      * \brief
      */
     static const std::string cBeginNamespace;
-
-    /*!
-     * \brief
-     */
-    static const std::string cDefineEntityFactory;
-
-    /*!
-     * \brief
-     */
-    static const std::string cRegisterEntity;
 
     /*!
      * \brief

@@ -46,6 +46,8 @@ src/cpporm/db/session.cpp
 src/cpporm/db/transaction.cpp
 src/cpporm/entity.cpp
 src/cpporm/relationship.cpp
+src/ormc/format/cpporm/entityfactorywriter.cpp
+src/ormc/format/cpporm/entityfactorywriter.h
 src/ormc/format/cpporm/entrypointwriter.cpp
 src/ormc/format/cpporm/entrypointwriter.h
 src/ormc/format/cpporm/headerwriter.cpp

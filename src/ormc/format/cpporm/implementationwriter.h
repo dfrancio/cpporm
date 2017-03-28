@@ -152,6 +152,11 @@ private:
     /*!
      * \brief
      */
+    static const std::string cRegisterEntity;
+
+    /*!
+     * \brief
+     */
     static const std::string cDefineEntityMethods;
 
     /*!
