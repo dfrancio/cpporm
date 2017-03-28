@@ -26,7 +26,7 @@ namespace cpporm
  */
 StandaloneImplementationPreambleWriter::~StandaloneImplementationPreambleWriter()
 {
-    mStream << boost::format(cDefineEntityCreator);
+    mStream << boost::format(cDefineEntityCreator) % FLAGS_factory_name;
     mStream.close();
 }
 
@@ -41,7 +41,7 @@ StandaloneImplementationPreambleWriter::StandaloneImplementationPreambleWriter(
     mStream << boost::format(cPreambleText) % (name + ".cpp") % CPPORM_VERSION % (name + ".h");
     if (!FLAGS_namespace.empty())
         mStream << boost::format(cBeginNamespace) % FLAGS_namespace;
-    mStream << boost::format(cDefineEntityFactory);
+    mStream << boost::format(cDefineEntityFactory) % FLAGS_factory_name;
 }
 
 /*!
@@ -321,11 +321,10 @@ const std::string StandaloneImplementationPreambleWriter::cDefineEntityFactory
       "/*\n"
       " * The entity factory\n"
       " */\n"
-      "class EntityFactory : public cpporm::util::Factory<EntityFactory,\n"
-      "                                                   cpporm::Entity, std::string>\n"
+      "class %1% : public cpporm::util::Factory<%1%, cpporm::Entity, std::string>\n"
       "{\n"
       "private:\n"
-      "    EntityFactory()\n"
+      "    %1%()\n"
       "    {\n";
 /*!
  * \brief
@@ -346,7 +345,7 @@ const std::string StandaloneImplementationPreambleWriter::cDefineEntityCreator
       "*/\n"
       "std::shared_ptr<cpporm::Entity> Create(const std::string &key)\n"
       "{\n"
-      "    return EntityFactory::GetInstance().CreateShared(key);\n"
+      "    return %s::GetInstance().CreateShared(key);\n"
       "}\n";
 
 /*!
