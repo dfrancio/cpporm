@@ -373,20 +373,20 @@ endmacro(init_project_options)
 
 macro(init_project_install_paths)
 
-    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_BIN_DIR bin CACHE PATH
-        "Output directory for executables")
-    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_LIB_DIR lib CACHE PATH
-        "Output directory for libraries")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_BIN_DIR bin CACHE PATH
-        "Installation directory for executables")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_LIB_DIR lib CACHE PATH
-        "Installation directory for libraries")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_INC_DIR include CACHE PATH
-        "Installation directory for headers")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR share/doc/${PROJECT_NAME} CACHE PATH
-        "Installation directory for documentation files")
-    set(${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR share/${PROJECT_NAME} CACHE PATH
-        "Installation directory for read-only data files")
+    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_BIN_DIR bin CACHE STRING
+        "Output directory for executables (relative to the build prefix)")
+    set(${PROJECT_NAME_UPPERCASE}_OUTPUT_LIB_DIR lib CACHE STRING
+        "Output directory for libraries (relative to the build prefix)")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_BIN_DIR bin CACHE STRING
+        "Installation directory for executables (relative to the install prefix)")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_LIB_DIR lib CACHE STRING
+        "Installation directory for libraries (relative to the install prefix)")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_INC_DIR include CACHE STRING
+        "Installation directory for headers (relative to the install prefix)")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR share/doc/${PROJECT_NAME} CACHE STRING
+        "Installation directory for documentation files (relative to the install prefix)")
+    set(${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR share/${PROJECT_NAME} CACHE STRING
+        "Installation directory for read-only data files (relative to the install prefix)")
     set(${PROJECT_NAME_UPPERCASE}_INSTALL_VAR_DIR /var/lib/${PROJECT_NAME} CACHE PATH
         "Installation directory for state data files")
 
@@ -394,8 +394,8 @@ macro(init_project_install_paths)
         set(${PROJECT_NAME_UPPERCASE}_INSTALL_CMAKE_DIR CMake)
     else()
         set(${PROJECT_NAME_UPPERCASE}_INSTALL_CMAKE_DIR
-            ${${PROJECT_NAME_UPPERCASE}_INSTALL_LIB_DIR}/cmake/${PROJECT_NAME}
-            CACHE PATH "Installation directory for CMake config files")
+            ${${PROJECT_NAME_UPPERCASE}_INSTALL_LIB_DIR}/cmake/${PROJECT_NAME} CACHE STRING
+            "Installation directory for CMake config files (relative to the install prefix)")
     endif()
 
     mark_as_advanced(
