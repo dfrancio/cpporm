@@ -79,7 +79,7 @@ const std::string EntityFactoryWriter::cDeclareEntityFactory
       " */\n"
       "class %1% : public %1%Base<%1%>\n"
       "{\n"
-      "}\n";
+      "};\n";
 
 /*!
  * \details
