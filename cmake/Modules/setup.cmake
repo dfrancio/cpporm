@@ -668,7 +668,8 @@ endfunction(setup_installation)
 #                [DEPENDENCIES [
 #                   [INCLUDE <mode>] [LINK <mode>]
 #                   [<CUSTOM|INTERNAL>] <package-params>...
-#                   [ONLY_IF <expr>...] [LIB_VAR_NAMES <var>...] END]...]
+#                   [USE_TARGETS <target>...]
+#                   [ONLY_IF <expr>...] END]...]
 #                [IS_LIBRARY|IS_TEST] [HEADER_ONLY|TEST_NO_SHARED])
 #
 #===================================================================================================
@@ -762,15 +763,15 @@ macro(setup_target_dependency)
             ${${DEP_NAME_UPPERCASE}_INCLUDE_DIRS}
             ${${DEP_NAME_UPPERCASE}_INCLUDE_DIR})
 
-        if(NOT DEP_LIB_VAR_NAMES)
+        if(NOT DEP_USE_TARGETS)
             set(DEP_LIBRARIES
                 ${${DEP_NAME}_LIBRARIES}
                 ${${DEP_NAME}_LIBRARY}
                 ${${DEP_NAME_UPPERCASE}_LIBRARIES}
                 ${${DEP_NAME_UPPERCASE}_LIBRARY})
         else()
-            foreach(var ${DEP_LIB_VAR_NAMES})
-                list(APPEND DEP_LIBRARIES ${${var}})
+            foreach(target ${DEP_USE_TARGETS})
+                list(APPEND DEP_LIBRARIES ${target})
             endforeach()
         endif()
 
@@ -807,7 +808,7 @@ macro(setup_target_dependencies)
         if(dep STREQUAL "END")
             set(options)
             set(oneValueArgs INCLUDE LINK)
-            set(multiValueArgs ONLY_IF LIB_VAR_NAMES)
+            set(multiValueArgs ONLY_IF USE_TARGETS)
             cmake_parse_arguments(DEP
                 "${options}" "${oneValueArgs}" "${multiValueArgs}" ${CURRENT_DEP})
             if(NOT DEP_ONLY_IF)
@@ -979,7 +980,7 @@ endfunction(setup_target)
 #               [DEPENDENCIES [
 #                   [INCLUDE <mode>] [LINK <mode>]
 #                   [<CUSTOM|INTERNAL>] <package-params>...
-#                   [ONLY_IF <expr>...] [LIB_VAR_NAMES <var>...] END]...])
+#                   [ONLY_IF <expr>...] [USE_TARGETS <var>...] END]...])
 #
 #===================================================================================================
 macro(setup_tests_listings)

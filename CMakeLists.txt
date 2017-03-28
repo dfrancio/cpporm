@@ -124,7 +124,7 @@ setup_tests(
             -DODBC_SQLITE_DRIVER_NAME="${ODBC_SQLITE_DRIVER_NAME}"
             -DSOCI_SQLITE_DRIVER_NAME="${SOCI_SQLITE_DRIVER_NAME}"
     DEPENDENCIES
-        EXTERNAL googletest LIB_VAR_NAMES googletest_MAIN_LIBRARIES END
+        EXTERNAL googletest USE_TARGETS gmock_main END
         INTERNAL cpporm_soci END
         INTERNAL cpporm END)
 
@@ -141,4 +141,4 @@ setup_tests(
             ${CXX_STANDARD_11}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
-        EXTERNAL googletest LIB_VAR_NAMES googletest_MAIN_LIBRARIES END)
+        EXTERNAL googletest USE_TARGETS gmock_main END)
