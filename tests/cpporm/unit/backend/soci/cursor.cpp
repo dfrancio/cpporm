@@ -17,15 +17,14 @@ protected:
     {
         connection.SetParameters({{"Driver", SOCI_SQLITE_DRIVER_NAME}, {"dbname", "test.db"}});
 
-        connection.JustExecute(
-            "CREATE TABLE IF NOT EXISTS Test ("
-            "id INTEGER PRIMARY KEY,"
-            "name TEXT DEFAULT NULL,"
-            "date DATE DEFAULT CURRENT_DATE,"
-            "time TIME DEFAULT CURRENT_TIME,"
-            "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
-            "value REAL DEFAULT 0.0,"
-            "flag TINYINT DEFAULT NULL)");
+        connection.JustExecute("CREATE TABLE IF NOT EXISTS Test ("
+                               "id INTEGER PRIMARY KEY,"
+                               "name TEXT DEFAULT NULL,"
+                               "date DATE DEFAULT CURRENT_DATE,"
+                               "time TIME DEFAULT CURRENT_TIME,"
+                               "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                               "value REAL DEFAULT 0.0,"
+                               "flag TINYINT DEFAULT NULL)");
         connection.JustExecute("DELETE FROM Test");
 
         connection.Execute("INSERT INTO Test (name,date) VALUES (\"Aţ Ţawīlah\",\"1990-12-14\")");
@@ -33,10 +32,9 @@ protected:
         connection.Execute("INSERT INTO Test (id,name) VALUES (8294967296,'abc')");
         connection.Execute("INSERT INTO Test (id,name) VALUES (-9223372036854775808,'def')");
 
-        connection.JustExecute(
-            "CREATE TABLE IF NOT EXISTS Test5 ("
-            "id INTEGER PRIMARY KEY,"
-            "hash BINARY)");
+        connection.JustExecute("CREATE TABLE IF NOT EXISTS Test5 ("
+                               "id INTEGER PRIMARY KEY,"
+                               "hash BINARY)");
         connection.JustExecute("DELETE FROM Test5");
 
         connection.Execute("INSERT INTO Test5 (hash) VALUES (x'a0b1c2d3')");

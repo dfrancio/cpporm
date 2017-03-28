@@ -15,6 +15,7 @@ DECLARE_string(version_fields);
 DECLARE_string(guid_tables);
 DECLARE_string(guid_fields);
 DECLARE_bool(amalgamate);
+DECLARE_string(factory_name);
 
 namespace cpporm
 {

@@ -25,12 +25,13 @@ EntityFactoryWriter::EntityFactoryWriter(
     const ListGraph &listGraph, const std::string &dir, const std::string &name)
     : GraphVisitor(listGraph)
 {
-    mStream.open(dir + "/" + "entityfactory.h", cOutputStreamFlags);
-    mStream << boost::format(cPreambleText) % ("entityfactory.h") % CPPORM_VERSION;
+    auto filename = boost::algorithm::to_lower_copy(FLAGS_factory_name) + ".h";
+    mStream.open(dir + "/" + filename, cOutputStreamFlags);
+    mStream << boost::format(cPreambleText) % filename % CPPORM_VERSION;
 
     if (!FLAGS_namespace.empty())
         mStream << boost::format(cBeginNamespace) % FLAGS_namespace;
-    mStream << cDeclareEntityFactory;
+    mStream << boost::format(cDeclareEntityFactory) % FLAGS_factory_name;
     if (!FLAGS_namespace.empty())
         mStream << boost::format(cNamespaceEnd) % FLAGS_namespace;
 
@@ -71,12 +72,12 @@ const std::string EntityFactoryWriter::cDeclareEntityFactory
       " * The entity factory base type\n"
       " */\n"
       "template <typename T>\n"
-      "using EntityFactoryBase = cpporm::util::Factory<T, cpporm::Entity, std::string>;\n"
+      "using %1%Base = cpporm::util::Factory<T, cpporm::Entity, std::string>;\n"
       "\n"
       "/*\n"
       " * The entity factory\n"
       " */\n"
-      "class EntityFactory : public EntityFactoryBase<EntityFactory>\n"
+      "class %1% : public %1%Base<%1%>\n"
       "{\n"
       "}\n";
 

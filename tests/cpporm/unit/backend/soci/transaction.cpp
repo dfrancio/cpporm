@@ -22,15 +22,14 @@ protected:
         session.GetConnection().SetParameters(
             {{"Driver", SOCI_SQLITE_DRIVER_NAME}, {"dbname", "test.db"}});
 
-        session.GetConnection().JustExecute(
-            "CREATE TABLE IF NOT EXISTS Test ("
-            "id INTEGER PRIMARY KEY,"
-            "name TEXT DEFAULT NULL,"
-            "date DATE DEFAULT CURRENT_DATE,"
-            "time TIME DEFAULT CURRENT_TIME,"
-            "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
-            "value REAL DEFAULT 0.0,"
-            "flag TINYINT DEFAULT NULL)");
+        session.GetConnection().JustExecute("CREATE TABLE IF NOT EXISTS Test ("
+                                            "id INTEGER PRIMARY KEY,"
+                                            "name TEXT DEFAULT NULL,"
+                                            "date DATE DEFAULT CURRENT_DATE,"
+                                            "time TIME DEFAULT CURRENT_TIME,"
+                                            "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                                            "value REAL DEFAULT 0.0,"
+                                            "flag TINYINT DEFAULT NULL)");
         session.GetConnection().JustExecute("DELETE FROM Test");
     }
     cpporm::backend::soci::Session session;

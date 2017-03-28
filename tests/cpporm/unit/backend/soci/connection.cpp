@@ -35,15 +35,14 @@ TEST_F(CppOrm_Unit_Backend_Soci_Connection, TestSet1)
 
 TEST_F(CppOrm_Unit_Backend_Soci_Connection, TestSet2)
 {
-    connection.JustExecute(
-        "CREATE TABLE IF NOT EXISTS Test ("
-        "id INTEGER PRIMARY KEY,"
-        "name TEXT DEFAULT NULL,"
-        "date DATE DEFAULT CURRENT_DATE,"
-        "time TIME DEFAULT CURRENT_TIME,"
-        "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
-        "value REAL DEFAULT 0.0,"
-        "flag TINYINT DEFAULT NULL)");
+    connection.JustExecute("CREATE TABLE IF NOT EXISTS Test ("
+                           "id INTEGER PRIMARY KEY,"
+                           "name TEXT DEFAULT NULL,"
+                           "date DATE DEFAULT CURRENT_DATE,"
+                           "time TIME DEFAULT CURRENT_TIME,"
+                           "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                           "value REAL DEFAULT 0.0,"
+                           "flag TINYINT DEFAULT NULL)");
 
     connection.Connect();
     auto cursor = connection.Execute("SELECT * FROM Test");

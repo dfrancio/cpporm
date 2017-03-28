@@ -28,6 +28,7 @@ DEFINE_string(
     guid_fields, "",
     "comma-separated list of names of columns used for detection of GUID-enabled tables");
 DEFINE_bool(amalgamate, true, "whether to amalgamate the output into one .cpp and one .h");
+DEFINE_string(factory_name, "EntityFactory", "name of the entity factory class");
 
 namespace cpporm
 {

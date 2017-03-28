@@ -57,10 +57,6 @@ bool EntryPointHeaderWriter::VisitNode(const NodeContext &context)
  */
 EntryPointImplementationWriter::~EntryPointImplementationWriter()
 {
-    mStream << boost::format(cDefineEntityCreator);
-    if (!FLAGS_namespace.empty())
-        mStream << boost::format(cNamespaceEnd) % FLAGS_namespace;
-    mStream.close();
 }
 
 /*!
@@ -70,11 +66,18 @@ EntryPointImplementationWriter::EntryPointImplementationWriter(
     const ListGraph &listGraph, const std::string &dir, const std::string &name)
     : GraphVisitor(listGraph)
 {
+    auto entityFactoryFilename = boost::algorithm::to_lower_copy(FLAGS_factory_name) + ".h";
     mStream.open(dir + "/" + name + ".cpp", cOutputStreamFlags);
     mStream << boost::format(cPreambleText) % (name + ".cpp") % CPPORM_VERSION % (name + ".h")
-            % "entityfactory.h";
+            % entityFactoryFilename;
+
     if (!FLAGS_namespace.empty())
         mStream << boost::format(cBeginNamespace) % FLAGS_namespace;
+    mStream << boost::format(cDefineEntityCreator) % FLAGS_factory_name;
+    if (!FLAGS_namespace.empty())
+        mStream << boost::format(cNamespaceEnd) % FLAGS_namespace;
+
+    mStream.close();
 }
 
 /*!
@@ -157,7 +160,7 @@ const std::string EntryPointImplementationWriter::cDefineEntityCreator
       "*/\n"
       "std::shared_ptr<cpporm::Entity> Create(const std::string &key)\n"
       "{\n"
-      "    return EntityFactory::GetInstance().CreateShared(key);\n"
+      "    return %s::GetInstance().CreateShared(key);\n"
       "}\n";
 
 /*!

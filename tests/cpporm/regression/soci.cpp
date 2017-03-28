@@ -17,15 +17,14 @@ protected:
     {
         connection.SetParameters({{"Driver", SOCI_SQLITE_DRIVER_NAME}, {"dbname", "test.db"}});
 
-        connection.JustExecute(
-            "CREATE TABLE IF NOT EXISTS Document ("
-            "id INTEGER NOT NULL,"
-            "path TEXT NOT NULL,"
-            "checksum BINARY(32) NOT NULL,"
-            "size_bytes INTEGER NOT NULL,"
-            "name TEXT NOT NULL,"
-            "PRIMARY KEY (id),"
-            "UNIQUE (path))");
+        connection.JustExecute("CREATE TABLE IF NOT EXISTS Document ("
+                               "id INTEGER NOT NULL,"
+                               "path TEXT NOT NULL,"
+                               "checksum BINARY(32) NOT NULL,"
+                               "size_bytes INTEGER NOT NULL,"
+                               "name TEXT NOT NULL,"
+                               "PRIMARY KEY (id),"
+                               "UNIQUE (path))");
         connection.JustExecute("DELETE FROM Document");
     }
     cpporm::backend::soci::Connection connection;

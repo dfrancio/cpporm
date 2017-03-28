@@ -35,11 +35,12 @@ ImplementationPreambleWriter::ImplementationPreambleWriter(
  */
 bool ImplementationPreambleWriter::VisitNode(const NodeContext &context)
 {
+    auto entityFactoryFilename = boost::algorithm::to_lower_copy(FLAGS_factory_name) + ".h";
     auto filename = boost::algorithm::to_lower_copy(context.node.name) + ".cpp";
     auto header = boost::algorithm::to_lower_copy(context.node.name) + ".h";
     mStream.open(mDirectory + "/" + filename, cOutputStreamFlags);
     mStream << boost::format(cPreambleText) % filename % CPPORM_VERSION % header
-            % "entityfactory.h";
+            % entityFactoryFilename;
 
     mIncludes.clear();
     auto result = VisitChildren(context);
@@ -122,7 +123,7 @@ bool ImplementationEntityWriter::VisitNode(const NodeContext &context)
     mRelationshipStream.str(std::string());
     mVersionFieldsWritten = false;
     mStream << boost::format(cWriteEntityComment) % context.node.name;
-    mStream << boost::format(cRegisterEntity) % context.node.name;
+    mStream << boost::format(cRegisterEntity) % FLAGS_factory_name % context.node.name;
     auto result = VisitChildren(context);
     CheckWriteVersionFields(context.node);
     auto properties = propertiesStream.str();
@@ -360,7 +361,7 @@ const std::string ImplementationEntityWriter::cWriteEntityComment
  * \brief
  */
 const std::string ImplementationEntityWriter::cRegisterEntity
-    = "CPPORM_REGISTER(EntityFactory, %1%, %1%, \"%1%\");\n";
+    = "CPPORM_REGISTER(%1%, %2%, %2%, \"%2%\");\n";
 
 /*!
  * \details

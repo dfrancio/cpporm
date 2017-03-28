@@ -19,27 +19,24 @@ protected:
     {
         connection.SetParameters({{"Driver", SOCI_SQLITE_DRIVER_NAME}, {"dbname", "test.db"}});
 
-        connection.JustExecute(
-            "CREATE TABLE IF NOT EXISTS Test ("
-            "id INTEGER PRIMARY KEY,"
-            "name TEXT DEFAULT NULL,"
-            "date DATE DEFAULT CURRENT_DATE,"
-            "time TIME DEFAULT CURRENT_TIME,"
-            "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
-            "value REAL DEFAULT 0.0,"
-            "flag TINYINT DEFAULT NULL)");
+        connection.JustExecute("CREATE TABLE IF NOT EXISTS Test ("
+                               "id INTEGER PRIMARY KEY,"
+                               "name TEXT DEFAULT NULL,"
+                               "date DATE DEFAULT CURRENT_DATE,"
+                               "time TIME DEFAULT CURRENT_TIME,"
+                               "datetime DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                               "value REAL DEFAULT 0.0,"
+                               "flag TINYINT DEFAULT NULL)");
         connection.JustExecute("DELETE FROM Test");
 
-        connection.JustExecute(
-            "CREATE TABLE IF NOT EXISTS Test4 ("
-            "id INTEGER PRIMARY KEY,"
-            "name VARCHAR(3) DEFAULT NULL)");
+        connection.JustExecute("CREATE TABLE IF NOT EXISTS Test4 ("
+                               "id INTEGER PRIMARY KEY,"
+                               "name VARCHAR(3) DEFAULT NULL)");
         connection.JustExecute("DELETE FROM Test4");
 
-        connection.JustExecute(
-            "CREATE TABLE IF NOT EXISTS Test5 ("
-            "id INTEGER PRIMARY KEY,"
-            "hash BINARY)");
+        connection.JustExecute("CREATE TABLE IF NOT EXISTS Test5 ("
+                               "id INTEGER PRIMARY KEY,"
+                               "hash BINARY)");
         connection.JustExecute("DELETE FROM Test5");
     }
     cpporm::backend::soci::Connection connection;
