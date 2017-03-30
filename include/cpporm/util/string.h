@@ -67,7 +67,17 @@ std::string to_string(const T &arg)
 }
 
 /*!
- * \brief Overload of to_string for the char array case
+ * \brief Overload of to_string for the (non-const) char array case
+ * \param[in] str The string
+ * \return The string
+ */
+inline std::string to_string(char *str)
+{
+    return str;
+}
+
+/*!
+ * \brief Overload of to_string for the (const) char array case
  * \param[in] str The string
  * \return The string
  */
