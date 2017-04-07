@@ -970,7 +970,8 @@ endfunction(setup_target)
 #===================================================================================================
 #
 #   setup_tests(NAME <name>
-#               [DATA_DIR <path>]
+#               [INPUT_DATA_DIRS <path>...]
+#               [OUTPUT_DATA_DIR <path>]
 #               [INCLUDE_DIRS <path>...]
 #               [EXTRA_SOURCES <path>...]
 #               [EXCLUDE_SOURCES <path>...]
@@ -1033,15 +1034,22 @@ endmacro(setup_tests_flags)
 
 macro(setup_tests_data)
 
-    get_path_default(INPUT_DATA_DIR ARG_INPUT_DATA_DIR "tests/data" ${CMAKE_CURRENT_SOURCE_DIR})
     get_path_default(OUTPUT_DATA_DIR ARG_OUTPUT_DATA_DIR "data" ${CMAKE_CURRENT_BINARY_DIR})
+    list(APPEND ARG_DEFINITIONS_PRIVATE -DDATADIR="${OUTPUT_DATA_DIR}")
 
-    if(EXISTS "${INPUT_DATA_DIR}")
-        message(STATUS "Copying ${ARG_NAME} test data files to build tree...")
-        file(COPY "${INPUT_DATA_DIR}/" DESTINATION "${OUTPUT_DATA_DIR}")
+    if (NOT ARG_INPUT_DATA_DIRS)
+        list(APPEND ARG_INPUT_DATA_DIRS "tests/data")
     endif()
 
-    list(APPEND ARG_DEFINITIONS_PRIVATE -DDATADIR="${OUTPUT_DATA_DIR}")
+    message(STATUS "Copying ${ARG_NAME} test data files to build tree...")
+    foreach(data_dir ${ARG_INPUT_DATA_DIRS})
+        if(NOT IS_ABSOLUTE "${data_dir}")
+            set(data_dir "${CMAKE_CURRENT_SOURCE_DIR}/${data_dir}")
+        endif()
+        if(EXISTS "${data_dir}")
+            file(COPY "${data_dir}/" DESTINATION "${OUTPUT_DATA_DIR}")
+        endif()
+    endforeach()
 
 endmacro(setup_tests_data)
 
@@ -1075,8 +1083,9 @@ function(setup_tests)
     endif()
 
     set(options)
-    set(oneValueArgs NAME INPUT_DATA_DIR OUTPUT_DATA_DIR)
+    set(oneValueArgs NAME OUTPUT_DATA_DIR)
     set(multiValueArgs
+        INPUT_DATA_DIRS
         EXTRA_SOURCES
         EXCLUDE_SOURCES
         SOURCE_PREFIXES
