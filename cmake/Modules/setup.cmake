@@ -415,10 +415,17 @@ macro(init_project_configuration)
 
     get_path_default(CONFIG_FILE_NAME ARG_CONFIG_FILE_NAME "config.h" ${CMAKE_CURRENT_BINARY_DIR})
     get_path_default(CONFIG_FILE_IN ARG_CONFIG_FILE_IN "config.h.in" ${CMAKE_CURRENT_SOURCE_DIR})
+    get_path_default(VERSION_FILE_NAME ARG_VERSION_FILE_NAME "version.h" ${CMAKE_CURRENT_BINARY_DIR})
+    get_path_default(VERSION_FILE_IN ARG_VERSION_FILE_IN "version.h.in" ${CMAKE_CURRENT_SOURCE_DIR})
 
     if(EXISTS ${CONFIG_FILE_IN})
         set(${PROJECT_NAME}_CONFIG_FILE_IN ${CONFIG_FILE_IN} CACHE INTERNAL "")
         set(${PROJECT_NAME}_CONFIG_FILE_NAME ${CONFIG_FILE_NAME} CACHE INTERNAL "")
+    endif()
+
+    if(EXISTS ${VERSION_FILE_IN})
+        set(${PROJECT_NAME}_VERSION_FILE_IN ${VERSION_FILE_IN} CACHE INTERNAL "")
+        set(${PROJECT_NAME}_VERSION_FILE_NAME ${VERSION_FILE_NAME} CACHE INTERNAL "")
     endif()
 
 endmacro(init_project_configuration)
@@ -426,7 +433,7 @@ endmacro(init_project_configuration)
 function(init_project)
 
     set(options)
-    set(oneValueArgs DESC CONFIG_FILE_IN CONFIG_FILE_NAME)
+    set(oneValueArgs DESC CONFIG_FILE_IN CONFIG_FILE_NAME VERSION_FILE_IN VERSION_FILE_NAME)
     set(multiValueArgs OPTIONS)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -620,6 +627,11 @@ function(setup_installation)
             "${${PROJECT_NAME}_CONFIG_FILE_NAME}" @ONLY)
     endif()
 
+    if(EXISTS ${${PROJECT_NAME}_VERSION_FILE_IN})
+        configure_file("${${PROJECT_NAME}_VERSION_FILE_IN}"
+            "${${PROJECT_NAME}_VERSION_FILE_NAME}" @ONLY)
+    endif()
+
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
         get_path_default(DATA_DIR ARG_DATA_DIR "data" ${CMAKE_CURRENT_SOURCE_DIR})
         get_path_default(DOC_DIR ARG_DOC_DIR "doc" ${CMAKE_CURRENT_SOURCE_DIR})
@@ -701,6 +713,11 @@ macro(setup_target_listings)
         if(EXISTS ${${PROJECT_NAME}_CONFIG_FILE_IN})
             list(APPEND TARGET_SOURCES ${${PROJECT_NAME}_CONFIG_FILE_NAME})
             list(APPEND TARGET_PUBLIC_HEADERS ${${PROJECT_NAME}_CONFIG_FILE_NAME})
+        endif()
+
+        if(EXISTS ${${PROJECT_NAME}_VERSION_FILE_IN})
+            list(APPEND TARGET_SOURCES ${${PROJECT_NAME}_VERSION_FILE_NAME})
+            list(APPEND TARGET_PUBLIC_HEADERS ${${PROJECT_NAME}_VERSION_FILE_NAME})
         endif()
 
         if(NOT TARGET_HEADER_ONLY)

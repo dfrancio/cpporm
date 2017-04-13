@@ -13,7 +13,7 @@ include(setup)
 init_project(
     DESC "Simple ORM library with SQL parser"
     CONFIG_FILE_NAME include/cpporm/config.h
-    CONFIG_FILE_IN config.h.in
+    VERSION_FILE_NAME include/cpporm/version.h
     OPTIONS
         USE_DUAL_ABI "whether to use C++ dual ABI (for compatibility)" ON END)
 

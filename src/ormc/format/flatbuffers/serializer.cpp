@@ -14,6 +14,9 @@
 #include <boost/format.hpp>
 #include <gflags/gflags.h>
 
+// Internal library includes
+#include <cpporm/version.h>
+
 // Global variables
 CPPORM_REGISTER(SerializerFactory, flatbuffers::Serializer, flatbuffers, "flatbuffers");
 DEFINE_string(root_type, "", "root table for the flatbuffers serialized data");

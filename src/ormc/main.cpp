@@ -12,6 +12,9 @@
 // External library includes
 #include <gflags/gflags.h>
 
+// Internal library includes
+#include <cpporm/version.h>
+
 // Internal program includes
 #include "serializer.h"
 

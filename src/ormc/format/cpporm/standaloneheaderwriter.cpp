@@ -12,6 +12,9 @@
 #include <boost/format.hpp>
 #include <boost/tokenizer.hpp>
 
+// Internal library includes
+#include <cpporm/version.h>
+
 // Global variables
 static const auto cOutputStreamFlags = std::ios_base::binary | std::fstream::out;
 static const auto cAppendStreamFlags = std::ios_base::ate | std::fstream::in;
