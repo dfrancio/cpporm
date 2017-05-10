@@ -18,6 +18,7 @@ include/cpporm/db/savepoint.h
 include/cpporm/db/session.h
 include/cpporm/db/statement.h
 include/cpporm/db/transaction.h
+include/cpporm/documentation.h
 include/cpporm/entity.h
 include/cpporm/error.h
 include/cpporm/index.h

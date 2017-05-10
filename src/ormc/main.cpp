@@ -1,11 +1,3 @@
-/*!
- * \file
- * \brief     main routine of the ORM-compiler
- * \author    Diego Sogari <diego.sogari@gmail.com>
- * \date      2016
- * \copyright All rights reserved
- */
-
 // C++ library includes
 #include <fstream>
 
@@ -23,19 +15,11 @@ DEFINE_string(input_format, "auto", "name of the input format");
 DEFINE_string(output_format, "cpporm", "name of the output format");
 DEFINE_string(namespace, "", "name of the output namespace");
 
-/*!
- * \brief Get next argument
- * \details
- */
 std::string GetNextArgument(int &argc, char **&argv, const std::string &def = "")
 {
     return (argc-- > 0) ? *argv++ : def;
 }
 
-/*!
- * \brief Guess input format
- * \details
- */
 std::string GuessInputFormat(const std::string &filename)
 {
     auto pos = filename.find_last_of('.');
@@ -56,10 +40,6 @@ std::string GuessInputFormat(const std::string &filename)
     return "no extension provided";
 }
 
-/*!
- * \brief main routine
- * \details
- */
 int main(int argc, char **argv)
 {
     // Initialize command-line flags

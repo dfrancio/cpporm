@@ -217,7 +217,8 @@ public:
      * \brief Add create table clause
      * \param[in] name The table name
      * \param[in] temp A flag to indicate whether table should be created in the temporary schema
-     * \param[in] temp A flag to indicate whether table should be created only if it does not exist
+     * \param[in] ifNotExists A flag to indicate whether table should be created only if it does not
+     * exist
      * \return A reference to *this
      */
     virtual Query &CreateTable(
@@ -227,7 +228,7 @@ public:
      * \brief Add drop table clause
      * \param[in] name The table name
      * \param[in] temp A flag to indicate whether table should be dropped from the temporary schema
-     * \param[in] temp A flag to indicate whether table should be dropped only if it exists
+     * \param[in] ifExists A flag to indicate whether table should be dropped only if it exists
      * \return A reference to *this
      */
     virtual Query &DropTable(const std::string &name, bool temp = false, bool ifExists = false);
@@ -753,7 +754,7 @@ public:
      * \brief Add drop table clause
      * \param[in] name The table name
      * \param[in] temp A flag to indicate whether table should be dropped from the temporary schema
-     * \param[in] temp A flag to indicate whether table should be dropped only if it exists
+     * \param[in] ifExists A flag to indicate whether table should be dropped only if it exists
      * \return A reference to *this
      */
     Query &DropTable(const std::string &name, bool temp, bool ifExists) override;

@@ -94,8 +94,8 @@ setup_target(
         INTERNAL cpporm END)
 
 setup_doxygen(
-    NAME html
-    CONFIG_FILE doc/Doxyfile.in)
+    NAME "html_and_xml"
+    CONFIG_FILE doxygen/Doxyfile.in)
 
 setup_installation(
     INCLUDE_DIRS

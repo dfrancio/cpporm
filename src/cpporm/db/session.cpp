@@ -232,7 +232,7 @@ void Session::UpdateInDatabase(Entity &entity)
     auto cursor = GetConnection().Execute(*statement);
     assert(cursor);
     if (cursor->GetAffectedRowCount() == 0)
-        throw EntityNotUpdated(entity.GetId());
+        throw EntityNotUpdatedError(entity.GetId());
     entity.SavePrimaryKey();
 }
 
@@ -253,7 +253,7 @@ void Session::DeleteFromDatabase(Entity &entity)
     auto cursor = GetConnection().Execute(*statement);
     assert(cursor);
     if (cursor->GetAffectedRowCount() == 0)
-        throw EntityNotDeleted(entity.GetId());
+        throw EntityNotDeletedError(entity.GetId());
 }
 
 CPPORM_END_SUB_NAMESPACE

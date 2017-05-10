@@ -14,7 +14,9 @@
 
 CPPORM_BEGIN_SUB_NAMESPACE(util)
 
-/*! @cond */
+/*
+ * Helper classes
+ */
 namespace detail
 {
 template <typename T, class = typename std::is_enum<T>::type>
@@ -29,7 +31,6 @@ struct SafeUnderlyingTypeImpl<T, std::true_type>
     using type = typename std::underlying_type<T>::type;
 };
 }
-/*! @endcond */
 
 /*!
  * \brief Safe underlying type

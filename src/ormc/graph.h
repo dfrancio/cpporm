@@ -1,10 +1,3 @@
-/*!
- * \file
- * \brief     Model class
- * \author    Diego Sogari <diego.sogari@gmail.com>
- * \date      2016
- * \copyright All Rights Reserved
- */
 #pragma once
 
 // C++ library includes
@@ -17,9 +10,6 @@
 #include <boost/graph/adjacency_matrix.hpp>
 #include <boost/graph/labeled_graph.hpp>
 
-/*!
- * \brief Node field
- */
 struct Field
 {
     std::string name;
@@ -27,9 +17,6 @@ struct Field
     std::map<std::string, std::string> properties;
 };
 
-/*!
- * \brief Index constraint
- */
 struct Index
 {
     std::string name;
@@ -38,18 +25,12 @@ struct Index
     std::map<std::string, std::string> properties;
 };
 
-/*!
- * \brief Check constraint
- */
 struct Check
 {
     std::string name;
     std::string expression;
 };
 
-/*!
- * \brief Graph node
- */
 struct Node
 {
     std::string name;
@@ -59,9 +40,6 @@ struct Node
     std::map<std::string, std::string> properties;
 };
 
-/*!
- * \brief Graph edge
- */
 struct Edge
 {
     std::size_t indexNumber;
@@ -69,9 +47,6 @@ struct Edge
     std::vector<std::string> refFieldNames;
 };
 
-/*!
- * \brief Graph model
- */
 struct Model
 {
     std::string name;
@@ -79,128 +54,55 @@ struct Model
     std::map<std::string, std::string> properties;
 };
 
-/*!
- * \brief List graph
- */
 typedef boost::
     adjacency_list<boost::multisetS, boost::listS, boost::bidirectionalS, Node, Edge, Model>
         ListGraph;
 
-/*!
- * \brief Labeled graph
- */
 typedef boost::labeled_graph<ListGraph *, std::string> LabeledGraph;
 
-/*!
- * \brief %Graph builder
- */
 class GraphBuilder
 {
 public:
-    /*!
-     * \brief Destructor
-     */
     virtual ~GraphBuilder();
 
-    /*!
-     * \brief Constructor
-     * \param[in] graph The graph
-     */
     GraphBuilder(ListGraph &graph);
 
-    /*!
-     * \brief Add edge
-     */
     void AddEdge();
 
-    /*!
-     * \brief Add index
-     */
     void AddIndex();
 
-    /*!
-     * \brief Add check
-     */
     void AddCheck();
 
-    /*!
-     * \brief Get current node
-     * \return The node
-     */
     Node &GetCurrentNode();
 
-    /*!
-     * \brief Get current edge
-     * \return The edge
-     */
     Edge &GetCurrentEdge();
 
-    /*!
-     * \brief Get current field
-     * \return The field
-     */
     Field &GetCurrentField();
 
-    /*!
-     * \brief Get current index
-     * \return The index
-     */
     Index &GetCurrentIndex();
 
-    /*!
-     * \brief Get current check
-     * \return The check
-     */
     Check &GetCurrentCheck();
 
 protected:
-    /*!
-     * \brief The current node name
-     */
     std::string mNodeName;
 
-    /*!
-     * \brief The current referenced node name
-     */
     std::string mRefNodeName;
 
-    /*!
-     * \brief The current field name
-     */
     std::string mFieldName;
 
-    /*!
-     * \brief The field map
-     */
     std::map<std::string, std::size_t> mFieldMap;
 
 private:
-    /*!
-     * \brief The labeled graph wrapper
-     */
     LabeledGraph mLabeledGraph;
 };
 
-/*!
- * \brief Graph visitor
- */
 class GraphVisitor
 {
 public:
-    /*!
-     * \brief Destructor
-     */
     virtual ~GraphVisitor();
 
-    /*!
-     * \brief Constructor
-     * \param[in] listGraph The list graph
-     */
     GraphVisitor(const ListGraph &listGraph);
 
-    /*!
-     * \brief Visit
-     */
     void Visit();
 
 protected:
@@ -250,58 +152,20 @@ protected:
         CheckContext(const Node &aNode, const Check &aCheck);
     };
 
-    /*!
-     * \brief Visit node
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
     virtual bool VisitNode(const NodeContext &context);
 
-    /*!
-     * \brief Visit field
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
     virtual bool VisitField(const FieldContext &context);
 
-    /*!
-     * \brief Visit index
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
     virtual bool VisitIndex(const IndexContext &context);
 
-    /*!
-     * \brief Visit check constraint
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
     virtual bool VisitCheck(const CheckContext &context);
 
-    /*!
-     * \brief Visit out edge
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
     virtual bool VisitOutEdge(const EdgeContext &context);
 
-    /*!
-     * \brief Visit in edge
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
     virtual bool VisitInEdge(const EdgeContext &context);
 
-    /*!
-     * \brief Visit children
-     * \param[in] context The context
-     * \return True if the remaining siblings should be visited; false otherwise
-     */
     bool VisitChildren(const Context &context);
 
 private:
-    /*!
-     * \brief The adjacency list graph
-     */
     const ListGraph &mListGraph;
 };

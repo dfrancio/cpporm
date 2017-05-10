@@ -1,10 +1,3 @@
-/*!
- * \file
- * \brief     MySQL serializer implementation
- * \author    Diego Sogari <diego.sogari@gmail.com>
- * \date      2016
- * \copyright All rights reserved
- */
 #include "serializer.h"
 
 // Internal program includes
@@ -17,29 +10,14 @@ CPPORM_REGISTER(SerializerFactory, mysql::Serializer, mysql, "mysql");
 
 namespace mysql
 {
-/*!
- * \brief Stateful visitor
- */
 template <typename T>
 class StatefulVisitor : public mysqlBaseVisitor
 {
 protected:
-    /*!
-     * \brief The state type
-     */
     typedef T State;
 
-    /*!
-     * \brief The visitor states
-     */
     std::stack<T> mStates;
 
-    /*!
-     * \brief Enter state
-     * \param[in] ctx The context
-     * \param[in] state The new state
-     * \return The aggregate result
-     */
     template <typename C>
     antlrcpp::Any EnterState(C *ctx, T state)
     {
@@ -49,33 +27,18 @@ protected:
         return result;
     }
 
-    /*!
-     * \brief Get literal
-     * \param[in] ctx The context
-     * \return The string
-     */
     template <typename C>
     std::string GetLiteral(C *ctx)
     {
         return ctx->literal() ? GetStringLiteral(ctx->literal()) : ctx->getText();
     }
 
-    /*!
-     * \brief Get integer literal
-     * \param[in] ctx The context
-     * \return The string
-     */
     template <typename C>
     std::string GetIntegerLiteral(C *ctx)
     {
         return ctx->integer_literal() ? ctx->integer_literal()->getText() : ctx->getText();
     }
 
-    /*!
-     * \brief Get string literal
-     * \param[in] ctx The context
-     * \return The string
-     */
     template <typename C>
     std::string GetStringLiteral(C *ctx)
     {
@@ -87,11 +50,6 @@ protected:
         return ctx->getText();
     }
 
-    /*!
-     * \brief Get identifier
-     * \param[in] ctx The context
-     * \return The string
-     */
     template <typename C>
     std::string GetIdentifier(C *ctx)
     {
@@ -109,9 +67,6 @@ protected:
     }
 };
 
-/*!
- * \brief Schema definition state
- */
 enum class SchemaDefinitionState
 {
     parse,
@@ -131,9 +86,6 @@ enum class SchemaDefinitionState
     check
 };
 
-/*!
- * \brief Schema definition visitor
- */
 class SchemaDefinitionVisitor : public StatefulVisitor<SchemaDefinitionState>, public GraphBuilder
 {
     using GraphBuilder::GraphBuilder;
@@ -293,11 +245,6 @@ public:
         return EnterState(ctx, State::columnOpt);
     }
 
-    /*!
-     * \brief Visit column data type
-     * \param[in] ctx The context
-     * \return The aggregate result
-     */
     antlrcpp::Any visitData_type(mysqlParser::Data_typeContext *ctx) override
     {
         if (ctx->UNSIGNED())
@@ -772,9 +719,6 @@ public:
     }
 };
 
-/*!
- * \details
- */
 void Serializer::Parse(const std::string &filename, ListGraph &graph)
 {
     std::ifstream stream(filename);
@@ -800,9 +744,6 @@ void Serializer::Parse(const std::string &filename, ListGraph &graph)
     schemaDefinitionVisitor.visit(tree);
 }
 
-/*!
- * \details
- */
 void Serializer::Write(const std::string &, const std::string &, const ListGraph &)
 {
     throw cpporm::NotImplementedError(

@@ -22,6 +22,35 @@ class Criteria;
 class Entity;
 class PropertyMap;
 
+/*
+ * Helper classes
+ */
+namespace detail
+{
+template <typename T>
+struct function_traits /** @cond */ : public function_traits<decltype(&T::operator())>
+/** @endcond */
+{ /** @cond */
+};
+
+template <typename ClassType, typename ReturnType, typename... Args>
+struct function_traits<ReturnType (ClassType::*)(Args...) const>
+{ /** @endcond */
+    enum
+    {
+        arity = sizeof...(Args)
+    };
+
+    typedef ReturnType result_type;
+
+    template <std::size_t i>
+    struct arg
+    {
+        typedef typename std::tuple_element<i, std::tuple<Args...>>::type type;
+    };
+};
+}
+
 /*!
  * \brief %Relationship
  */
@@ -246,28 +275,6 @@ private:
     bool mInvalidated = true;
 };
 
-template <typename T>
-struct function_traits : public function_traits<decltype(&T::operator())>
-{
-};
-
-template <typename ClassType, typename ReturnType, typename... Args>
-struct function_traits<ReturnType (ClassType::*)(Args...) const>
-{
-    enum
-    {
-        arity = sizeof...(Args)
-    };
-
-    typedef ReturnType result_type;
-
-    template <std::size_t i>
-    struct arg
-    {
-        typedef typename std::tuple_element<i, std::tuple<Args...>>::type type;
-    };
-};
-
 /*!
  * \brief To-many relationship
  */
@@ -286,7 +293,8 @@ public:
     template <typename F, typename... Args>
     bool ForEach(F &&function, Args &&... args)
     {
-        typedef typename function_traits<typename std::decay<F>::type>::template arg<0> FirstArg;
+        typedef typename detail::function_traits<typename std::decay<F>::type>::template arg<0>
+            FirstArg;
         typedef typename std::decay<typename FirstArg::type>::type T;
         Load(false);
         for (auto &pointer : *this)

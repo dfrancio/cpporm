@@ -1,10 +1,3 @@
-/*!
- * \file
- * \brief     cpporm serializer implementation
- * \author    Diego Sogari <diego.sogari@gmail.com>
- * \date      2016
- * \copyright All rights reserved
- */
 #include "serializer.h"
 
 // External library includes
@@ -32,17 +25,11 @@ DEFINE_string(factory_name, "EntityFactory", "name of the entity factory class")
 
 namespace cpporm
 {
-/*!
- * \details
- */
 void Serializer::Parse(const std::string &, ListGraph &)
 {
     throw NotImplementedError("cpporm::Serializer::Parse(const std::string &, ListGraph &)");
 }
 
-/*!
- * \details
- */
 void Serializer::Write(const std::string &dir, const std::string &name, const ListGraph &graph)
 {
     if (!FLAGS_amalgamate)

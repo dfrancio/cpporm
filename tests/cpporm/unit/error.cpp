@@ -27,7 +27,7 @@ TEST(CppOrm_Unit_Error, TestSet1)
     ASSERT_STREQ(
         DatabaseCursorNavigationError().what(), "could not navigate through the result set");
     ASSERT_STREQ(DatabaseCursorQueryError().what(), "could not query the result set");
-    ASSERT_STREQ(EntityNotUpdated().what(), "the entity was not updated in the database");
-    ASSERT_STREQ(EntityNotDeleted().what(), "the entity was not deleted in the database");
+    ASSERT_STREQ(EntityNotUpdatedError().what(), "the entity was not updated in the database");
+    ASSERT_STREQ(EntityNotDeletedError().what(), "the entity was not deleted in the database");
     ASSERT_STREQ(DatabaseTransactionError().what(), "could not execute transaction operation");
 }

@@ -111,10 +111,7 @@ public:
     Relationship &GetRelationship(const std::string &name);
 
     /*!
-     * \brief Traverse relationships
-     * \param[in] function The function
-     * \param[in] args The function arguments
-     * \return The relationship
+     * \brief Traverse result
      */
     enum class TraverseResult
     {
@@ -122,6 +119,12 @@ public:
         skip,
         halt
     };
+
+    /*!
+     * \brief Traverse relationships
+     * \param[in] function The function
+     * \return The traverse result
+     */
     TraverseResult TraverseRelationships(std::function<TraverseResult(Entity &)> function);
 
     /*!
