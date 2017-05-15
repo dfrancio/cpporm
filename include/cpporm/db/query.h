@@ -16,12 +16,12 @@ CPPORM_BEGIN_SUB_NAMESPACE(db)
  */
 enum class JoinType
 {
-    cross,
-    inner,
-    natural,
-    leftouter,
-    rightouter,
-    fullouter
+    cross, /*!< cross join */
+    inner, /*!< inner join */
+    natural, /*!< natural join */
+    leftouter, /*!< left outer join */
+    rightouter, /*!< right outer join */
+    fullouter /*!< full outer join */
 };
 
 /*!

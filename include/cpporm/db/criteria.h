@@ -43,8 +43,8 @@ typedef std::tuple<std::string, std::string, SortOrder> OrderBySpec;
  */
 enum class LogicalConnective
 {
-    conjunction,
-    disjunction
+    conjunction, /*!< and connective */
+    disjunction /*!< or connective */
 };
 
 /*!

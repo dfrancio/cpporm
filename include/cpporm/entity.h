@@ -115,9 +115,9 @@ public:
      */
     enum class TraverseResult
     {
-        ok,
-        skip,
-        halt
+        ok, /*!< continue iterating */
+        skip, /*!< skip this entity */
+        halt /*!< halt the iteration and return */
     };
 
     /*!

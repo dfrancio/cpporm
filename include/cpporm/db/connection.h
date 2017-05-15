@@ -23,11 +23,11 @@ class Statement;
  */
 enum class Vendor
 {
-    unknown,
-    sqlite,
-    mssql,
-    mysql,
-    postgresql
+    unknown, /*!< unknown vendor */
+    sqlite, /*!< SQLite */
+    mssql, /*!< Microsoft SQL Server */
+    mysql, /*!< MySQL */
+    postgresql /*!< PostgreSQL */
 };
 
 /*!
