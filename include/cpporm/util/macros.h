@@ -86,8 +86,14 @@
                      -> cpporm::Relationship & { return static_cast<ent &>(entity).rel; }          \
     }
 
-// Exception utilities
+/*!
+ * \brief Marks a class with default visibility
+ */
 #define CPPORM_VISBILITY_DEFAULT __attribute__((visibility("default")))
+
+/*!
+ * \brief Declares a new type of exception
+ */
 #define CPPORM_DECLARE_EXCEPTION(name, msg, base)                                                  \
     class CPPORM_VISBILITY_DEFAULT name : public base                                              \
     {                                                                                              \

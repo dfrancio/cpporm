@@ -31,7 +31,106 @@ class RelationshipMap;
 class IndexMap;
 
 /*!
- * \brief %Entity
+ * \brief Abstract interface to represent database tables
+ *
+ * An entity maps a C++ object to an entry in a database table. All entities should derive from this
+ * class. It has a name, a set of properties and a set of indices, all being static members of the
+ * derived class. It contains an internal state comprised of:
+ *  1. a set of attributes, which correspond to the table cloumns
+ *  2. a set of relationships, which correspond to the table foreign keys
+ *
+ * Transactions and savepoints can be used with entities. The entity attributes can be accessed and
+ * modified polymorhpically by means of a container which maps column names to attributes.
+ * Relationships can be accessed in a similar manner. This effectively implements a (rather
+ * primitive) kind of object introspection mechanism.
+ *
+ * An entity can have a primary key. If there is no primary key declared in the database table, then
+ * all attributes combined are considered as the primary key. This is needed to guarantee uniqueness
+ * within the session cache.
+ *
+ * An entity can also have a version field. A version field is a set of attributes which indicates
+ * the version of an entity. This is required for the optimistic locking strategy used in
+ * concurrency control.
+ *
+ * One can loop through the entity relationships recusrively using a depth-first search procedure.
+ *
+ * There is a database session with which an entity can be associated, and a unique identifier for
+ * the entity in the session cache. The nature of this identifier is implementation detail, and
+ * should not matter for most users. There are methods for obtaining and resetting the ID.
+ *
+ * One can check if any of the entity attributes was modified since the last commit or since it was
+ * constructed. It is also possible to rollback or save the internal state when using transactions.
+ *
+ * Some of the methods help in the construction of prepared statements, while others have to do with
+ * the database schema of the database table being represented. Still others have do to with the
+ * entity relationships.
+ *
+ * Finally, some convenience methods are provided which help in copying attributes from other
+ * entities.
+ *
+ * \see Attribute
+ * \see db::Session
+ *
+ * Usage example:
+ *
+ * ~~~{.cpp}
+ * class MyEntity : public Entity
+ * {
+ * public:
+ *     Entity *Clone() const override
+ *     {
+ *         return new MyEntity(*this);
+ *     }
+ *     const std::string &GetName() const override
+ *     {
+ *         static std::string name = "ent";
+ *         return name;
+ *     }
+ *     const PropertyMap &GetProperties() const override
+ *     {
+ *         static PropertyMap properties = {{"USE_GUID", ""}};
+ *         return map;
+ *     }
+ *     const AttributeMap &GetAttributes() const override
+ *     {
+ *         static AttributeMap map = {CPPORM_MAP_ATTRIBUTE(MyEntity, attr)};
+ *         return map;
+ *     }
+ *     const RelationshipMap &GetRelationships() const override
+ *     {
+ *         static RelationshipMap map;
+ *         return map;
+ *     }
+ *     const IndexMap &GetIndices() const override
+ *     {
+ *         static IndexMap map;
+ *         return map;
+ *     }
+ *     MyAttribute attr;
+ * };
+ *
+ * void test()
+ * {
+ *     MyEntity entity;
+ *     assert(entity.GetId() == "ent");
+ *     assert(entity.GetProperties.Has(("USE_GUID"));
+ *     assert(!entity.WasModified());
+ *
+ *     entity.attr.Set("1");
+ *     assert(entity.WasModified());
+ *     entity.ResetId();
+ *     assert(entity.GetId() == "ent1");
+ *
+ *     entity.Rollback();
+ *     assert(entity.attr.Get() == "");
+ *     assert(!entity.WasModified());
+ *
+ *     entity["attr"] = "1";
+ *     entity.Commit();
+ *     assert(entity.attr.Get() == "1");
+ *     assert(!entity.WasModified());
+ * }
+ * ~~~
  */
 class CPPORM_EXPORT Entity
 {
@@ -42,69 +141,69 @@ public:
     virtual ~Entity();
 
     /*!
-     * \brief Clone
+     * \brief Clone entity
      * \return The cloned entity
      */
     virtual Entity *Clone() const = 0;
 
     /*!
-     * \brief Get name
+     * \brief Get entity name
      * \return The entity name
      */
     virtual const std::string &GetName() const = 0;
 
     /*!
-     * \brief Get properties
+     * \brief Get entity properties
      * \return The entity properties
      */
     virtual const PropertyMap &GetProperties() const = 0;
 
     /*!
-     * \brief Get attributes
+     * \brief Get entityattributes
      * \return The entity attributes
      */
     virtual const AttributeMap &GetAttributes() const = 0;
 
     /*!
-     * \brief Get relationships
+     * \brief Get entity relationships
      * \return The entity relationships
      */
     virtual const RelationshipMap &GetRelationships() const = 0;
 
     /*!
-     * \brief Get indices
+     * \brief Get entity indices
      * \return The entity indices
      */
     virtual const IndexMap &GetIndices() const = 0;
 
     /*!
-     * \brief Get primary key
-     * \return The primary key
+     * \brief Get entity primary key
+     * \return The entity primary key
      */
     const AttributeMap &GetPrimaryKey() const;
 
     /*!
-     * \brief Get version fields
-     * \return The version fields
+     * \brief Get entity version fields
+     * \return The entity version fields
      */
     const AttributeMap &GetVersionFields() const;
 
     /*!
-     * \brief operator[]
+     * \brief Get entity attribute by name
      * \param[in] name The attribute name
      * \return The attribute
      */
     Attribute &operator[](const std::string &name);
 
     /*!
-     * \brief operator[]
+     * \brief Get entity attribute by name (const version)
      * \param[in] name The attribute name
      * \return The attribute
      */
     const Attribute &operator[](const std::string &name) const;
 
     /*!
-     * \brief Get relationship
+     * \brief Get entity relationship by name
      * \param[in] name The relationship name
      * \return The relationship
      */
@@ -121,199 +220,201 @@ public:
     };
 
     /*!
-     * \brief Traverse relationships
+     * \brief Traverse entity relationships
      * \param[in] function The function
      * \return The traverse result
      */
     TraverseResult TraverseRelationships(std::function<TraverseResult(Entity &)> function);
 
     /*!
-     * \brief Set session
+     * \brief Associate entity with a database session
      * \param[in] session The database session
      */
     void SetSession(db::Session *session);
 
     /*!
-     * \brief Get unique ID
-     * \return The unique ID
+     * \brief Get entity unique ID
+     * \return The entity unique ID
      */
     const std::string &GetId();
 
     /*!
-     * \brief Reset unique ID
+     * \brief Reset entity unique ID
      */
     void ResetId();
 
     /*!
-     * \brief Was modified?
-     * \return True, if the entity was modified; false otherwise
+     * \brief Check whether the entity was modified since last commit
+     * \return True if the entity was modified; false otherwise
      */
     bool WasModified();
 
     /*!
-     * \brief Mark for removal
-     * \return True, if the entity was previously marked for removal; false otherwise
+     * \brief Mark entity for removal
+     * \return True if the entity was previously marked for removal; false otherwise
      */
     bool MarkForRemoval();
 
     /*!
-     * \brief Rollback
+     * \brief Rollback entity internal state
      */
     void Rollback();
 
     /*!
-     * \brief Commit
+     * \brief Commit entity internal state
      */
     void Commit();
 
     /*!
-     * \brief Push state
+     * \brief Push entity internal state
      */
     void PushState();
 
     /*!
-     * \brief Extract
+     * \brief Extract entity attributes
      * \param[in] cursor The database cursor
      */
     void Extract(db::Cursor &cursor);
 
     /*!
-     * \brief Extract primary key
+     * \brief Extract entity primary key
      * \param[in] cursor The database cursor
      */
     void ExtractPrimaryKey(db::Cursor &cursor);
 
     /*!
-     * \brief Save primary key
+     * \brief Save entity primary key
      */
     void SavePrimaryKey();
 
     /*!
-     * \brief Fetch from database
+     * \brief Compose part of query needed to fetch the entity from the database
      * \param[in] query The database query
      */
     void Fetch(db::Query &query);
 
     /*!
-     * \brief Fetch last inserted id
+     * \brief Compose part of query needed to fetch the last inserted ID from the database
      * \param[in] query The database query
-     * \return True, if there is last insert id to be fetched; false otherwise
+     * \return True if there is a last insert id to be fetched; false otherwise
      */
     bool FetchLastId(db::Query &query);
 
     /*!
-     * \brief Fetch primary key
+     * \brief Compose part of query needed to fetch the entity primary key from the database
      * \param[in] query The database query
      */
     void FetchPrimaryKey(db::Query &query);
 
     /*!
-     * \brief Insert into database
+     * \brief Compose part of query needed to insert the entity into the database
      * \param[in] query The database query
      */
     void Insert(db::Query &query);
 
     /*!
-     * \brief Insert into temporary database
+     * \brief Compose part of query needed to insert the entity into a temporary database table
      * \param[in] query The database query
      */
     void InsertIntoTemp(db::Query &query);
 
     /*!
-     * \brief Join temporary database
+     * \brief Compose part of query needed to join the temporary database table
      * \param[in] query The database query
      */
     void JoinTemp(db::Query &query);
 
     /*!
-     * \brief Update in database
+     * \brief Compose part of query needed to update the entity in the database
      * \param[in] query The database query
      */
     void Update(db::Query &query);
 
     /*!
-     * \brief Delete from database
+     * \brief Compose part of query needed to delete the entity from the database
      * \param[in] query The database query
      */
     void Delete(db::Query &query);
 
     /*!
-     * \brief Add where clause
+     * \brief Compose part of query needed to lookup the entity in the database
      * \param[in] query The database query
      */
     void Where(db::Query &query);
 
     /*!
-     * \brief Bind to statement
+     * \brief Bind the entity attributes to a prepared statement
      * \param[in] statement The database statement
      */
     void Bind(db::Statement &statement);
 
     /*!
-     * \brief Bind primarey key to statement
+     * \brief Bind the primary key attributes of this entity to a prepared statement
      * \param[in] statement The database statement
      */
     void BindPrimaryKey(db::Statement &statement);
 
     /*!
-     * \brief Validate database schema
+     * \brief Validate the database schema of this entity
      */
     void ValidateSchema() const;
 
     /*!
-     * \brief Create database schema
+     * \brief Compose part of query needed to create the database schema of this entity
      * \param[in] query The database query
      */
     void CreateSchema(db::Query &query) const;
 
     /*!
-     * \brief Create temporary database schema (only primary key columns)
+     * \brief Compose part of query needed to create the temporary database schema
      * \param[in] query The database query
+     * \note Only the primary key attributes make up the temporary table
      */
     void CreateTempSchema(db::Query &query) const;
 
     /*!
-     * \brief Erase table
+     * \brief Compose part of query needed to erase the table associated with this entity
      * \param[in] query The database query
      */
     void EraseTable(db::Query &query) const;
 
     /*!
-     * \brief Erase temporary table
+     * \brief Compose part of query needed to erase the temporary table associated with this entity
      * \param[in] query The database query
      */
     void EraseTempTable(db::Query &query) const;
 
     /*!
-     * \brief Drop database schema
+     * \brief Compose part of query needed to drop the database schema associated with this entity
      * \param[in] query The database query
      */
     void DropSchema(db::Query &query) const;
 
     /*!
-     * \brief Drop temporary database schema
+     * \brief Compose part of query needed to drop the temporary database schema associated with
+     * this entity
      * \param[in] query The database query
      */
     void DropTempSchema(db::Query &query) const;
 
     /*!
-     * \brief Reload relationships
+     * \brief Reload the entity relationships
      */
     void ReloadRelationships();
 
     /*!
-     * \brief Dissolve relationships
+     * \brief Dissolve the entity relationships
      */
     void DissolveRelationships();
 
     /*!
-     * \brief Copy from (excluding primary key and version fields)
+     * \brief Copy all attributes except primary key and version fields from another entity
      * \param[in] entity The other entity
      */
     void CopyFrom(Entity &entity);
 
     /*!
-     * \brief Copy all from
+     * \brief Copy all attributes (including primary key and version fields) from another entity
      * \param[in] entity The other entity
      */
     void CopyAllFrom(Entity &entity);
@@ -331,7 +432,7 @@ protected:
 
 private:
     /*!
-     * \brief The unique ID
+     * \brief The entity unique ID
      */
     std::string mUniqueId;
 

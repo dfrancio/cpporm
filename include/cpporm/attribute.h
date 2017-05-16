@@ -25,11 +25,11 @@ class PropertyMap;
 /*!
  * \brief Abstract interface to represent database columns
  *
- * Every attribute maps to a database column in a database table and should derive from this class.
+ * An attribute maps to a database column in a database table and should derive from this class.
  * It has a name and a set of properties, both being static members of the derived class. It also
  * contains a state: the current attribute value. This value is always cached as a string and is
  * guaranteed to be the actual value stored in the database, during the course of a database
- * session. Transaction and savepoint can also be used with attributes.
+ * session. Transactions and savepoints can be used with attributes.
  *
  * The attribute value can be read and assigned, or it can be set NULL. Assigning an empty string is
  * the same as setting it NULL. Equality comparisons are made upon the cached attribute value only.
@@ -38,9 +38,8 @@ class PropertyMap;
  * without breaking consistency. The state can also be queried as to whether it was modified since
  * the last commit.
  *
- * A fair number of methods are actually for convenience. Some help in the construction of prepared
- * statements, while others have to do with the database schema of the database column being
- * represented.
+ * Some of the methods help in the construction of prepared statements, while others have to do with
+ * the database schema of the database column being represented.
  *
  * Finally, a couple of methods have to do with Globally Unique Identifiers (GUID). Use of these
  * only make sense for GUID-compliant database columns.
@@ -224,7 +223,7 @@ public:
     void Update(db::Query &query);
 
     /*!
-     * \brief Compose part of query needed to lookup of the attribute value in the database
+     * \brief Compose part of query needed to lookup the attribute value in the database
      * \param[in] query The database query
      */
     void Where(db::Query &query);

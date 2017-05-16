@@ -12,7 +12,6 @@ using namespace cpporm;
 TEST(CppOrm_Unit_Error, TestSet1)
 {
     ASSERT_STREQ(Error("a", 1, 2.3).what(), "a: 1: 2.300000");
-    ASSERT_STREQ(ConvertError().what(), "could not convert");
     ASSERT_STREQ(NotImplementedError().what(), "the functionality is not yet implemented");
     ASSERT_STREQ(NotSupportedError().what(), "the functionality is not supported");
     ASSERT_STREQ(EntryNonExistentError().what(), "the required entry does not exist");
