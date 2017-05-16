@@ -16,13 +16,6 @@ CPPORM_BEGIN_NAMESPACE
 class Entity;
 CPPORM_END_NAMESPACE
 
-CPPORM_BEGIN_NAMESPACE
-/*! \brief Namespace db */
-namespace db
-{
-}
-CPPORM_END_NAMESPACE
-
 CPPORM_BEGIN_SUB_NAMESPACE(db)
 
 /*!

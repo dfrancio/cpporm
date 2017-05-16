@@ -57,11 +57,9 @@
     } \
     @PROJECT_NAME_UPPERCASE@_END_SUB_NAMESPACE
 
-/*! \brief Namespace @PROJECT_NAME@ */
 namespace @PROJECT_NAME@
 {
 #if @PROJECT_NAME_UPPERCASE@_USE_CXX11_ABI
-/*! \brief Namespace __cxx11 */
 inline namespace __cxx11 @PROJECT_NAME_UPPERCASE@_ABI_TAG_CXX11
 {
 }
