@@ -23,7 +23,80 @@ class Statement;
 class PropertyMap;
 
 /*!
- * \brief %Attribute
+ * \brief Abstract interface to represent database columns
+ *
+ * Every attribute maps to a database column in a database table and should derive from this class.
+ * It has a name and a set of properties, both being static members of the derived class. It also
+ * contains a state: the current attribute value. This value is always cached as a string and is
+ * guaranteed to be the actual value stored in the database, during the course of a database
+ * session. Transaction and savepoint can also be used with attributes.
+ *
+ * The attribute value can be read and assigned, or it can be set NULL. Assigning an empty string is
+ * the same as setting it NULL. Equality comparisons are made upon the cached attribute value only.
+ * A history of values that were assigned to the attribute is kept within, in order to accomplish
+ * transaction and savepoint semantics. Thus, the internal state can be rolled back if necessary
+ * without breaking consistency. The state can also be queried as to whether it was modified since
+ * the last commit.
+ *
+ * A fair number of methods are actually for convenience. Some help in the construction of prepared
+ * statements, while others have to do with the database schema of the database column being
+ * represented.
+ *
+ * Finally, a couple of methods have to do with Globally Unique Identifiers (GUID). Use of these
+ * only make sense for GUID-compliant database columns.
+ *
+ * \note Copy and move semantics are the compiler default.
+ * \note Transaction atomicity is ensured by means of the RAII idiom and use of exceptions.
+ *
+ * Usage example:
+ *
+ * ~~~{.cpp}
+ * class MyAttribute : public Attribute
+ * {
+ *     using Attribute::Attribute;
+ *
+ * public:
+ *     const std::string &GetName() const override
+ *     {
+ *         static std::string name = "name";
+ *         return name;
+ *     }
+ *     const PropertyMap &GetProperties() const override
+ *     {
+ *         static PropertyMap properties = {{"IDENTITY", ""}, {"DATA_TYPE", "INT"}};
+ *         return properties;
+ *     }
+ * };
+ *
+ * void test()
+ * {
+ *     MyAttribute attribute;
+ *     assert(attribute.GetName() == "name");
+ *     assert(attribute.GetProperties().Get("DATA_TYPE") == "INT");
+ *     assert(attribute.Get() == "");
+ *     assert(attribute->empty());
+ *     assert(attribute.IsNull());
+ *     assert(!attribute.WasModified());
+ *
+ *     attribute.Set("abc");
+ *     assert(attribute.Get() == "abc");
+ *     assert(!attribute->empty());
+ *     assert(!attribute.IsNull());
+ *     assert(attribute.WasModified());
+ *
+ *     attribute.Commit();
+ *     assert(!attribute.WasModified());
+ *
+ *     attribute.SetNull();
+ *     assert(attribute.Get() == "");
+ *     assert(attribute.IsNull());
+ *     assert(attribute.WasModified());
+ *
+ *     attribute.Rollback();
+ *     assert(attribute.Get() == "abc");
+ *     assert(!attribute.WasModified());
+ * }
+ * ~~~
  */
 class CPPORM_EXPORT Attribute
 {
@@ -34,158 +107,167 @@ public:
     virtual ~Attribute();
 
     /*!
-     * \brief Get name
+     * \brief Get attribute name
      * \return The attribute name
      */
     virtual const std::string &GetName() const = 0;
 
     /*!
-     * \brief Get properties
+     * \brief Get attribute properties
      * \return The attribute properties
      */
     virtual const PropertyMap &GetProperties() const = 0;
 
     /*!
-     * \brief Get
+     * \brief Get attribute value
      * \return The attribute value
      */
     const std::string &Get() const;
 
     /*!
-     * \brief operator ->
+     * \brief Get attribute value (dereference operator)
      * \return The attribute value
      */
     const std::string *operator->() const;
 
     /*!
-     * \brief Set value
-     * \param[in] value The new value
+     * \brief Set attribute value
+     * \param[in] value The new attribute value
      */
     void Set(const std::string &value);
 
     /*!
-     * \brief Set null
+     * \brief Set attribute NULL
      */
     void SetNull();
 
     /*!
-     * \brief Is null?
-     * \return True if the attribute is null; false otherwise
+     * \brief Check whether the attribute is NULL
+     * \return True if the attribute is NULL; false otherwise
      */
     bool IsNull() const;
 
     /*!
-     * \brief Constructor
+     * \brief Construct a new attribute
      */
     Attribute();
 
     /*!
-     * \brief Constructor
+     * \brief Construct a new attribute
      * \param[in] value The initial attribute value
      */
     Attribute(const std::string &value);
 
     /*!
-     * \brief operator =
-     * \param[in] value The new value
-     * \return A reference to *this
+     * \brief Set attribute value
+     * \param[in] value The new attribute value
+     * \return The attribute object (*this)
      */
     Attribute &operator=(const std::string &value);
 
     /*!
-     * \brief operator ==
+     * \brief Check whether two attributes are equal
      * \param[in] other The other attribute
-     * \return True, if the attribute values are equal; false otherwise
+     * \return True if the attribute values are equal; false otherwise
      */
     bool operator==(const Attribute &other) const;
 
     /*!
-     * \brief operator !=
+     * \brief Check whether two attributes are different
      * \param[in] other The other attribute
-     * \return True, if the attribute values are different; false otherwise
+     * \return True if the attribute values are different; false otherwise
      */
     bool operator!=(const Attribute &other) const;
 
     /*!
-     * \brief Was modified?
-     * \return True, if the entity was modified; false otherwise
+     * \brief Check whether the attribute was modified since last commit or since it was constructed
+     * \return True if the attribute was modified; false otherwise
      */
     bool WasModified();
 
     /*!
-     * \brief Rollback
+     * \brief Rollback attribute internal state
      */
     void Rollback();
 
     /*!
-     * \brief Commit
+     * \brief Commit attribute internal state
      */
     void Commit();
 
     /*!
-     * \brief Push state
+     * \brief Push attribute internal state
      */
     void PushState();
 
     /*!
-     * \brief Save state
+     * \brief Save attribute internal state
      */
     void SaveState();
 
     /*!
-     * \brief Extract
+     * \brief Extract attribute value from database cursor
      * \param[in] cursor The database cursor
      */
     void Extract(db::Cursor &cursor);
 
     /*!
-     * \brief Insert into database
+     * \brief Compose part of query needed to insert the attribute value into the database
+     * \param[in] query The database query
      */
     void Insert(db::Query &query);
 
     /*!
-     * \brief Update in database
+     * \brief Compose part of query needed to update the attribute value in the database
+     * \param[in] query The database query
      */
     void Update(db::Query &query);
 
     /*!
-     * \brief Add where clause
+     * \brief Compose part of query needed to lookup of the attribute value in the database
      * \param[in] query The database query
      */
     void Where(db::Query &query);
 
     /*!
-     * \brief Bind to statement
+     * \brief Bind the attribute value to a prepared statement
      * \param[in] statement The database statement
-     * \param[in] useSavedValue A flag to indicate whether to use the saved attribute value
+     * \param[in] useSavedValue A flag to indicate whether a previously saved attribute value should
+     *     be used instead of the current (if applicable)
      */
     void Bind(db::Statement &statement, bool useSavedValue = false);
 
     /*!
-     * \brief Validate database schema
+     * \brief Validate the database schema of this attribute
+     * \param[in] cursor The database cursor
      */
-    void ValidateSchema() const;
+    void ValidateSchema(db::Cursor &cursor) const;
 
     /*!
-     * \brief Create database schema
+     * \brief Compose part of query needed to create the database schema of this attribute
      * \param[in] query The database query
      */
     void CreateSchema(db::Query &query) const;
 
     /*!
-     * \brief Get GUID
-     * \return The GUID
+     * \brief Get GUID string
+     *
+     * The GUID is always returned as a 36-character string in the following format: 8-4-4-4-12
+     * (xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx). This is independent of the column data type. In other
+     * words, even if the column is declared as binary(16), the GUID will be returned as a string.
+     *
+     * \return The GUID string
      */
     std::string GetGuid() const;
 
     /*!
-     * \brief Generate GUID
+     * \brief Generate a standard version 4 UUID and set it as the new attribute value
      */
     void GenerateGuid();
 
 protected:
     /*!
-     * \brief The attribute value
+     * \brief The current attribute value
      */
     std::string mValue;
 
@@ -206,17 +288,17 @@ private:
     std::stack<std::string> mHistory;
 
     /*!
-     * \brief The binding indices
+     * \brief The binding indices (for prepared statements)
      */
     std::stack<short> mBindingIndices;
 
     /*!
-     * \brief Initialize flags
+     * \brief Initialize attribute flags
      */
     void InitializeFlags() const;
 
-    /*
-     * Internal flags
+    /*!
+     * \brief Internal flags
      */
     mutable struct
     {

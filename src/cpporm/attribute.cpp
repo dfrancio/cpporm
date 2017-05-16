@@ -261,7 +261,7 @@ void Attribute::Bind(db::Statement &statement, bool useSavedValue)
 /*!
  * \details
  */
-void Attribute::ValidateSchema() const
+void Attribute::ValidateSchema(db::Cursor &) const
 {
     throw NotImplementedError("void Attribute::ValidateSchema() const");
 }

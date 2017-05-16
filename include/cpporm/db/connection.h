@@ -114,11 +114,13 @@ protected:
 
     /*!
      * \brief Guess database vendor
+     * \return The vendor
      */
     virtual Vendor GuessDatabaseVendor() const;
 
     /*!
-     * \brief The driver option name
+     * \brief Get driver option name
+     * \return The driver name
      */
     static const std::string &GetDriverOptionName();
 
