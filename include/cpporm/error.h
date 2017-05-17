@@ -24,13 +24,29 @@ CPPORM_BEGIN_NAMESPACE
  *
  * One can use the \ref CPPORM_DECLARE_EXCEPTION macro to conveniently declare new exceptions. Some
  * common exception classes are declared as well for convenience.
+ *
+ * Usage example:
+ *
+ * ~~~{.cpp}
+ * void test()
+ * {
+ *     try
+ *     {
+ *         throw new Error("error message");
+ *     }
+ *     catch (const std::exception &e)
+ *     {
+ *         std::cout << e.what() << std::endl;
+ *     }
+ * }
+ * ~~~
  */
 class CPPORM_VISBILITY_DEFAULT Error : public std::runtime_error
 {
 public:
     /*!
      * \brief Constructor
-     * \param[in] args The error arguments
+     * \param[in] args The construction arguments
      */
     template <typename... Args>
     Error(Args &&... args)

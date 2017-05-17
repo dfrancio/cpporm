@@ -23,13 +23,13 @@ class Statement;
 class PropertyMap;
 
 /*!
- * \brief Abstract interface to represent database columns
+ * \brief Abstract class to represent database columns
  *
- * An attribute maps to a database column in a database table and should derive from this class.
- * It has a name and a set of properties, both being static members of the derived class. It also
- * contains a state: the current attribute value. This value is always cached as a string and is
- * guaranteed to be the actual value stored in the database, during the course of a database
- * session. Transactions and savepoints can be used with attributes.
+ * An attribute maps a C++ object to a database column in a database table. All attributes should
+ * derive from this class. It has a name and a set of properties, both being static members of the
+ * derived class. It also contains a state: the current attribute value. This value is always cached
+ * as a string and is guaranteed to be the actual value stored in the database, during the course of
+ * a database session. Transactions and savepoints can be used with attributes.
  *
  * The attribute value can be read and assigned, or it can be set NULL. Assigning an empty string is
  * the same as setting it NULL. Equality comparisons are made upon the cached attribute value only.
@@ -50,7 +50,7 @@ class PropertyMap;
  * Usage example:
  *
  * ~~~{.cpp}
- * class MyAttribute : public Attribute
+ * class MyAttribute : public cpporm::Attribute
  * {
  *     using Attribute::Attribute;
  *
@@ -62,7 +62,7 @@ class PropertyMap;
  *     }
  *     const PropertyMap &GetProperties() const override
  *     {
- *         static PropertyMap properties = {{"IDENTITY", ""}, {"DATA_TYPE", "INT"}};
+ *         static cpporm::PropertyMap properties = {{"IDENTITY", ""}, {"DATA_TYPE", "INT"}};
  *         return properties;
  *     }
  * };

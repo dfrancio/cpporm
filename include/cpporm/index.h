@@ -20,25 +20,54 @@ class PropertyMap;
 class AttributeMap;
 
 /*!
- * \brief %Index
+ * \brief Abstract class to represent database indices
+ *
+ * An index maps a C++ object to a database index. All indices should derive from this class. It has
+ * a name, a set of properties and a set of attributes, all being static members of the derived
+ * class. It does not contain any internal state.
+ *
+ * Usage example:
+ *
+ * ~~~{.cpp}
+ * MyAttribute attr;
+ *
+ * class MyIndex : public cpporm::Index
+ * {
+ *     const std::string &MyIndex::GetName() const
+ *     {
+ *         static const std::string cName = "primary_key";
+ *         return cName;
+ *     }
+ *     const cpporm::PropertyMap &MyIndex::GetProperties() const
+ *     {
+ *         static const cpporm::PropertyMap cMap;
+ *         return cMap;
+ *     }
+ *     const cpporm::AttributeMap &MyIndex::GetAttributes() const
+ *     {
+ *         static const cpporm::AttributeMap cMap = {CPPORM_MAP_ATTRIBUTE(MyEntity, attr)};
+ *         return cMap;
+ *     }
+ * };
+ * ~~~
  */
 class CPPORM_EXPORT Index
 {
 public:
     /*!
-     * \brief Get name
+     * \brief Get index name
      * \return The index name
      */
     virtual const std::string &GetName() const = 0;
 
     /*!
-     * \brief Get properties
+     * \brief Get index properties
      * \return The index properties
      */
     virtual const PropertyMap &GetProperties() const = 0;
 
     /*!
-     * \brief Get attributes
+     * \brief Get index attributes
      * \return The index attributes
      */
     virtual const AttributeMap &GetAttributes() const = 0;

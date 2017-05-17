@@ -31,7 +31,7 @@ class RelationshipMap;
 class IndexMap;
 
 /*!
- * \brief Abstract interface to represent database tables
+ * \brief Abstract class to represent database tables
  *
  * An entity maps a C++ object to an entry in a database table. All entities should derive from this
  * class. It has a name, a set of properties and a set of indices, all being static members of the
@@ -74,10 +74,10 @@ class IndexMap;
  * Usage example:
  *
  * ~~~{.cpp}
- * class MyEntity : public Entity
+ * class MyEntity : public cpporm::Entity
  * {
  * public:
- *     Entity *Clone() const override
+ *     cpporm::Entity *Clone() const override
  *     {
  *         return new MyEntity(*this);
  *     }
@@ -88,22 +88,22 @@ class IndexMap;
  *     }
  *     const PropertyMap &GetProperties() const override
  *     {
- *         static PropertyMap properties = {{"USE_GUID", ""}};
+ *         static cpporm::PropertyMap properties = {{"USE_GUID", ""}};
  *         return map;
  *     }
  *     const AttributeMap &GetAttributes() const override
  *     {
- *         static AttributeMap map = {CPPORM_MAP_ATTRIBUTE(MyEntity, attr)};
+ *         static cpporm::AttributeMap map = {CPPORM_MAP_ATTRIBUTE(MyEntity, attr)};
  *         return map;
  *     }
  *     const RelationshipMap &GetRelationships() const override
  *     {
- *         static RelationshipMap map;
+ *         static cpporm::RelationshipMap map;
  *         return map;
  *     }
  *     const IndexMap &GetIndices() const override
  *     {
- *         static IndexMap map;
+ *         static cpporm::IndexMap map;
  *         return map;
  *     }
  *     MyAttribute attr;
