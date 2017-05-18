@@ -448,7 +448,7 @@ private:
 };
 
 /*!
- * \example entity.cpp
+ * \example cpporm/entity.cpp
  *
  * This is an example of how to use the Entity class.
  */

@@ -109,7 +109,7 @@ class RelationshipMap : public util::StringMap<std::function<RelationshipFunctio
 };
 
 /*!
- * \example maps.cpp
+ * \example cpporm/maps.cpp
  *
  * This is an example of how to use the various map classes.
  */

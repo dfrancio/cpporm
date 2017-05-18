@@ -310,7 +310,7 @@ private:
 };
 
 /*!
- * \example attribute.cpp
+ * \example cpporm/attribute.cpp
  *
  * This is an example of how to use the Attribute class.
  */

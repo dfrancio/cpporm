@@ -74,7 +74,7 @@ public:
 };
 
 /*!
- * \example index.cpp
+ * \example cpporm/index.cpp
  *
  * This is an example of how to use the Index class.
  */

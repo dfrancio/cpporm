@@ -465,7 +465,7 @@ protected:
 };
 
 /*!
- * \example relationship.cpp
+ * \example cpporm/relationship.cpp
  *
  * This is an example of how to use the various Relationship classes.
  */
