@@ -12,11 +12,18 @@
 CPPORM_BEGIN_SUB_NAMESPACE(util)
 
 /*!
- * \brief Factory register
+ * \brief Helper class to register a key with a derived class in a factory
+ *
+ * \tparam T The Factory type
+ * \tparam U The derived type
  */
 template <typename T, typename U>
 struct FactoryRegister
 {
+    /*!
+     * \brief Constructor
+     * \param[in] keys The set of keys associated with the object type
+     */
     template <class... Args>
     FactoryRegister(Args &&... keys)
     {
@@ -25,7 +32,19 @@ struct FactoryRegister
 };
 
 /*!
- * \brief Factory
+ * \brief A class to create polymorphic objects by means of keys
+ *
+ * Factories serve to instantiate a derived class using a key that is known only at run-time. It is
+ * a singleton class. One can register a key with a derived type in three different forms:
+ *  1. in the factory's constructor;
+ *  2. by accessing the singleton instance directly; or
+ *  3. using a helper register class
+ *
+ * \tparam The Factory type (CRTP)
+ * \tparam Base The base class of the polymorphic type
+ * \tparam Key The type of the keys
+ * \tparam Comp The type of the comparator used in the ordering of the keys
+ * \tparam Args The types of the arguments passed as parameters to the object constructor
  */
 template <typename F, typename Base, typename Key, typename Comp = std::less<Key>, typename... Args>
 class Factory
@@ -54,7 +73,7 @@ public:
     }
 
     /*!
-     * \brief Get instance
+     * \brief Get factory instance
      * \return The factory instance
      */
     static F &GetInstance()
@@ -65,7 +84,11 @@ public:
 
     /*!
      * \brief Register
-     * \param[in] keys The set of keys associated with the object type
+     *
+     * \tparam Derived The derived type
+     * \tparam FArgs The types of the function arguments
+     *
+     * \param[in] keys The set of keys associated with the derived object type
      */
     template <class Derived, class... FArgs>
     void Register(FArgs &&... keys)
@@ -79,9 +102,12 @@ public:
 
     /*!
      * \brief Register
+     *
+     * \tparam FArgs The types of the function arguments
+     *
      * \param[in] rawCreator The raw-pointer creator function
      * \param[in] smartCreator The smart-pointer creator function
-     * \param[in] keys The set of keys associated with the object type
+     * \param[in] keys The set of keys associated with the derived object type
      */
     template <class... FArgs>
     void Register(RawCreator rawCreator, SmartCreator smartCreator, FArgs &&... keys)
@@ -92,6 +118,9 @@ public:
 
     /*!
      * \brief Create unique pointer
+     *
+     * \tparam FArgs The types of the function arguments
+     *
      * \param[in] key The key to determine which kind of object should be created
      * \param[in] args The constructor arguments
      * \return The unique pointer
@@ -108,6 +137,9 @@ public:
 
     /*!
      * \brief Create shared pointer
+     *
+     * \tparam FArgs The types of the function arguments
+     *
      * \param[in] key The key to determine which kind of object should be created
      * \param[in] args The constructor arguments
      * \return The shared pointer
@@ -124,14 +156,14 @@ public:
 
 protected:
     /*!
-     * \brief Constructor
+     * \brief Construct a new Factory
      */
     Factory()
     {
     }
 
     /*!
-     * \brief The map of creators
+     * \brief The map of creator functions
      */
     std::map<Key, std::pair<RawCreator, SmartCreator>, Comp> mCreators;
 
@@ -142,7 +174,7 @@ protected:
 };
 
 /*!
- * \brief Case-insensitive string factory
+ * \brief Specialized Factory for case-insensitive string keys
  */
 template <typename F, typename Base, typename... Args>
 using CaseInsensitiveFactory = Factory<F, Base, std::string, CaseInsensitiveLess, Args...>;

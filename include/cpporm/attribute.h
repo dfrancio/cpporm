@@ -309,4 +309,10 @@ private:
     } mFlags;
 };
 
+/*!
+ * \example attribute.cpp
+ *
+ * This is an example of how to use the Attribute class.
+ */
+
 CPPORM_END_NAMESPACE

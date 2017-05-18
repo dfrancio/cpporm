@@ -12,7 +12,9 @@
 CPPORM_BEGIN_SUB_NAMESPACE(util)
 
 /*!
- * \brief String map
+ * \brief Provide a high-level interface to map strings to objects of a generic type
+ *
+ * \tparam T The type of the mapped objects
  */
 template <typename T>
 class StringMap : public std::unordered_map<std::string, T>
@@ -21,7 +23,7 @@ class StringMap : public std::unordered_map<std::string, T>
 
 public:
     /*!
-     * \brief Has entry?
+     * \brief Check if an entry exists
      * \param[in] name The entry name
      * \return True if the map has the entry; false otherwise
      */
@@ -31,7 +33,7 @@ public:
     }
 
     /*!
-     * \brief Get value
+     * \brief Get entry value
      * \param[in] name The entry name
      * \return The mapped value
      */
@@ -45,7 +47,7 @@ public:
     }
 
     /*!
-     * \brief Get value
+     * \brief Get entry value (const version)
      * \param[in] name The entry name
      * \return The mapped value
      */
@@ -59,10 +61,10 @@ public:
     }
 
     /*!
-     * \brief Get value (with default)
+     * \brief Get entry value (with default)
      * \param[in] name The entry name
      * \param[in] def The default value
-     * \return The mapped value or the default value
+     * \return The mapped value if it exists; else the default value
      */
     const T &Get(const std::string &name, const std::string &def) const
     {

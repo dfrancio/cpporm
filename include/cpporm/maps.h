@@ -108,4 +108,10 @@ class RelationshipMap : public util::StringMap<std::function<RelationshipFunctio
     using StringMap::StringMap;
 };
 
+/*!
+ * \example maps.cpp
+ *
+ * This is an example of how to use the various map classes.
+ */
+
 CPPORM_END_NAMESPACE

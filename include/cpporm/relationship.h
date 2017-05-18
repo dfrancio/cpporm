@@ -175,15 +175,15 @@ protected:
 };
 
 /*!
- * \brief Class that represents database "to-one" relationships
+ * \brief Class that represents "to-one" database relationships
  *
  * "To-one" means that an entity relates to another (and only one) entity in the same database. It
  * can happen that the foreign key represented by the relationship allows NULL, in which case we say
- * that the relationship has cardinality 0..1. By design every to-one relationship has a
- * counter-part: the "to-many" relationship. This reciprocal relationship may be omitted if
- * required, by just removing the code declaring it.
+ * that the relationship has cardinality (or multiplicity) 0..1. Otherwise it has cardinality 1
+ * exactly. By design, every to-one relationship has a counter-part: the "to-many" relationship.
+ * This reciprocal relationship may be omitted if required, by just removing the code declaring it.
  *
- * An example might clarify how it is used:
+ * An example might clarify how it works:
  *
  * > Suppose a table named **Car** relates to a table named **Tire** by means of a foreign key in
  * > the Tire table, linking to an entry in the Car table. The column names could be *id* for the
@@ -193,8 +193,10 @@ protected:
  * > while the Car class will have a to-many relationship pointing to Tire. The relationship which
  * > relates Tire to Car has cardinality 0..1, while its reciprocal has cardinality 1..*.
  * > This means that a tire may be part of only one car (or none) and a car may be composed of
- * > several tires.That is why the to-many relationship is implemented as a list of pointers that
+ * > several tires. That is why the to-many relationship is implemented as a list of pointers that
  * > can be loaded on demand and iterated using a special *for* loop.
+ *
+ * \see ToManyRelationship
  *
  * Usage example:
  *
@@ -360,7 +362,7 @@ private:
 };
 
 /*!
- * \brief Class that represents database "to-many" relationships
+ * \brief Class that represents "to-many" database relationships
  *
  * \see ToOneRelationship
  *
@@ -461,5 +463,11 @@ protected:
      */
     virtual void Load(bool cachedOnly);
 };
+
+/*!
+ * \example relationship.cpp
+ *
+ * This is an example of how to use the various Relationship classes.
+ */
 
 CPPORM_END_NAMESPACE

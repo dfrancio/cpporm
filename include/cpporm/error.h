@@ -136,4 +136,10 @@ CPPORM_DECLARE_EXCEPTION(
 CPPORM_DECLARE_EXCEPTION(
     DatabaseTransactionError, "could not execute transaction operation", Error);
 
+/*!
+ * \example error.cpp
+ *
+ * This is an example of how to use the Error class.
+ */
+
 CPPORM_END_NAMESPACE

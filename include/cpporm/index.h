@@ -73,4 +73,10 @@ public:
     virtual const AttributeMap &GetAttributes() const = 0;
 };
 
+/*!
+ * \example index.cpp
+ *
+ * This is an example of how to use the Index class.
+ */
+
 CPPORM_END_NAMESPACE

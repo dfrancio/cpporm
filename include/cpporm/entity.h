@@ -447,4 +447,10 @@ private:
     bool mIsMarkedForRemoval = false;
 };
 
+/*!
+ * \example entity.cpp
+ *
+ * This is an example of how to use the Entity class.
+ */
+
 CPPORM_END_NAMESPACE
