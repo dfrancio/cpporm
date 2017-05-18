@@ -93,9 +93,7 @@ setup_target(
             HEADER_SUFFIXES antlr4-runtime LIBRARIES antlr4-runtime END
         INTERNAL cpporm END)
 
-setup_doxygen(
-    NAME "html_and_xml"
-    CONFIG_FILE doxygen/Doxyfile.in)
+setup_documentation()
 
 setup_installation(
     INCLUDE_DIRS

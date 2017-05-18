@@ -20,6 +20,13 @@ include(cotire)
 
 set(LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
 
+macro(get_relative_path _out _from _to)
+    file(RELATIVE_PATH ${_out} ${${_from}} ${${_to}})
+    if(NOT ${_out})
+        set(${_out} ".")
+    endif()
+endmacro(get_relative_path)
+
 macro(get_path_default _out _in _def _root)
     get_parameter_default(${_out} ${_in} ${_def})
     if(NOT IS_ABSOLUTE "${${_out}}")
@@ -488,7 +495,6 @@ function(setup_database)
         COMMAND ${CAT_EXECUTABLE} ${${ARG_NAME}_DB_SOURCES} |
                 ${SQLITE3_EXECUTABLE} ${BUILD_OUTPUT}
         DEPENDS "${${ARG_NAME}_DB_SOURCES}")
-
     add_custom_target(${PROJECT_NAME}_db_${ARG_NAME} ALL SOURCES "${BUILD_OUTPUT}")
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
@@ -544,7 +550,6 @@ function(setup_locale)
         COMMAND ${MSGCAT_EXECUTABLE} --force-po ${${ARG_NAME}_LOCALE_SOURCES} |
                 ${MSGFMT_EXECUTABLE} -o ${BUILD_OUTPUT} -
         DEPENDS "${${ARG_NAME}_LOCALE_SOURCES}")
-
     add_custom_target(${PROJECT_NAME}_locale_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
@@ -556,52 +561,90 @@ endfunction(setup_locale)
 
 #===================================================================================================
 #
-#   setup_doxygen(NAME <doc>
-#                 [CONFIG_FILE <path>]
-#                 [BUILD_OUTPUT <path>]
-#                 [INSTALL_DIR <path>])
+#   setup_documentation([INPUT_DIR <path>]
+#                       [BUILD_OUTPUT <path>]
+#                       [OUTPUT_FORMAT] <format>)
 #
 #===================================================================================================
-function(setup_doxygen)
+function(setup_documentation)
 
     set(options)
-    set(oneValueArgs NAME CONFIG_FILE BUILD_OUTPUT INSTALL_DIR)
+    set(oneValueArgs INPUT_DIR BUILD_OUTPUT)
     set(multiValueArgs)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    get_path_default(CONFIG_FILE ARG_CONFIG_FILE "Doxyfile.in" ${CMAKE_CURRENT_SOURCE_DIR})
+    get_path_default(INPUT_DIR ARG_INPUT_DIR "doc" ${CMAKE_CURRENT_SOURCE_DIR})
     get_path_default(BUILD_OUTPUT ARG_BUILD_OUTPUT "doc" ${CMAKE_CURRENT_BINARY_DIR})
-    get_parameter_default(INSTALL_DIR ARG_INSTALL_DIR "doxygen")
+    get_parameter_default(OUTPUT_FORMAT ARG_OUTPUT_FORMAT "html")
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_DOCS)
+
+        find_package(PythonInterp REQUIRED)
         find_package(Doxygen REQUIRED)
 
-        file(RELATIVE_PATH CONF_SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-        if(NOT CONF_SOURCE_DIR)
-            set(CONF_SOURCE_DIR ".")
-        endif()
-        file(RELATIVE_PATH CONF_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR} ${BUILD_OUTPUT})
-        if(NOT CONF_OUTPUT_DIR)
-            set(CONF_OUTPUT_DIR ".")
-        endif()
-        set(CONF_PROJECT_NAME ${PROJECT_NAME})
-        set(CONF_PROJECT_UPPERCASE_NAME ${PROJECT_NAME_UPPERCASE})
-        set(CONF_PROJECT_DESCRIPTION ${PROJECT_DESCRIPTION})
-        set(DOXYFILE_OUT "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
-        configure_file("${CONFIG_FILE}" "${DOXYFILE_OUT}" @ONLY)
+        find_program(BREATHE_EXECUTABLE breathe-apidoc)
+        file(TO_NATIVE_PATH ${BREATHE_EXECUTABLE} BREATHE_EXECUTABLE)
 
-        add_custom_command(OUTPUT ${BUILD_OUTPUT}
-            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
-            COMMENT "Generating ${ARG_NAME} documentation with Doxygen"
+        find_program(SPHINX_EXECUTABLE sphinx-build)
+        file(TO_NATIVE_PATH ${SPHINX_EXECUTABLE} SPHINX_EXECUTABLE)
+
+        set(DOXYGEN_OUTPUT "${BUILD_OUTPUT}/doxygen")
+        set(BREATHE_OUTPUT "${BUILD_OUTPUT}/breathe")
+        set(SPHINX_OUTPUT "${BUILD_OUTPUT}/sphinx/${OUTPUT_FORMAT}")
+
+        get_relative_path(SOURCE_DIR CMAKE_CURRENT_BINARY_DIR CMAKE_CURRENT_SOURCE_DIR)
+        get_relative_path(DOC_SOURCE_DIR CMAKE_CURRENT_BINARY_DIR INPUT_DIR)
+        get_relative_path(DOXYGEN_OUTPUT_DIR CMAKE_CURRENT_BINARY_DIR DOXYGEN_OUTPUT)
+
+        execute_process(
+            COMMAND ${PYTHON_EXECUTABLE} -c
+                "import breathe, os; print os.path.dirname(breathe.__file__)"
+            OUTPUT_VARIABLE PYTHON_BREATHE_ROOT
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+        set(CONFIG_FILE "${INPUT_DIR}/conf.py.in")
+        set(CONFIG_OUT "${BUILD_OUTPUT}/source/conf.py")
+        configure_file(${CONFIG_FILE} ${CONFIG_OUT} @ONLY)
+
+        set(CONFIG_FILE "${INPUT_DIR}/contents.rst")
+        set(CONFIG_OUT "${BREATHE_OUTPUT}/contents.rst")
+        configure_file(${CONFIG_FILE} ${CONFIG_OUT} @ONLY)
+
+        set(CONFIG_FILE "${INPUT_DIR}/Doxyfile.in")
+        set(CONFIG_OUT "${BUILD_OUTPUT}/source/Doxyfile")
+        configure_file(${CONFIG_FILE} ${CONFIG_OUT} @ONLY)
+
+        add_custom_command(
+            OUTPUT "${DOXYGEN_OUTPUT}/xml/index.xml"
+            COMMAND ${DOXYGEN_EXECUTABLE} ${CONFIG_OUT}
+            COMMENT "Generating documentation with Doxygen"
             DEPENDS ${DOXYFILE_OUT} ${${PROJECT_NAME_UPPERCASE}_SOURCES}
             VERBATIM)
+        add_custom_target(${PROJECT_NAME}_doxygen ALL SOURCES "${DOXYGEN_OUTPUT}/xml/index.xml")
 
-        add_custom_target(${PROJECT_NAME}_doc_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
+        add_custom_command(
+            OUTPUT "${BREATHE_OUTPUT}/classlist.rst"
+            COMMAND ${BREATHE_EXECUTABLE} -o ${BREATHE_OUTPUT} "${DOXYGEN_OUTPUT}/xml"
+            COMMENT "Generating documentation with Breathe"
+            DEPENDS ${PROJECT_NAME}_doxygen
+            VERBATIM)
+        add_custom_target(${PROJECT_NAME}_breathe ALL SOURCES "${BREATHE_OUTPUT}/classlist.rst")
+
+        add_custom_command(
+            OUTPUT "${SPHINX_OUTPUT}"
+            COMMAND ${SPHINX_EXECUTABLE} -b ${OUTPUT_FORMAT}
+                -c "${BUILD_OUTPUT}/source" ${BREATHE_OUTPUT} ${SPHINX_OUTPUT}
+            COMMENT "Generating documentation with Sphinx"
+            DEPENDS ${PROJECT_NAME}_breathe
+            VERBATIM)
+        add_custom_target(${PROJECT_NAME}_sphinx_${OUTPUT_FORMAT} ALL SOURCES ${SPHINX_OUTPUT})
 
         if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
-            install(DIRECTORY "${BUILD_OUTPUT}/"
-                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}/${INSTALL_DIR}")
+            install(DIRECTORY "${DOXYGEN_OUTPUT}/"
+                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}/doxygen")
+            install(DIRECTORY "${SPHINX_OUTPUT}/"
+                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}/sphinx")
         endif()
     endif()
 
@@ -610,7 +653,6 @@ endfunction(setup_doxygen)
 #===================================================================================================
 #
 #   setup_installation([DATA_DIR <path>]
-#                      [DOC_DIR <path>]
 #                      [VAR_DIR <path>]
 #                      [INCLUDE_DIRS <path>...]
 #                      [TARGETS <name>...])
@@ -619,7 +661,7 @@ endfunction(setup_doxygen)
 function(setup_installation)
 
     set(options)
-    set(oneValueArgs DATA_DIR DOC_DIR VAR_DIR)
+    set(oneValueArgs DATA_DIR VAR_DIR)
     set(multiValueArgs INCLUDE_DIRS TARGETS)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -636,16 +678,11 @@ function(setup_installation)
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
         get_path_default(DATA_DIR ARG_DATA_DIR "data" ${CMAKE_CURRENT_SOURCE_DIR})
-        get_path_default(DOC_DIR ARG_DOC_DIR "doc" ${CMAKE_CURRENT_SOURCE_DIR})
         get_path_default(VAR_DIR ARG_VAR_DIR "var" ${CMAKE_CURRENT_SOURCE_DIR})
 
         if(EXISTS "${DATA_DIR}")
             install(DIRECTORY "${DATA_DIR}/"
                 DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DATA_DIR}")
-        endif()
-        if(EXISTS "${DOC_DIR}")
-            install(DIRECTORY "${DOC_DIR}/"
-                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}")
         endif()
         if(EXISTS "${VAR_DIR}")
             install(DIRECTORY "${VAR_DIR}/"
