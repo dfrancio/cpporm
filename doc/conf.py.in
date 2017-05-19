@@ -6,5 +6,11 @@ sys.path.append("@PYTHON_BREATHE_ROOT@")
 extensions = ['sphinx.ext.imgmath', 'sphinx.ext.todo', 'breathe']
 breathe_projects = { "@PROJECT_NAME@": "@DOXYGEN_OUTPUT_DIR@/xml" }
 breathe_default_project = "@PROJECT_NAME@"
+project = "@PROJECT_NAME@"
 html_theme = "@SPHINX_HTML_THEME@"
 html_theme_path = ["@SPHINX_THEME_DIR@", ]
+html_theme_options = {
+    'collapse_navigation': False,
+    'display_version': True,
+    'navigation_depth': 3,
+}

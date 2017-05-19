@@ -617,11 +617,11 @@ function(setup_documentation)
 
         if(PYTHONINTERP_FOUND AND BREATHE_EXECUTABLE AND SPHINX_EXECUTABLE)
             set(BREATHE_OUTPUT_DIR "${BUILD_OUTPUT}/breathe")
-            set(BREATHE_OUTPUT_FILE "${BREATHE_OUTPUT_DIR}/contents.rst")
+            set(BREATHE_OUTPUT_FILE "${BREATHE_OUTPUT_DIR}/classlist.rst")
 
             set(SPHINX_OUTPUT_DIR "${BUILD_OUTPUT}/sphinx/${OUTPUT_FORMAT}")
             if(OUTPUT_FORMAT STREQUAL "html")
-                set(SPHINX_OUTPUT_FILE "${SPHINX_OUTPUT_DIR}/contents.html")
+                set(SPHINX_OUTPUT_FILE "${SPHINX_OUTPUT_DIR}/classlist.html")
             elseif(OUTPUT_FORMAT STREQUAL "latex")
                 set(SPHINX_OUTPUT_FILE "${SPHINX_OUTPUT_DIR}/sphinx.sty")
             else()
@@ -643,7 +643,7 @@ function(setup_documentation)
 
             set(CONTENTS_IN "${INPUT_DIR}/contents.rst")
             set(CONTENTS_OUT "${BREATHE_OUTPUT_DIR}/contents.rst")
-            configure_file(${CONTENTS_IN} ${CONTENTS_OUT} @ONLY)
+            configure_file(${CONTENTS_IN} ${CONTENTS_OUT} COPYONLY)
 
             add_custom_command(
                 OUTPUT ${BREATHE_OUTPUT_FILE}
