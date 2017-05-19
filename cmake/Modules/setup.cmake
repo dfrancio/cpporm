@@ -648,7 +648,7 @@ function(setup_documentation)
         endif()
     endif()
 
-endfunction(setup_doxygen)
+endfunction(setup_documentation)
 
 #===================================================================================================
 #
