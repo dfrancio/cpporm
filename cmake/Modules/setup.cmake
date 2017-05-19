@@ -563,13 +563,14 @@ endfunction(setup_locale)
 #
 #   setup_documentation([INPUT_DIR <path>]
 #                       [BUILD_OUTPUT <path>]
-#                       [OUTPUT_FORMAT] <format>)
+#                       [OUTPUT_FORMAT <format>]
+#                       [HTML_THEME <name>])
 #
 #===================================================================================================
 function(setup_documentation)
 
     set(options)
-    set(oneValueArgs INPUT_DIR BUILD_OUTPUT)
+    set(oneValueArgs INPUT_DIR BUILD_OUTPUT OUTPUT_FORMAT HTML_THEME)
     set(multiValueArgs)
 
     cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -577,11 +578,12 @@ function(setup_documentation)
     get_path_default(INPUT_DIR ARG_INPUT_DIR "doc" ${CMAKE_CURRENT_SOURCE_DIR})
     get_path_default(BUILD_OUTPUT ARG_BUILD_OUTPUT "doc" ${CMAKE_CURRENT_BINARY_DIR})
     get_parameter_default(OUTPUT_FORMAT ARG_OUTPUT_FORMAT "html")
+    get_parameter_default(HTML_THEME ARG_HTML_THEME "alabaster")
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_DOCS)
 
-        find_package(PythonInterp REQUIRED)
         find_package(Doxygen REQUIRED)
+        find_package(PythonInterp)
 
         find_program(BREATHE_EXECUTABLE breathe-apidoc)
         file(TO_NATIVE_PATH ${BREATHE_EXECUTABLE} BREATHE_EXECUTABLE)
@@ -589,62 +591,98 @@ function(setup_documentation)
         find_program(SPHINX_EXECUTABLE sphinx-build)
         file(TO_NATIVE_PATH ${SPHINX_EXECUTABLE} SPHINX_EXECUTABLE)
 
-        set(DOXYGEN_OUTPUT "${BUILD_OUTPUT}/doxygen")
-        set(BREATHE_OUTPUT "${BUILD_OUTPUT}/breathe")
-        set(SPHINX_OUTPUT "${BUILD_OUTPUT}/sphinx/${OUTPUT_FORMAT}")
+        set(DOXYGEN_OUTPUT_DIR "${BUILD_OUTPUT}/doxygen")
+        set(DOXYGEN_OUTPUT_FILE "${DOXYGEN_OUTPUT_DIR}/xml/index.xml")
 
-        get_relative_path(SOURCE_DIR CMAKE_CURRENT_BINARY_DIR CMAKE_CURRENT_SOURCE_DIR)
-        get_relative_path(DOC_SOURCE_DIR CMAKE_CURRENT_BINARY_DIR INPUT_DIR)
-        get_relative_path(DOXYGEN_OUTPUT_DIR CMAKE_CURRENT_BINARY_DIR DOXYGEN_OUTPUT)
+        get_relative_path(CONF_PROJECT_SOURCE_DIR CMAKE_CURRENT_BINARY_DIR PROJECT_SOURCE_DIR)
+        get_relative_path(CONF_DOC_SOURCE_DIR CMAKE_CURRENT_BINARY_DIR INPUT_DIR)
+        get_relative_path(CONF_DOXYGEN_OUTPUT_DIR CMAKE_CURRENT_BINARY_DIR DOXYGEN_OUTPUT_DIR)
 
-        execute_process(
-            COMMAND ${PYTHON_EXECUTABLE} -c
-                "import breathe, os; print os.path.dirname(breathe.__file__)"
-            OUTPUT_VARIABLE PYTHON_BREATHE_ROOT
-            OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-        set(CONFIG_FILE "${INPUT_DIR}/conf.py.in")
-        set(CONFIG_OUT "${BUILD_OUTPUT}/source/conf.py")
-        configure_file(${CONFIG_FILE} ${CONFIG_OUT} @ONLY)
-
-        set(CONFIG_FILE "${INPUT_DIR}/contents.rst")
-        set(CONFIG_OUT "${BREATHE_OUTPUT}/contents.rst")
-        configure_file(${CONFIG_FILE} ${CONFIG_OUT} @ONLY)
-
-        set(CONFIG_FILE "${INPUT_DIR}/Doxyfile.in")
-        set(CONFIG_OUT "${BUILD_OUTPUT}/source/Doxyfile")
-        configure_file(${CONFIG_FILE} ${CONFIG_OUT} @ONLY)
+        set(DOXYFILE_IN "${INPUT_DIR}/Doxyfile.in")
+        set(DOXYFILE_OUT "${BUILD_OUTPUT}/source/Doxyfile")
+        configure_file(${DOXYFILE_IN} ${DOXYFILE_OUT} @ONLY)
 
         add_custom_command(
-            OUTPUT "${DOXYGEN_OUTPUT}/xml/index.xml"
-            COMMAND ${DOXYGEN_EXECUTABLE} ${CONFIG_OUT}
+            OUTPUT ${DOXYGEN_OUTPUT_FILE}
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_OUT}
             COMMENT "Generating documentation with Doxygen"
             DEPENDS ${DOXYFILE_OUT} ${${PROJECT_NAME_UPPERCASE}_SOURCES}
             VERBATIM)
-        add_custom_target(${PROJECT_NAME}_doxygen ALL SOURCES "${DOXYGEN_OUTPUT}/xml/index.xml")
-
-        add_custom_command(
-            OUTPUT "${BREATHE_OUTPUT}/classlist.rst"
-            COMMAND ${BREATHE_EXECUTABLE} -o ${BREATHE_OUTPUT} "${DOXYGEN_OUTPUT}/xml"
-            COMMENT "Generating documentation with Breathe"
-            DEPENDS ${PROJECT_NAME}_doxygen
-            VERBATIM)
-        add_custom_target(${PROJECT_NAME}_breathe ALL SOURCES "${BREATHE_OUTPUT}/classlist.rst")
-
-        add_custom_command(
-            OUTPUT "${SPHINX_OUTPUT}"
-            COMMAND ${SPHINX_EXECUTABLE} -b ${OUTPUT_FORMAT}
-                -c "${BUILD_OUTPUT}/source" ${BREATHE_OUTPUT} ${SPHINX_OUTPUT}
-            COMMENT "Generating documentation with Sphinx"
-            DEPENDS ${PROJECT_NAME}_breathe
-            VERBATIM)
-        add_custom_target(${PROJECT_NAME}_sphinx_${OUTPUT_FORMAT} ALL SOURCES ${SPHINX_OUTPUT})
+        add_custom_target(${PROJECT_NAME}_doxygen ALL SOURCES ${DOXYGEN_OUTPUT_FILE})
 
         if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
             install(DIRECTORY "${DOXYGEN_OUTPUT}/"
                 DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}/doxygen")
-            install(DIRECTORY "${SPHINX_OUTPUT}/"
-                DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}/sphinx")
+        endif()
+
+        if(PYTHONINTERP_FOUND AND BREATHE_EXECUTABLE AND SPHINX_EXECUTABLE)
+            set(BREATHE_OUTPUT_DIR "${BUILD_OUTPUT}/breathe")
+            set(BREATHE_OUTPUT_FILE "${BREATHE_OUTPUT_DIR}/contents.rst")
+
+            set(SPHINX_OUTPUT_DIR "${BUILD_OUTPUT}/sphinx/${OUTPUT_FORMAT}")
+            if(OUTPUT_FORMAT STREQUAL "html")
+                set(SPHINX_OUTPUT_FILE "${SPHINX_OUTPUT_DIR}/contents.html")
+            elseif(OUTPUT_FORMAT STREQUAL "latex")
+                set(SPHINX_OUTPUT_FILE "${SPHINX_OUTPUT_DIR}/sphinx.sty")
+            else()
+                set(SPHINX_OUTPUT_FILE ${SPHINX_OUTPUT_DIR})
+            endif()
+
+            set(SPHINX_HTML_THEME ${HTML_THEME})
+            set(SPHINX_THEME_DIR "${BUILD_OUTPUT}/_themes")
+
+            execute_process(
+                COMMAND ${PYTHON_EXECUTABLE} -c
+                    "import breathe, os; print os.path.dirname(breathe.__file__)"
+                OUTPUT_VARIABLE PYTHON_BREATHE_ROOT
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+            set(CONF_PY_IN "${INPUT_DIR}/conf.py.in")
+            set(CONF_PY_OUT "${BUILD_OUTPUT}/source/conf.py")
+            configure_file(${CONF_PY_IN} ${CONF_PY_OUT} @ONLY)
+
+            set(CONTENTS_IN "${INPUT_DIR}/contents.rst")
+            set(CONTENTS_OUT "${BREATHE_OUTPUT_DIR}/contents.rst")
+            configure_file(${CONTENTS_IN} ${CONTENTS_OUT} @ONLY)
+
+            add_custom_command(
+                OUTPUT ${BREATHE_OUTPUT_FILE}
+                COMMAND ${BREATHE_EXECUTABLE} -o ${BREATHE_OUTPUT_DIR} "${DOXYGEN_OUTPUT_DIR}/xml"
+                COMMENT "Generating documentation with Breathe"
+                DEPENDS ${PROJECT_NAME}_doxygen
+                VERBATIM)
+            add_custom_target(${PROJECT_NAME}_breathe ALL SOURCES ${BREATHE_OUTPUT_FILE})
+
+            add_custom_command(
+                OUTPUT "${SPHINX_OUTPUT_FILE}"
+                COMMAND ${SPHINX_EXECUTABLE} -b ${OUTPUT_FORMAT}
+                    -c "${BUILD_OUTPUT}/source" ${BREATHE_OUTPUT_DIR} ${SPHINX_OUTPUT_DIR}
+                COMMENT "Generating documentation with Sphinx"
+                DEPENDS ${PROJECT_NAME}_breathe ${CONF_PY_OUT} ${CONTENTS_OUT}
+                VERBATIM)
+            add_custom_target(${PROJECT_NAME}_sphinx_${OUTPUT_FORMAT} ALL SOURCES ${SPHINX_OUTPUT_FILE})
+
+            if(EXISTS "${LIST_DIR}/../Download/${HTML_THEME}" AND NOT TARGET ${HTML_THEME})
+                add_custom_target(${HTML_THEME})
+                set(${HTML_THEME}_DIR "${CMAKE_BINARY_DIR}/${HTML_THEME}" CACHE INTERNAL "")
+                file(MAKE_DIRECTORY ${${HTML_THEME}_DIR})
+                execute_process(
+                    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
+                        "${LIST_DIR}/../Download/${HTML_THEME}"
+                    WORKING_DIRECTORY "${${HTML_THEME}_DIR}")
+                execute_process(
+                    COMMAND ${CMAKE_COMMAND} --build .
+                    WORKING_DIRECTORY "${${HTML_THEME}_DIR}")
+                if(EXISTS "${LIST_DIR}/../Download/${HTML_THEME}/postbuild.cmake")
+                    include("${LIST_DIR}/../Download/${HTML_THEME}/postbuild.cmake")
+                endif()
+                set(${HTML_THEME}_FOUND TRUE CACHE INTERNAL "")
+            endif()
+
+            if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
+                install(DIRECTORY "${SPHINX_OUTPUT}/"
+                    DESTINATION "${${PROJECT_NAME_UPPERCASE}_INSTALL_DOC_DIR}/sphinx")
+            endif()
         endif()
     endif()
 

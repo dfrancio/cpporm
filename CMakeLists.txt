@@ -93,7 +93,8 @@ setup_target(
             HEADER_SUFFIXES antlr4-runtime LIBRARIES antlr4-runtime END
         INTERNAL cpporm END)
 
-setup_documentation()
+setup_documentation(
+    HTML_THEME sphinx_rtd_theme)
 
 setup_installation(
     INCLUDE_DIRS
