@@ -765,7 +765,7 @@ endfunction(setup_installation)
 #                   [<CUSTOM|INTERNAL|EXTERNAL>] <package-params>...
 #                   [USE_TARGETS <target>...]
 #                   [ONLY_IF <expr>...] END]...]
-#                [IS_LIBRARY|IS_TEST|IS_EXAMPLE|HEADER_ONLY|NO_SHARED|NO_LINK])
+#                [IS_LIBRARY|IS_TEST|IS_EXAMPLE|HEADER_ONLY|NO_SHARED|NO_LINK|TEST_NO_SHARED])
 #
 #===================================================================================================
 macro(setup_target_listings)
@@ -972,7 +972,9 @@ macro(setup_target_target)
         target_sources(${TARGET_NAME} INTERFACE ${TARGET_SOURCES_ABSOLUTE})
         set_target_properties(${TARGET_NAME} PROPERTIES
             INTERFACE_PUBLIC_HEADER "${TARGET_PUBLIC_HEADERS}")
-    elseif(TARGET_NO_SHARED AND BUILD_SHARED_LIBS AND BUILD_TESTING)
+    elseif(TARGET_NO_SHARED AND BUILD_SHARED_LIBS)
+        message(FATAL_ERROR "Cannot build shared version of ${TARGET_NAME}.")
+    elseif(TARGET_TEST_NO_SHARED AND BUILD_SHARED_LIBS AND BUILD_TESTING)
         message(FATAL_ERROR "Cannot build tests using shared version of ${TARGET_NAME}.")
     else()
         add_library(${TARGET_NAME} ${TARGET_SOURCES})
@@ -1037,7 +1039,7 @@ endmacro(setup_target_export)
 
 function(setup_target)
 
-    set(options IS_LIBRARY IS_TEST IS_EXAMPLE HEADER_ONLY NO_SHARED NO_LINK)
+    set(options IS_LIBRARY IS_TEST IS_EXAMPLE HEADER_ONLY NO_SHARED NO_LINK TEST_NO_SHARED)
     set(oneValueArgs NAME EXPORT_FILE_NAME)
     set(multiValueArgs
         EXTRA_SOURCES
