@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
-find include src tests \
+find examples include src tests \
      \( -iname '*.C' \
     -or -iname '*.c' \
     -or -iname '*.c++' \

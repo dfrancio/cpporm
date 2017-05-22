@@ -133,11 +133,23 @@ setup_tests(
     INCLUDE_DIRS
         tests/ormc
     SOURCE_PREFIXES
-        tests/ormc/regression
-        tests/ormc/unit
+        tests/ormc
     OPTIONS
         PRIVATE
             ${CXX_STANDARD_11}
             ${EMIT_CLASS_DEBUG_ALWAYS}
     DEPENDENCIES
         EXTERNAL googletest USE_TARGETS gmock_main gtest END)
+
+setup_examples(
+    NAME "cpporm"
+    SOURCE_PREFIXES
+        examples/cpporm
+    OPTIONS
+        PRIVATE
+            ${CXX_STANDARD_11}
+            ${EMIT_CLASS_DEBUG_ALWAYS}
+    DEPENDENCIES
+        INTERNAL cpporm_soci END
+        INTERNAL cpporm END
+    NO_LINK)

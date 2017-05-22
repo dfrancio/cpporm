@@ -20,6 +20,25 @@ include(cotire)
 
 set(LIST_DIR "${CMAKE_CURRENT_LIST_DIR}")
 
+macro(download_project _name)
+    if(EXISTS "${LIST_DIR}/../Download/${_name}" AND NOT TARGET ${_name})
+        add_custom_target(${_name})
+        set(${_name}_DIR "${CMAKE_BINARY_DIR}/${_name}" CACHE INTERNAL "")
+        file(MAKE_DIRECTORY ${${_name}_DIR})
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
+                "${LIST_DIR}/../Download/${_name}"
+            WORKING_DIRECTORY "${${_name}_DIR}")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} --build .
+            WORKING_DIRECTORY "${${_name}_DIR}")
+        if(EXISTS "${LIST_DIR}/../Download/${_name}/postbuild.cmake")
+            include("${LIST_DIR}/../Download/${_name}/postbuild.cmake")
+        endif()
+        set(${_name}_FOUND TRUE CACHE INTERNAL "")
+    endif()
+endmacro()
+
 macro(get_relative_path _out _from _to)
     file(RELATIVE_PATH ${_out} ${${_from}} ${${_to}})
     if(NOT ${_out})
@@ -363,6 +382,8 @@ macro(init_project_options)
         "whether to use precompiled headers" ON)
     option(${PROJECT_NAME_UPPERCASE}_EXCLUDE_DEPRECATED
         "whether to exclude deprecated symbols" OFF)
+    option(${PROJECT_NAME_UPPERCASE}_BUILD_EXAMPLES
+        "whether to build the examples" OFF)
 
     set(CURRENT_OPT)
     foreach(opt ${ARG_OPTIONS})
@@ -662,22 +683,7 @@ function(setup_documentation)
                 VERBATIM)
             add_custom_target(${PROJECT_NAME}_sphinx_${OUTPUT_FORMAT} ALL SOURCES ${SPHINX_OUTPUT_FILE})
 
-            if(EXISTS "${LIST_DIR}/../Download/${HTML_THEME}" AND NOT TARGET ${HTML_THEME})
-                add_custom_target(${HTML_THEME})
-                set(${HTML_THEME}_DIR "${CMAKE_BINARY_DIR}/${HTML_THEME}" CACHE INTERNAL "")
-                file(MAKE_DIRECTORY ${${HTML_THEME}_DIR})
-                execute_process(
-                    COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
-                        "${LIST_DIR}/../Download/${HTML_THEME}"
-                    WORKING_DIRECTORY "${${HTML_THEME}_DIR}")
-                execute_process(
-                    COMMAND ${CMAKE_COMMAND} --build .
-                    WORKING_DIRECTORY "${${HTML_THEME}_DIR}")
-                if(EXISTS "${LIST_DIR}/../Download/${HTML_THEME}/postbuild.cmake")
-                    include("${LIST_DIR}/../Download/${HTML_THEME}/postbuild.cmake")
-                endif()
-                set(${HTML_THEME}_FOUND TRUE CACHE INTERNAL "")
-            endif()
+            download_project(${HTML_THEME})
 
             if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
                 install(DIRECTORY "${SPHINX_OUTPUT}/"
@@ -756,10 +762,10 @@ endfunction(setup_installation)
 #                [DEFINITIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
 #                [DEPENDENCIES [
 #                   [INCLUDE <mode>] [LINK <mode>]
-#                   [<CUSTOM|INTERNAL>] <package-params>...
+#                   [<CUSTOM|INTERNAL|EXTERNAL>] <package-params>...
 #                   [USE_TARGETS <target>...]
 #                   [ONLY_IF <expr>...] END]...]
-#                [IS_LIBRARY|IS_TEST] [HEADER_ONLY|TEST_NO_SHARED])
+#                [IS_LIBRARY|IS_TEST|IS_EXAMPLE|HEADER_ONLY|NO_SHARED|NO_LINK])
 #
 #===================================================================================================
 macro(setup_target_listings)
@@ -782,7 +788,7 @@ macro(setup_target_listings)
 
     list(APPEND TARGET_SOURCES ${TARGET_EXTRA_SOURCES})
 
-    if(NOT TARGET_IS_TEST)
+    if(NOT TARGET_IS_TEST AND NOT TARGET_IS_EXAMPLE)
         list(APPEND ${PROJECT_NAME_UPPERCASE}_SOURCES ${TARGET_SOURCES})
     endif()
 
@@ -825,21 +831,7 @@ macro(setup_target_dependency)
     string(TOUPPER ${DEP_NAME} DEP_NAME_UPPERCASE)
 
     if(DEP_TYPE STREQUAL "EXTERNAL")
-        if(NOT TARGET ${DEP_NAME})
-            add_custom_target(${DEP_NAME})
-            set(${DEP_NAME}_DIR "${CMAKE_BINARY_DIR}/${DEP_NAME}" CACHE INTERNAL "")
-            file(MAKE_DIRECTORY ${${DEP_NAME}_DIR})
-            execute_process(
-                COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" "${LIST_DIR}/../Download/${DEP_NAME}"
-                WORKING_DIRECTORY "${${DEP_NAME}_DIR}")
-            execute_process(
-                COMMAND ${CMAKE_COMMAND} --build .
-                WORKING_DIRECTORY "${${DEP_NAME}_DIR}")
-            if(EXISTS "${LIST_DIR}/../Download/${DEP_NAME}/postbuild.cmake")
-                include("${LIST_DIR}/../Download/${DEP_NAME}/postbuild.cmake")
-            endif()
-            set(${DEP_NAME}_FOUND TRUE CACHE INTERNAL "")
-        endif()
+        download_project(${DEP_NAME})
     elseif(NOT ${DEP_NAME}_FOUND AND NOT ${DEP_NAME_UPPERCASE}_FOUND)
         if(DEP_TYPE STREQUAL "CUSTOM")
             find_custom_package(NAME ${DEP_UNPARSED_ARGUMENTS})
@@ -955,7 +947,11 @@ endmacro(setup_target_flags)
 macro(setup_target_target)
 
     if(NOT TARGET_IS_LIBRARY)
-        add_executable(${TARGET_NAME} ${TARGET_SOURCES})
+        if(TARGET_NO_LINK)
+            add_library(${TARGET_NAME} OBJECT ${TARGET_SOURCES})
+        else()
+            add_executable(${TARGET_NAME} ${TARGET_SOURCES})
+        endif()
         set_target_properties(${TARGET_NAME} PROPERTIES
             CXX_VISIBILITY_PRESET hidden
             VISIBILITY_INLINES_HIDDEN 1
@@ -976,7 +972,7 @@ macro(setup_target_target)
         target_sources(${TARGET_NAME} INTERFACE ${TARGET_SOURCES_ABSOLUTE})
         set_target_properties(${TARGET_NAME} PROPERTIES
             INTERFACE_PUBLIC_HEADER "${TARGET_PUBLIC_HEADERS}")
-    elseif(TARGET_TEST_NO_SHARED AND BUILD_SHARED_LIBS AND BUILD_TESTING)
+    elseif(TARGET_NO_SHARED AND BUILD_SHARED_LIBS AND BUILD_TESTING)
         message(FATAL_ERROR "Cannot build tests using shared version of ${TARGET_NAME}.")
     else()
         add_library(${TARGET_NAME} ${TARGET_SOURCES})
@@ -1006,15 +1002,19 @@ macro(setup_target_target)
         target_include_directories(${TARGET_NAME} SYSTEM PUBLIC ${TARGET_PUBLIC_INCLUDE_DIRS})
         target_include_directories(${TARGET_NAME} SYSTEM PRIVATE ${TARGET_PRIVATE_INCLUDE_DIRS})
         target_include_directories(${TARGET_NAME} PUBLIC ${TARGET_INCLUDE_DIRS})
-        target_link_libraries(${TARGET_NAME} PUBLIC ${TARGET_PUBLIC_LIBRARIES})
-        target_link_libraries(${TARGET_NAME} PRIVATE ${TARGET_PRIVATE_LIBRARIES})
+        if(NOT TARGET_NO_LINK)
+            target_link_libraries(${TARGET_NAME} PUBLIC ${TARGET_PUBLIC_LIBRARIES})
+            target_link_libraries(${TARGET_NAME} PRIVATE ${TARGET_PRIVATE_LIBRARIES})
+        endif()
     else()
         target_include_directories(${TARGET_NAME} INTERFACE ${TARGET_INCLUDE_DIRS})
     endif()
     target_compile_options(${TARGET_NAME} INTERFACE ${TARGET_OPTIONS_INTERFACE})
     target_compile_definitions(${TARGET_NAME} INTERFACE ${TARGET_DEFINITIONS_INTERFACE})
     target_include_directories(${TARGET_NAME} SYSTEM INTERFACE ${TARGET_INTERFACE_INCLUDE_DIRS})
-    target_link_libraries(${TARGET_NAME} INTERFACE ${TARGET_INTERFACE_LIBRARIES})
+    if(NOT TARGET_NO_LINK)
+        target_link_libraries(${TARGET_NAME} INTERFACE ${TARGET_INTERFACE_LIBRARIES})
+    endif()
 
     if(NOT TARGET_HEADER_ONLY AND ${PROJECT_NAME_UPPERCASE}_ENABLE_PCH)
         set_target_properties(${TARGET_NAME} PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
@@ -1037,7 +1037,7 @@ endmacro(setup_target_export)
 
 function(setup_target)
 
-    set(options IS_LIBRARY IS_TEST HEADER_ONLY TEST_NO_SHARED)
+    set(options IS_LIBRARY IS_TEST IS_EXAMPLE HEADER_ONLY NO_SHARED NO_LINK)
     set(oneValueArgs NAME EXPORT_FILE_NAME)
     set(multiValueArgs
         EXTRA_SOURCES
@@ -1075,7 +1075,7 @@ endfunction(setup_target)
 #               [DEFINITIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
 #               [DEPENDENCIES [
 #                   [INCLUDE <mode>] [LINK <mode>]
-#                   [<CUSTOM|INTERNAL>] <package-params>...
+#                   [<CUSTOM|INTERNAL|EXTERNAL>] <package-params>...
 #                   [ONLY_IF <expr>...] [USE_TARGETS <var>...] END]...])
 #
 #===================================================================================================
@@ -1197,3 +1197,122 @@ function(setup_tests)
     setup_tests_targets()
 
 endfunction(setup_tests)
+
+#===================================================================================================
+#
+#   setup_examples(NAME <name>
+#                  [INCLUDE_DIRS <path>...]
+#                  [EXTRA_SOURCES <path>...]
+#                  [EXCLUDE_SOURCES <path>...]
+#                  [SOURCE_PREFIXES <path>...]
+#                  [EXCLUDE_PREFIXES <path>...]
+#                  [OPTIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
+#                  [DEFINITIONS [PUBLIC <def>...] [PRIVATE <def>...] [INTERFACE <def>...]]
+#                  [DEPENDENCIES [
+#                      [INCLUDE <mode>] [LINK <mode>]
+#                      [<CUSTOM|INTERNAL|EXTERNAL>] <package-params>...
+#                      [ONLY_IF <expr>...] [USE_TARGETS <var>...] END]...]
+#                  [NO_LINK])
+#
+#===================================================================================================
+macro(setup_examples_listings)
+
+    foreach(prefix ${ARG_SOURCE_PREFIXES})
+        file(STRINGS "${PROJECT_SOURCE_DIR}/SOURCES" SOURCES REGEX ".*${prefix}[/\\].*")
+        list(APPEND ${ARG_NAME}_EXAMPLE_SOURCES ${SOURCES})
+    endforeach()
+    exclude_from_listing(${ARG_NAME}_EXAMPLE_SOURCES ARG_EXCLUDE_PREFIXES ARG_EXCLUDE_SOURCES)
+    list(APPEND ${ARG_NAME}_EXAMPLE_SOURCES ${ARG_EXTRA_SOURCES})
+
+    foreach(source ${${ARG_NAME}_EXAMPLE_SOURCES})
+        foreach(prefix ${ARG_SOURCE_PREFIXES})
+            if(source MATCHES ".*${prefix}[/\\](.*)$")
+                set(EXAMPLE_NAME ${CMAKE_MATCH_1})
+                break()
+            endif()
+        endforeach()
+
+        get_filename_component(DIR ${EXAMPLE_NAME} DIRECTORY)
+        if(DIR)
+            string(REPLACE "/" "_" EXAMPLE_NAME ${DIR})
+        else()
+            set(EXAMPLE_NAME)
+        endif()
+        set(EXAMPLE_NAME "${ARG_NAME}_${EXAMPLE_NAME}_examples")
+        list(APPEND ${EXAMPLE_NAME}_SOURCES ${source})
+
+        if(NOT ${EXAMPLE_NAME} IN_LIST ${ARG_NAME}_EXAMPLES)
+            list(APPEND ${ARG_NAME}_EXAMPLES ${EXAMPLE_NAME})
+        endif()
+    endforeach()
+
+endmacro(setup_examples_listings)
+
+macro(setup_examples_flags)
+
+    set(options)
+    set(oneValueArgs)
+    set(multiValueArgs PUBLIC PRIVATE INTERFACE)
+
+    cmake_parse_arguments(ARG_OPTIONS
+        "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARG_OPTIONS})
+
+    cmake_parse_arguments(ARG_DEFINITIONS
+        "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARG_DEFINITIONS})
+
+    if(ARG_NO_LINK)
+        set(ARG_NO_LINK NO_LINK)
+    else()
+        set(ARG_NO_LINK "")
+    endif()
+
+endmacro(setup_examples_flags)
+
+macro(setup_examples_targets)
+
+    foreach(example_name ${${ARG_NAME}_EXAMPLES})
+        setup_target(
+            NAME ${example_name}
+            INCLUDE_DIRS
+                ${ARG_INCLUDE_DIRS}
+            EXTRA_SOURCES
+                ${ARG_EXTRA_SOURCES}
+            EXCLUDE_SOURCES
+                ${ARG_EXCLUDE_SOURCES}
+            OPTIONS
+                PUBLIC ${ARG_OPTIONS_PUBLIC}
+                PRIVATE ${ARG_OPTIONS_PRIVATE}
+            DEFINITIONS
+                PUBLIC ${ARG_DEFINITIONS_PUBLIC}
+                PRIVATE ${ARG_DEFINITIONS_PRIVATE}
+            DEPENDENCIES ${ARG_DEPENDENCIES}
+            IS_EXAMPLE ${ARG_NO_LINK})
+    endforeach()
+
+endmacro(setup_examples_targets)
+
+function(setup_examples)
+
+    if(NOT ${PROJECT_NAME_UPPERCASE}_BUILD_EXAMPLES)
+        return()
+    endif()
+
+    set(options NO_LINK)
+    set(oneValueArgs NAME)
+    set(multiValueArgs
+        EXTRA_SOURCES
+        EXCLUDE_SOURCES
+        SOURCE_PREFIXES
+        EXCLUDE_PREFIXES
+        OPTIONS
+        DEFINITIONS
+        INCLUDE_DIRS
+        DEPENDENCIES)
+
+    cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+    setup_examples_listings()
+    setup_examples_flags()
+    setup_examples_targets()
+
+endfunction(setup_examples)
