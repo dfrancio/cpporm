@@ -670,7 +670,7 @@ function(setup_documentation)
                 OUTPUT ${BREATHE_OUTPUT_FILE}
                 COMMAND ${BREATHE_EXECUTABLE} -o ${BREATHE_OUTPUT_DIR} "${DOXYGEN_OUTPUT_DIR}/xml"
                 COMMENT "Generating documentation with Breathe"
-                DEPENDS ${PROJECT_NAME}_doxygen
+                DEPENDS ${PROJECT_NAME}_doxygen ${DOXYGEN_OUTPUT_FILE}
                 VERBATIM)
             add_custom_target(${PROJECT_NAME}_breathe ALL SOURCES ${BREATHE_OUTPUT_FILE})
 
@@ -679,7 +679,7 @@ function(setup_documentation)
                 COMMAND ${SPHINX_EXECUTABLE} -b ${OUTPUT_FORMAT}
                     -c "${BUILD_OUTPUT}/source" ${BREATHE_OUTPUT_DIR} ${SPHINX_OUTPUT_DIR}
                 COMMENT "Generating documentation with Sphinx"
-                DEPENDS ${PROJECT_NAME}_breathe ${CONF_PY_OUT} ${CONTENTS_OUT}
+                DEPENDS ${PROJECT_NAME}_breathe ${DOXYGEN_OUTPUT_FILE} ${CONF_PY_OUT} ${CONTENTS_OUT}
                 VERBATIM)
             add_custom_target(${PROJECT_NAME}_sphinx_${OUTPUT_FORMAT} ALL SOURCES ${SPHINX_OUTPUT_FILE})
 
