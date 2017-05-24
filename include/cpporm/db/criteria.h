@@ -48,7 +48,15 @@ enum class LogicalConnective
 };
 
 /*!
- * \brief %Criteria
+ * \brief Class that represents database search criteria
+ *
+ * The criteria is composed of sets of clauses, of which there are four types:
+ *  1. Join
+ *  2. Condition
+ *  3. Order by
+ *  4. Limit/offset
+ *
+ * The clauses will be used to construct an SQL query that uses them as search criteria.
  */
 class CPPORM_EXPORT Criteria
 {

@@ -12,7 +12,9 @@
 CPPORM_BEGIN_SUB_NAMESPACE(db)
 
 /*!
- * \brief Database transaction
+ * \brief Class that represents a database transaction
+ *
+ * Transactions can be commited or rolled back. Savepoints can be created inside a transaction.
  */
 class CPPORM_EXPORT Transaction
 {

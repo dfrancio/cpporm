@@ -12,7 +12,17 @@
 CPPORM_BEGIN_SUB_NAMESPACE(db)
 
 /*!
- * \brief Database context
+ * \brief Class that represents a database context
+ *
+ * The database context is a set of actions performed in the database to manipulate its data. There
+ * are three main actionss:
+ *  1. Insertion;
+ *  2. Update
+ *  3. Deletion
+ *
+ * A parent context can have any number of sub-contexts.
+ *
+ * Transaction and savepoint semantics apply to context objects.
  */
 class CPPORM_EXPORT Context
 {

@@ -28,7 +28,13 @@ class Context;
 class Connection;
 
 /*!
- * \brief Database session
+ * \brief Class that represents a database session
+ *
+ * Session is the central part of the library. Entities are inserted into the database, or fetched
+ * from it, or updated/deleted, through the session. When an entity is first manipulated using a
+ * session, it is associated with that session.
+ *
+ * It is possible to interact directly with the database connection, if necessary.
  */
 class CPPORM_EXPORT Session
 {

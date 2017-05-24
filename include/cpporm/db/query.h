@@ -50,7 +50,22 @@ enum class Condition
 };
 
 /*!
- * \brief %Query
+ * \brief Class that is used to construct SQL queries
+ *
+ * All queries must begin with one of the following clauses:
+ *  1. SELECT
+ *  2. INSERT
+ *  3. UPDATE
+ *  4. DELETE
+ *
+ * Each of these main clauses may be followed by combinations of other commands, such as WHERE,
+ * INTO, FROM, JOIN, etc. depending on the type of query. The resulting query string is guaranteed
+ * to be valid for a speficic SQL flavor. At the time of this writing, the following flavors are
+ * implemented in derived classes:
+ *  1. SQLite
+ *  2. SQL Server
+ *  3. MySQL
+ *  4. PostgreSQL
  */
 class CPPORM_EXPORT Query
 {

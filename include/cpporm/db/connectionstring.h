@@ -12,7 +12,11 @@
 CPPORM_BEGIN_SUB_NAMESPACE(db)
 
 /*!
- * \brief %Connection string
+ * \brief Class that helps build connection strings
+ *
+ * A connection string is a list of parameters passed to a database driver in the establishment of a
+ * connection. The parameters are specified in name-and-value pairs, separated by a separator
+ * character.
  */
 class CPPORM_EXPORT ConnectionString
 {
@@ -25,12 +29,14 @@ public:
     /*!
      * \brief Set separator
      * \param[in] separator The separator character
+     * \return A reference to *this
      */
     ConnectionString &SetSeparator(char separator);
 
     /*!
      * \brief Set parameters
      * \param[in] parameters The connection parameters
+     * \return A reference to *this
      */
     ConnectionString &SetParameters(const std::map<std::string, std::string> &parameters);
 
@@ -43,13 +49,13 @@ public:
     ConnectionString &SetParameter(const std::string &name, const std::string &value);
 
     /*!
-     * \brief Get
-     * \return The product
+     * \brief Get connection string
+     * \return The resulting connection string
      */
     const std::string &Get() const;
 
     /*!
-     * \brief Reset
+     * \brief Reset connection string
      * \return A reference to *this
      */
     ConnectionString &Reset();

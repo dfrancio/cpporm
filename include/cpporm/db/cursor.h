@@ -12,7 +12,17 @@
 CPPORM_BEGIN_SUB_NAMESPACE(db)
 
 /*!
- * \brief Database cursor
+ * \brief Abstract class that represents a database cursor/result set.
+ *
+ * The cursor holds data fetched from the database as the result of an SQL query. It allows the data
+ * to be iterated through and extracted. The information is divided in records, each record being a
+ * data row in the result set from the query.
+ *
+ * One can ask for the next record, the number of affected rows, if a column exists in the result
+ * set or if a field is null.
+ *
+ * Data can only be extracted in string form. Conversions to specific data types must be performed
+ * externally.
  */
 class CPPORM_EXPORT Cursor
 {
@@ -25,8 +35,8 @@ public:
     }
 
     /*!
-     * \brief Go to next record
-     * \return True, if theoperation succeeded; false otherwise
+     * \brief Go to the next record
+     * \return True, if the operation succeeded; false otherwise
      */
     virtual bool Next() = 0;
 

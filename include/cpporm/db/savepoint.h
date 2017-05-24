@@ -17,7 +17,13 @@ CPPORM_BEGIN_SUB_NAMESPACE(db)
 class Transaction;
 
 /*!
- * \brief Savepoint
+ * \brief Class that represents a database savepoint
+ *
+ * Savepoints are similar to transactions, but are intended to be used inside a transaction as a
+ * more fine-grained mechanism. It allows one to save the state of a transaction at a specific
+ * point and then rollback to this point, reverting everything that happened since, without
+ * losing what happened before. Altough savepoints can be released, the transaction can still be
+ * rolled back independently of the internal savepoints.
  */
 class CPPORM_EXPORT SavePoint
 {
@@ -41,7 +47,7 @@ public:
 
 private:
     /*!
-     * \brief The transaction
+     * \brief The transaction object
      */
     Transaction &mTransaction;
 
@@ -51,7 +57,7 @@ private:
     std::string mName;
 
     /*!
-     * \brief Was released?
+     * \brief A flag to indicate whether the savepoint was released
      */
     bool mReleased;
 };

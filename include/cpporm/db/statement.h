@@ -12,7 +12,14 @@
 CPPORM_BEGIN_SUB_NAMESPACE(db)
 
 /*!
- * \brief Database statement
+ * \brief Abstract class that represents a database prepared statement
+ *
+ * Prepared statements are used to execute dynamically bound SQL queries. The text of the query
+ * should contain parameters whose values are taken from external variables.
+ *
+ * A statement should first be prepared, then its parameters should be bound to variables according
+ * to the parameter indices. Batch execution can be activated, which allows successive bindings
+ * for the same parameter.
  */
 class CPPORM_EXPORT Statement
 {

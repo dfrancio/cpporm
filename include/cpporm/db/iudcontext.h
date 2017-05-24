@@ -14,6 +14,9 @@ CPPORM_BEGIN_SUB_NAMESPACE(db)
 
 /*!
  * \brief Insertion/Update/Deletion context
+ *
+ * In this specific type of context, insertions, updates and deletions are kept in separate internal
+ * caches.
  */
 class CPPORM_EXPORT IudContext : public Context
 {
