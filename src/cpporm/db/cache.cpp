@@ -42,17 +42,17 @@ void Cache::PushState()
 /*!
  * \details
  */
-bool Cache::Add(const std::string &name, const Object &value)
+bool Cache::Add(const std::string &id, const Object &entity)
 {
-    return this->emplace(name, value).second;
+    return this->emplace(id, entity).second;
 }
 
 /*!
  * \details
  */
-void Cache::Remove(const std::string &name)
+void Cache::Remove(const std::string &id)
 {
-    auto it = this->find(name);
+    auto it = this->find(id);
     if (it != this->end())
         this->erase(it);
 }

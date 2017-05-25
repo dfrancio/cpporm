@@ -31,7 +31,14 @@ enum class Vendor
 };
 
 /*!
- * \brief Database connection
+ * \brief Abstract class that represent a database connection
+ *
+ * Database connections are be established by first specifying connection parameters. The connection
+ * canbe opened, closed and reopened at any time. There is a timeout mechanism which will try to
+ * close and open the connection again in a specified time interval.
+ *
+ * The connection object is used to create polymorhpic instances of Query and Statement classes. It
+ * can also be used to execute arbitrary SQL commands in the database.
  */
 class CPPORM_EXPORT Connection
 {
