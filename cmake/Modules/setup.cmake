@@ -1078,7 +1078,8 @@ endfunction(setup_target)
 #               [DEPENDENCIES [
 #                   [INCLUDE <mode>] [LINK <mode>]
 #                   [<CUSTOM|INTERNAL|EXTERNAL>] <package-params>...
-#                   [ONLY_IF <expr>...] [USE_TARGETS <var>...] END]...])
+#                   [ONLY_IF <expr>...] [USE_TARGETS <var>...] END]...]
+#               [ONE_PER_FILE])
 #
 #===================================================================================================
 macro(setup_tests_listings)
@@ -1100,11 +1101,15 @@ macro(setup_tests_listings)
 
         get_filename_component(DIR ${TEST_NAME} DIRECTORY)
         if(DIR)
-            string(REPLACE "/" "_" TEST_NAME ${DIR})
-        else()
-            set(TEST_NAME)
+            string(REPLACE "/" "_" DIR ${DIR})
+            set(DIR "_${DIR}")
         endif()
-        set(TEST_NAME "${ARG_NAME}_${TEST_NAME}_tests")
+        if(ARG_ONE_PER_FILE)
+            get_filename_component(NAME ${TEST_NAME} NAME_WE)
+            set(TEST_NAME "test_${ARG_NAME}${DIR}_${NAME}")
+        else()
+            set(TEST_NAME "tests_${ARG_NAME}${DIR}")
+        endif()
         list(APPEND ${TEST_NAME}_SOURCES ${source})
 
         if(NOT ${TEST_NAME} IN_LIST ${ARG_NAME}_TESTS)
@@ -1178,7 +1183,7 @@ function(setup_tests)
         return()
     endif()
 
-    set(options)
+    set(options ONE_PER_FILE)
     set(oneValueArgs NAME OUTPUT_DATA_DIR)
     set(multiValueArgs
         INPUT_DATA_DIRS
@@ -1214,7 +1219,7 @@ endfunction(setup_tests)
 #                      [INCLUDE <mode>] [LINK <mode>]
 #                      [<CUSTOM|INTERNAL|EXTERNAL>] <package-params>...
 #                      [ONLY_IF <expr>...] [USE_TARGETS <var>...] END]...]
-#                  [NO_LINK])
+#                  [NO_LINK|ONE_PER_FILE])
 #
 #===================================================================================================
 macro(setup_examples_listings)
@@ -1236,11 +1241,15 @@ macro(setup_examples_listings)
 
         get_filename_component(DIR ${EXAMPLE_NAME} DIRECTORY)
         if(DIR)
-            string(REPLACE "/" "_" EXAMPLE_NAME ${DIR})
-        else()
-            set(EXAMPLE_NAME)
+            string(REPLACE "/" "_" DIR ${DIR})
+            set(DIR "_${DIR}")
         endif()
-        set(EXAMPLE_NAME "${ARG_NAME}_${EXAMPLE_NAME}_examples")
+        if(ARG_ONE_PER_FILE)
+            get_filename_component(NAME ${EXAMPLE_NAME} NAME_WE)
+            set(EXAMPLE_NAME "example_${ARG_NAME}${DIR}_${NAME}")
+        else()
+            set(EXAMPLE_NAME "examples_${ARG_NAME}${DIR}")
+        endif()
         list(APPEND ${EXAMPLE_NAME}_SOURCES ${source})
 
         if(NOT ${EXAMPLE_NAME} IN_LIST ${ARG_NAME}_EXAMPLES)
@@ -1299,7 +1308,7 @@ function(setup_examples)
         return()
     endif()
 
-    set(options NO_LINK)
+    set(options NO_LINK ONE_PER_FILE)
     set(oneValueArgs NAME)
     set(multiValueArgs
         EXTRA_SOURCES

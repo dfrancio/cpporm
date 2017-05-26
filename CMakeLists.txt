@@ -152,4 +152,4 @@ setup_examples(
     DEPENDENCIES
         INTERNAL cpporm_soci END
         INTERNAL cpporm END
-    NO_LINK)
+    ONE_PER_FILE)
