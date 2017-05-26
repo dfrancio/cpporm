@@ -516,7 +516,7 @@ function(setup_database)
         COMMAND ${CAT_EXECUTABLE} ${${ARG_NAME}_DB_SOURCES} |
                 ${SQLITE3_EXECUTABLE} ${BUILD_OUTPUT}
         DEPENDS "${${ARG_NAME}_DB_SOURCES}")
-    add_custom_target(${PROJECT_NAME}_db_${ARG_NAME} ALL SOURCES "${BUILD_OUTPUT}")
+    add_custom_target(database_${PROJECT_NAME}_${ARG_NAME} ALL SOURCES "${BUILD_OUTPUT}")
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
         install(FILES ${BUILD_OUTPUT} DESTINATION
@@ -571,7 +571,7 @@ function(setup_locale)
         COMMAND ${MSGCAT_EXECUTABLE} --force-po ${${ARG_NAME}_LOCALE_SOURCES} |
                 ${MSGFMT_EXECUTABLE} -o ${BUILD_OUTPUT} -
         DEPENDS "${${ARG_NAME}_LOCALE_SOURCES}")
-    add_custom_target(${PROJECT_NAME}_locale_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
+    add_custom_target(locale_${PROJECT_NAME}_${ARG_NAME} ALL SOURCES ${BUILD_OUTPUT})
 
     if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
         install(FILES ${BUILD_OUTPUT} DESTINATION
@@ -629,7 +629,7 @@ function(setup_documentation)
             COMMENT "Generating documentation with Doxygen"
             DEPENDS ${DOXYFILE_OUT} ${${PROJECT_NAME_UPPERCASE}_SOURCES}
             VERBATIM)
-        add_custom_target(${PROJECT_NAME}_doxygen ALL SOURCES ${DOXYGEN_OUTPUT_FILE})
+        add_custom_target(doc_doxygen_${PROJECT_NAME} ALL SOURCES ${DOXYGEN_OUTPUT_FILE})
 
         if(${PROJECT_NAME_UPPERCASE}_ENABLE_INSTALL)
             install(DIRECTORY "${DOXYGEN_OUTPUT}/"
@@ -670,18 +670,18 @@ function(setup_documentation)
                 OUTPUT ${BREATHE_OUTPUT_FILE}
                 COMMAND ${BREATHE_EXECUTABLE} -o ${BREATHE_OUTPUT_DIR} "${DOXYGEN_OUTPUT_DIR}/xml"
                 COMMENT "Generating documentation with Breathe"
-                DEPENDS ${PROJECT_NAME}_doxygen ${DOXYGEN_OUTPUT_FILE}
+                DEPENDS doc_doxygen_${PROJECT_NAME} ${DOXYGEN_OUTPUT_FILE}
                 VERBATIM)
-            add_custom_target(${PROJECT_NAME}_breathe ALL SOURCES ${BREATHE_OUTPUT_FILE})
+            add_custom_target(doc_breathe_${PROJECT_NAME} ALL SOURCES ${BREATHE_OUTPUT_FILE})
 
             add_custom_command(
                 OUTPUT "${SPHINX_OUTPUT_FILE}"
                 COMMAND ${SPHINX_EXECUTABLE} -b ${OUTPUT_FORMAT}
                     -c "${BUILD_OUTPUT}/source" ${BREATHE_OUTPUT_DIR} ${SPHINX_OUTPUT_DIR}
                 COMMENT "Generating documentation with Sphinx"
-                DEPENDS ${PROJECT_NAME}_breathe ${DOXYGEN_OUTPUT_FILE} ${CONF_PY_OUT} ${CONTENTS_OUT}
+                DEPENDS doc_breathe_${PROJECT_NAME} ${DOXYGEN_OUTPUT_FILE} ${CONF_PY_OUT} ${CONTENTS_OUT}
                 VERBATIM)
-            add_custom_target(${PROJECT_NAME}_sphinx_${OUTPUT_FORMAT} ALL SOURCES ${SPHINX_OUTPUT_FILE})
+            add_custom_target(doc_sphinx_${OUTPUT_FORMAT}_${PROJECT_NAME} ALL SOURCES ${SPHINX_OUTPUT_FILE})
 
             download_project(${HTML_THEME})
 
