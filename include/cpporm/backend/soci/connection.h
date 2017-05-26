@@ -22,56 +22,56 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, soci)
 class Statement;
 
 /*!
- * \brief Database connection
+ * \brief Class that implements a database connection for the SOCI backend
  */
 class CPPORM_SOCI_EXPORT Connection : public db::Connection
 {
 public:
     /*!
-     * \brief Reconnect
+     * \brief Reconnect to database
      */
     void Reconnect() override;
 
     /*!
-     * \brief Disconnect
+     * \brief Disconnect from database
      */
     void Disconnect() override;
 
     /*!
-     * \brief Is connected?
-     * \return True, if connected to the database
+     * \brief Check whether the connection is opened
+     * \return True if the connection is opened; false otherwise
      */
     bool IsConnected() const override;
 
     /*!
-     * \brief Create query
-     * \return The query
+     * \brief Create query to intereact with the connected database
+     * \return The query object
      */
     std::unique_ptr<db::Query> CreateQuery() override;
 
     /*!
-     * \brief Create query
-     * \return The statement
+     * \brief Create statement to intereact with the connected database
+     * \return The statement object
      */
     std::unique_ptr<db::Statement> CreateStatement() override;
 
     /*!
-     * \brief Just execute
+     * \brief Execute simple query with no expected result
      * \param[in] sql The SQL text
      */
     void JustExecute(const std::string &sql) override;
 
     /*!
-     * \brief Execute query
+     * \brief Execute query in the connected database
      * \param[in] sql The SQL text
-     * \return The cursor
+     * \return The result set of the query
      */
     std::unique_ptr<db::Cursor> Execute(const std::string &sql) override;
 
     /*!
-     * \brief Execute statement
-     * \param[in] statement The statement
-     * \return The cursor
+     * \brief Execute statement in the connected database
+     * \param[in] statement The prepared statement
+     * \return The result set of the statement
      */
     std::unique_ptr<db::Cursor> Execute(db::Statement &statement) override;
 
@@ -98,7 +98,7 @@ private:
     ::soci::session mNativeConnection;
 
     /*!
-     * \brief The is connected flag
+     * \brief A flag to indicate whether the connection is opened
      */
     bool mIsConnected = false;
 };

@@ -22,24 +22,24 @@ CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, soci)
 class Session;
 
 /*!
- * \brief Database transaction
+ * \brief Class that implements a database transaction for the SOCI backend
  */
 class CPPORM_SOCI_EXPORT Transaction : public db::Transaction
 {
 public:
     /*!
-     * \brief Constructor
+     * \brief Construct a new transaction object
      * \param[in] session The database session
      */
     Transaction(Session &session);
 
     /*!
-     * \brief Rollback
+     * \brief Rollback transaction
      */
     void Rollback() override;
 
     /*!
-     * \brief Commit
+     * \brief Commit transaction
      */
     void Commit() override;
 

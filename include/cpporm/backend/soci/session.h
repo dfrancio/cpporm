@@ -15,32 +15,32 @@
 CPPORM_BEGIN_SUB_SUB_NAMESPACE(backend, soci)
 
 /*!
- * \brief Database session
+ * \brief Class that implements a database session for the SOCI backend
  */
 class CPPORM_SOCI_EXPORT Session : public db::Session
 {
 public:
     /*!
-     * \brief Constructor
+     * \brief Construct a new session object
      */
     Session();
 
     /*!
-     * \brief Get connection
-     * \return The connection
+     * \brief Get database connection
+     * \return The database connection
      */
     db::Connection &GetConnection() override;
 
 protected:
     /*!
-     * \brief Get cache
-     * \return The cache
+     * \brief Get database cache
+     * \return The database cache
      */
     db::Cache &GetCache() override;
 
     /*!
-     * \brief Get context
-     * \return The context
+     * \brief Get database context
+     * \return The database context
      */
     db::Context &GetContext() override;
 
