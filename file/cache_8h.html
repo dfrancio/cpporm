@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File cache.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File cache.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File cache.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/cache_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-cache-h">
+<h1>File cache.h<a class="headerlink" href="#file-cache-h" title="Permalink to this headline">¶</a></h1>
+<p>Cache class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db5CacheE">
+<span id="cpporm::__cxx11::db::Cache"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache"></span><em class="property">class </em><code class="descname">Cache</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5CacheE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;cache.h&gt;</em><p>Class that implements database caching. </p>
+<p>The cache maintains a copy of the information stored in a database. It does not have all the data, but only that which was fetched from the database. Once this data is loaded to the cache, it will remain in memory for the lifetime of the cache instance. It is possible to update or remove the data associated with a database entity. Each entity has a unique ID which identifies the entity in the cache. Itis also possible to change the ID of an entity.</p>
+<p><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_transaction"><span class="std std-ref">Transaction</span></a> and savepoint semantics are valid for cache objects. </p>
+<p>Inherits from <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1util.html#cppormclasscpporm_1_1____cxx11_1_1util_1_1_string_map"><span class="std std-ref">cpporm::__cxx11::util::StringMap&lt; std::shared_ptr&lt; Entity &gt; &gt;</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Types</p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache6ObjectE">
+<span id="cpporm::__cxx11::db::Cache::Object"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1aa0d1a2adcfbbb26c7e6e14db83037ff8"></span><em class="property">typedef </em>StringMap::mapped_type <code class="descname">Object</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache6ObjectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The object type. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache6CommitEv">
+<span id="cpporm::__cxx11::db::Cache::Commit"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a8d18c69d5b2c25e53921c20fddcb0d45"></span>void <code class="descname">Commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache6CommitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Commit entities in the cache. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache8RollbackEv">
+<span id="cpporm::__cxx11::db::Cache::Rollback"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a43a4b5b6a7b5722fcda2a7b52fe1a988"></span>void <code class="descname">Rollback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache8RollbackEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rollback entities in the cache. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache9PushStateEv">
+<span id="cpporm::__cxx11::db::Cache::PushState"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a21e349fa4ce92b5ff63c000099c85609"></span>void <code class="descname">PushState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache9PushStateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Push state of the cache. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache3AddERKNSt6stringERK6Object">
+<span id="cpporm::__cxx11::db::Cache::Add__ssCR.ObjectCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a04c395e9ac1e2c4096bd147b40af18e2"></span>bool <code class="descname">Add</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>id</em>, <em class="property">const</em> <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db5Cache6ObjectE" title="cpporm::__cxx11::db::Cache::Object">Object</a> &amp;<em>entity</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache3AddERKNSt6stringERK6Object" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add entity to the cache. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the entity was inserted; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">id</span></code>: The entity id </li>
+<li><code class="docutils literal"><span class="pre">entity</span></code>: The mapped value </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache6RemoveERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Cache::Remove__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a513c60b18f5fe49a873d75e2ad9c6ab5"></span>void <code class="descname">Remove</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache6RemoveERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove entity from the cache. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">id</span></code>: The entity id </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache6RenameERKNSt6stringERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Cache::Rename__ssCR.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a9431e77cb8023f6f7b0825e7fde258db"></span>void <code class="descname">Rename</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>from</em>, <em class="property">const</em> std::string &amp;<em>to</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache6RenameERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rename entity in the cache. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">from</span></code>: The old entity id </li>
+<li><code class="docutils literal"><span class="pre">to</span></code>: The new entity id </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache8CopyFromERK5Cache">
+<span id="cpporm::__cxx11::db::Cache::CopyFrom__CacheCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a43a7e3854c4b6bd092dab2470a02a781"></span>void <code class="descname">CopyFrom</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_cache.html#_CPPv2N6cpporm7__cxx112db5CacheE" title="cpporm::__cxx11::db::Cache">Cache</a> &amp;<em>map</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache8CopyFromERK5Cache" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Copy entities from another cache. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">map</span></code>: The map </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db5Cache8RemoveInERK5Cache">
+<span id="cpporm::__cxx11::db::Cache::RemoveIn__CacheCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache_1a9461813be417db4d9365e7113788ce0d"></span>void <code class="descname">RemoveIn</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_cache.html#_CPPv2N6cpporm7__cxx112db5CacheE" title="cpporm::__cxx11::db::Cache">Cache</a> &amp;<em>map</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5Cache8RemoveInERK5Cache" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove entities that exist in another cache. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">map</span></code>: The map </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

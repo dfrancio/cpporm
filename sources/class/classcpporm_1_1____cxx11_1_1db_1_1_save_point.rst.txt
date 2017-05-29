@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::db::SavePoint
+====================================
+
+.. doxygenclass:: cpporm::__cxx11::db::SavePoint

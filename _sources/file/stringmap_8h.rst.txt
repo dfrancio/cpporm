@@ -1,0 +1,4 @@
+File stringmap.h
+================
+
+.. doxygenfile:: stringmap.h

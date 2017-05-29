@@ -1,0 +1,4 @@
+Struct cpporm::__cxx11::util::FactoryRegister
+=============================================
+
+.. doxygenstruct:: cpporm::__cxx11::util::FactoryRegister

@@ -1,0 +1,4 @@
+File connectionstring.cpp
+=========================
+
+.. doxygenfile:: connectionstring.cpp

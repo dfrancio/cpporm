@@ -1,0 +1,4 @@
+Namespace cpporm::__cxx11::db
+=============================
+
+.. doxygennamespace:: cpporm::__cxx11::db

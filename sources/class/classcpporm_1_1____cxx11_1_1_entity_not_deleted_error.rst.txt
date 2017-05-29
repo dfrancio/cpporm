@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::EntityNotDeletedError
+============================================
+
+.. doxygenclass:: cpporm::__cxx11::EntityNotDeletedError

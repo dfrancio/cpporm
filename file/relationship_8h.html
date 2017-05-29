@@ -1,0 +1,688 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File relationship.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File relationship.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File relationship.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/relationship_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-relationship-h">
+<h1>File relationship.h<a class="headerlink" href="#file-relationship-h" title="Permalink to this headline">¶</a></h1>
+<p>Relationship class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx1112RelationshipE">
+<span id="cpporm::__cxx11::Relationship"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship"></span><em class="property">class </em><code class="descname">Relationship</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112RelationshipE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;relationship.h&gt;</em><p>Abstract class to represent database relationships. </p>
+<p>A relationship has a name, a set of properties, a list of names of foreign keys and a list of names of referenced columns (one for each foreign key). Relationships should derive from <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship"><span class="std std-ref">ToOneRelationship</span></a> or <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship"><span class="std std-ref">ToManyRelationship</span></a>, not from this class.</p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship"><span class="std std-ref">ToOneRelationship</span></a> </dd>
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship"><span class="std std-ref">ToManyRelationship</span></a> </dd>
+</dl>
+</p>
+<p>Subclassed by <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship"><span class="std std-ref">cpporm::__cxx11::ToManyRelationship</span></a>, <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship"><span class="std std-ref">cpporm::__cxx11::ToOneRelationship</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1112RelationshipD0Ev">
+<span id="cpporm::__cxx11::Relationship::~Relationship"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a6d18da6cc688379b3081f5fc56a3f455"></span><code class="descname">~Relationship</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112RelationshipD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1112Relationship12RelationshipER6Entity">
+<span id="cpporm::__cxx11::Relationship::Relationship__EntityR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a2864a9ec298f8126f2e2bb0a94eccda2"></span><code class="descname">Relationship</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a> &amp;<em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112Relationship12RelationshipER6Entity" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct a new relationship. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">parent</span></code>: The parent entity </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1112Relationship12RelationshipERK12Relationship">
+<span id="cpporm::__cxx11::Relationship::Relationship__RelationshipCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a003e411908252f2c71194e0b9e853c27"></span><code class="descname">Relationship</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx1112Relationship12RelationshipER6Entity" title="cpporm::__cxx11::Relationship::Relationship">Relationship</a> &amp;<em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112Relationship12RelationshipERK12Relationship" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1112RelationshipaSERK12Relationship">
+<span id="cpporm::__cxx11::Relationship::assign-operator__RelationshipCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1af772beda7ddf9471ab849584639f71e7"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_relationship.html#_CPPv2N6cpporm7__cxx1112RelationshipE" title="cpporm::__cxx11::Relationship">Relationship</a> &amp;<code class="descname">operator=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_relationship.html#_CPPv2N6cpporm7__cxx1112RelationshipE" title="cpporm::__cxx11::Relationship">Relationship</a> &amp;<em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112RelationshipaSERK12Relationship" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Copy from another relationship. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">other</span></code>: The other relationship </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship7GetNameEv">
+<span id="cpporm::__cxx11::Relationship::GetNameC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a7ff94cac18f19735afd20d35f3c72ccc"></span><em class="property">virtual</em> <em class="property">const</em> std::string &amp;<code class="descname">GetName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship7GetNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get relationship name. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The relationship name </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship13GetPropertiesEv">
+<span id="cpporm::__cxx11::Relationship::GetPropertiesC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1ac68d2c51b4bb1a543a306ae0aee33131"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_property_map.html#_CPPv2N6cpporm7__cxx1111PropertyMapE" title="cpporm::__cxx11::PropertyMap">PropertyMap</a> &amp;<code class="descname">GetProperties</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship13GetPropertiesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get relationship properties. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The relationship properties </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship18GetForeignKeyNamesEv">
+<span id="cpporm::__cxx11::Relationship::GetForeignKeyNamesC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1ad139a5aeb533abe6a498cc724de0251d"></span><em class="property">virtual</em> <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<code class="descname">GetForeignKeyNames</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship18GetForeignKeyNamesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get relationship foreign key names. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The list of foreign key names </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship18GetReferencedNamesEv">
+<span id="cpporm::__cxx11::Relationship::GetReferencedNamesC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1af216d23873e7b617d1c9fae1123f87bf"></span><em class="property">virtual</em> <em class="property">const</em> std::vector&lt;std::string&gt; &amp;<code class="descname">GetReferencedNames</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship18GetReferencedNamesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get relationship referenced names. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The list of referenced names </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship17GetReciprocalNameEv">
+<span id="cpporm::__cxx11::Relationship::GetReciprocalNameC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1ab5b5935fcbb5dc0b3aae360a8f7172ee"></span><em class="property">virtual</em> <em class="property">const</em> std::string &amp;<code class="descname">GetReciprocalName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship17GetReciprocalNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get relationship reciprocal name. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The relationship reciprocal name </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship12GetPrototypeEv">
+<span id="cpporm::__cxx11::Relationship::GetPrototypeC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1ad2b791e234003c0c6acc16486bc425e7"></span><em class="property">virtual</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a> &amp;<code class="descname">GetPrototype</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship12GetPrototypeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get prototype of the related type. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The prototype of the related type </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1112Relationship8UnrelateEv">
+<span id="cpporm::__cxx11::Relationship::Unrelate"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a45d70d716ea45ebb9678abd5a2c393f1"></span>void <code class="descname">Unrelate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112Relationship8UnrelateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unrelate. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1112Relationship10InvalidateEv">
+<span id="cpporm::__cxx11::Relationship::Invalidate"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1ae8be92403428273290fff4ea09dad5b5"></span>void <code class="descname">Invalidate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112Relationship10InvalidateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invalidate relationship. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1112Relationship8DissolveEv">
+<span id="cpporm::__cxx11::Relationship::Dissolve"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1aa76cb2559f84d83fdd37e4f7dbb8d45d"></span>void <code class="descname">Dissolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112Relationship8DissolveEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dissolve relationship. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship10GetSessionEv">
+<span id="cpporm::__cxx11::Relationship::GetSessionC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1aa4609afcdd0bbf9a4bcd5e9ec85626ca"></span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_session.html#_CPPv2N6cpporm7__cxx112db7SessionE" title="cpporm::__cxx11::db::Session">Session</a> *<code class="descname">GetSession</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship10GetSessionEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get database session. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The database session </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship12RemoveParentEv">
+<span id="cpporm::__cxx11::Relationship::RemoveParentC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1af2b42f633a522f5b9c726d6312b69272"></span>void <code class="descname">RemoveParent</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship12RemoveParentEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove parent entity. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1112Relationship13SetCachedOnlyERN2db8CriteriaEb">
+<span id="cpporm::__cxx11::Relationship::SetCachedOnly__db::CriteriaR.bC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a4ca770223011d687bd4db426c1c26c16"></span>void <code class="descname">SetCachedOnly</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<em>criteria</em>, bool <em>value</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1112Relationship13SetCachedOnlyERN2db8CriteriaEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set cached only. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">criteria</span></code>: The search criteria </li>
+<li><code class="docutils literal"><span class="pre">value</span></code>: The value of the flag </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx1112Relationship7mParentE">
+<span id="cpporm::__cxx11::Relationship::mParent__EntityR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1ade7f9c27d142f5d68c255bc8249f81c9"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a> &amp;<code class="descname">mParent</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1112Relationship7mParentE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The parent entity. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Friends</p>
+<dl class="function">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a614439ccac0344926adc4c0165d64060"></span><em class="property">friend </em><code class="descname">cpporm::__cxx11::Entity</code></dt>
+<dd><p>Befriend class <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_entity"><span class="std std-ref">Entity</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1a19a109c4f26ee3a652f4f0c3aa48d9c3"></span><em class="property">friend </em><code class="descname">cpporm::__cxx11::ToOneRelationship</code></dt>
+<dd><p>Befriend class <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship"><span class="std std-ref">ToOneRelationship</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_relationship_1af2dc34b7761bfe43701099a9c7379c22"></span><em class="property">friend </em><code class="descname">cpporm::__cxx11::ToManyRelationship</code></dt>
+<dd><p>Befriend class <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship"><span class="std std-ref">ToManyRelationship</span></a>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx1118ToManyRelationshipE">
+<span id="cpporm::__cxx11::ToManyRelationship"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship"></span><em class="property">class </em><code class="descname">ToManyRelationship</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1118ToManyRelationshipE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;relationship.h&gt;</em><p>Class that represents &#8220;to-many&#8221; database relationships. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship"><span class="std std-ref">ToOneRelationship</span></a> </dd>
+</dl>
+</p>
+<p>Inherits from <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_relationship"><span class="std std-ref">cpporm::__cxx11::Relationship</span></a>, std::vector&lt; std::shared_ptr&lt; Entity &gt; &gt;</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;<em class="property">typename</em> F, typename... <em>Args</em>&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx1118ToManyRelationship7ForEachERR1FDpRR4Args">
+<span id="cpporm::__cxx11::ToManyRelationship::ForEach__FRR.ArgsRRDp"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship_1a74a3cfa00fc8c864648cf441e8f33f44"></span>bool <code class="descname">ForEach</code><span class="sig-paren">(</span>F &amp;&amp;<em>function</em>, Args&amp;&amp;... <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1118ToManyRelationship7ForEachERR1FDpRR4Args" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loop through each related entity and execute custom procedure. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if all related entities were processed successfully; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">function</span></code>: The function to execute </li>
+<li><code class="docutils literal"><span class="pre">args</span></code>: The function arguments </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1118ToManyRelationship8DissolveEv">
+<span id="cpporm::__cxx11::ToManyRelationship::Dissolve"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship_1acb9bd5074ccfbd1cd27a602781cb8292"></span>void <code class="descname">Dissolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1118ToManyRelationship8DissolveEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dissolve relationship. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1118ToManyRelationship4LoadEb">
+<span id="cpporm::__cxx11::ToManyRelationship::Load__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship_1abcf1874f40af649355e3609a73df97fe"></span>void <code class="descname">Load</code><span class="sig-paren">(</span>bool <em>cachedOnly</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1118ToManyRelationship4LoadEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load related entities. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cachedOnly</span></code>: A flag to indicate whether to search only already cached entities </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationshipE">
+<span id="cpporm::__cxx11::ToOneRelationship"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship"></span><em class="property">class </em><code class="descname">ToOneRelationship</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationshipE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;relationship.h&gt;</em><p>Class that represents &#8220;to-one&#8221; database relationships. </p>
+<p>&#8220;To-one&#8221; means that an entity relates to another (and only one) entity in the same database. It can happen that the foreign key represented by the relationship allows NULL, in which case we say that the relationship has cardinality (or multiplicity) 0..1. Otherwise it has cardinality 1 exactly. By design, every to-one relationship has a counter-part: the &#8220;to-many&#8221; relationship. This reciprocal relationship may be omitted if required, by just removing the code declaring it.</p>
+<p>An example might clarify how it works:</p>
+<p></p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_to_many_relationship"><span class="std std-ref">ToManyRelationship</span></a> </dd>
+</dl>
+</p>
+<p>Inherits from <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_relationship"><span class="std std-ref">cpporm::__cxx11::Relationship</span></a>, std::shared_ptr&lt; Entity &gt;</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationshipcvbEv">
+<span id="cpporm::__cxx11::ToOneRelationship::castto-b-operator"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a1fa1b61a7c140575e29d54f6b3ef06ad"></span><code class="descname">operator bool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationshipcvbEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the related entity is not NULL. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationshipeqERK17ToOneRelationship">
+<span id="cpporm::__cxx11::ToOneRelationship::eq-operator__ToOneRelationshipCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a6d7957717c1b2a597ee3811cbc46eca4"></span>bool <code class="descname">operator==</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_to_one_relationship.html#_CPPv2N6cpporm7__cxx1117ToOneRelationshipE" title="cpporm::__cxx11::ToOneRelationship">ToOneRelationship</a> &amp;<em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationshipeqERK17ToOneRelationship" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether two relationships point to the same entity. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the pointers are equal; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">other</span></code>: The other relationship </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationshipneERK17ToOneRelationship">
+<span id="cpporm::__cxx11::ToOneRelationship::neq-operator__ToOneRelationshipCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1aa8b60cb76062c2e39e6e3708f93a6762"></span>bool <code class="descname">operator!=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_to_one_relationship.html#_CPPv2N6cpporm7__cxx1117ToOneRelationshipE" title="cpporm::__cxx11::ToOneRelationship">ToOneRelationship</a> &amp;<em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationshipneERK17ToOneRelationship" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether two relationships point to different entities. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the pointers are different; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">other</span></code>: The other relationship </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;<em class="property">typename</em> T&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationshipeqERKNSt10shared_ptrI1TEE">
+<span id="cpporm::__cxx11::ToOneRelationship::eq-operator__std::shared_ptr:T:CR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1ae19bc5764356fec7f2d71060a908ffbf"></span>bool <code class="descname">operator==</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;T&gt; &amp;<em>pointer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationshipeqERKNSt10shared_ptrI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the related entity is the same as that pointed to by <code class="docutils literal"><span class="pre">pointer</span></code> </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the pointers are equal; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">pointer</span></code>: The pointer </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;<em class="property">typename</em> T&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationshipneERKNSt10shared_ptrI1TEE">
+<span id="cpporm::__cxx11::ToOneRelationship::neq-operator__std::shared_ptr:T:CR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a2d16eeeeda0809c3bdf947e3b7cdd1bb"></span>bool <code class="descname">operator!=</code><span class="sig-paren">(</span><em class="property">const</em> std::shared_ptr&lt;T&gt; &amp;<em>pointer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationshipneERKNSt10shared_ptrI1TEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the related entity is different from that pointed to by <code class="docutils literal"><span class="pre">pointer</span></code> </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the pointers are different; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">pointer</span></code>: The pointer </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;<em class="property">typename</em> T&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationship3GetEv">
+<span id="cpporm::__cxx11::ToOneRelationship::Get"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a853ed9faa093776a78c6e1d899b0de94"></span>T *<code class="descname">Get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationship3GetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the related entity. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The result of dereferencing the stored pointer </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationship10InvalidateEv">
+<span id="cpporm::__cxx11::ToOneRelationship::Invalidate"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1aa3180dee622958e90e31e45f420879e9"></span>void <code class="descname">Invalidate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationship10InvalidateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invalidate relationship. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationship8UnrelateEv">
+<span id="cpporm::__cxx11::ToOneRelationship::Unrelate"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a2a73c964684ed4044764c11b044e8873"></span>void <code class="descname">Unrelate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationship8UnrelateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unrelate. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationship4LoadEv">
+<span id="cpporm::__cxx11::ToOneRelationship::Load"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a6d4ab019c311ee3873df87a37dc17945"></span>void <code class="descname">Load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationship4LoadEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load related entity. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationship17SetForeignKeyNullEv">
+<span id="cpporm::__cxx11::ToOneRelationship::SetForeignKeyNull"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1ab060dffd5ad9924bc4c53704729cd2b9"></span>void <code class="descname">SetForeignKeyNull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationship17SetForeignKeyNullEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set foreign key null. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1117ToOneRelationship16IsForeignKeyNullEv">
+<span id="cpporm::__cxx11::ToOneRelationship::IsForeignKeyNullC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1ab55398bc30abe9f0b00f4b10602256aa"></span>bool <code class="descname">IsForeignKeyNull</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1117ToOneRelationship16IsForeignKeyNullEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the foreign is NULL. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the foreign key is null; false otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx1117ToOneRelationship20WasForeignKeyUpdatedEv">
+<span id="cpporm::__cxx11::ToOneRelationship::WasForeignKeyUpdatedC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1aea0d74d944ff9d356946b3a65a4808fa"></span>bool <code class="descname">WasForeignKeyUpdated</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx1117ToOneRelationship20WasForeignKeyUpdatedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the foreign key was updated. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the foreign key was updated; false otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx1117ToOneRelationship12mInvalidatedE">
+<span id="cpporm::__cxx11::ToOneRelationship::mInvalidated__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a3f250f65fec6d2b7b75efcfa337d76d7"></span>bool <code class="descname">mInvalidated</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1117ToOneRelationship12mInvalidatedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The invalidated flag. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Friends</p>
+<dl class="function">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_to_one_relationship_1a614439ccac0344926adc4c0165d64060"></span><em class="property">friend </em><code class="descname">cpporm::__cxx11::Entity</code></dt>
+<dd><p>Befriend class <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_entity"><span class="std std-ref">Entity</span></a>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

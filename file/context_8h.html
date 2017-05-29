@@ -1,0 +1,505 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File context.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File context.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File context.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/context_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-context-h">
+<h1>File context.h<a class="headerlink" href="#file-context-h" title="Permalink to this headline">¶</a></h1>
+<p>Context class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db7ContextE">
+<span id="cpporm::__cxx11::db::Context"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context"></span><em class="property">class </em><code class="descname">Context</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7ContextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;context.h&gt;</em><p>Class that represents a database context. </p>
+<p>The database context is a set of actions performed in the database to manipulate its data. There are three main actionss:<ol class="arabic simple">
+<li>Insertion;</li>
+<li>Update</li>
+<li>Deletion</li>
+</ol>
+</p>
+<p>A parent context can have any number of sub-contexts.</p>
+<p><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_transaction"><span class="std std-ref">Transaction</span></a> and savepoint semantics apply to context objects. </p>
+<p>Subclassed by <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_iud_context"><span class="std std-ref">cpporm::__cxx11::db::IudContext</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Types</p>
+<dl class="type">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a9f2f31caa5f2c0dbab87c2c4b38428e3"></span><em class="property">typedef </em><code class="descname">void() cpporm::__cxx11::db::Context::ContextFunction(Context *)</code></dt>
+<dd><p><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_context"><span class="std std-ref">Context</span></a> function type. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7ContextD0Ev">
+<span id="cpporm::__cxx11::db::Context::~Context"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1ad660afcbecb45be03fd105f3fc4abb98"></span><code class="descname">~Context</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7ContextD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context8ActivateEv">
+<span id="cpporm::__cxx11::db::Context::Activate"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a5f586cef0d334d7d45612dc34479c775"></span>void <code class="descname">Activate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context8ActivateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Activate. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context8RollbackENSt8functionI15ContextFunctionEE">
+<span id="cpporm::__cxx11::db::Context::Rollback__std::function:ContextFunction:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a6db85b83093f712126dd2949c339048f"></span>void <code class="descname">Rollback</code><span class="sig-paren">(</span>std::function&lt;ContextFunction&gt; <em>function</em> = {}<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context8RollbackENSt8functionI15ContextFunctionEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rollback. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">function</span></code>: The callback function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context6CommitEv">
+<span id="cpporm::__cxx11::db::Context::Commit"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a866016dca76e11798bf9b81f4a1f1f39"></span>void <code class="descname">Commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context6CommitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Commit. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context12AddInsertionERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Context::AddInsertion__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1ac9ffe12ea9ac360ab41d5753a2e007b1"></span>void <code class="descname">AddInsertion</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context12AddInsertionERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add insertion. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context9AddUpdateERKNSt6stringERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Context::AddUpdate__ssCR.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1abc7beded98f7dc29547f077e6cd3accc"></span>void <code class="descname">AddUpdate</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>oldKey</em>, <em class="property">const</em> std::string &amp;<em>newKey</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context9AddUpdateERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add update. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">oldKey</span></code>: The old key </li>
+<li><code class="docutils literal"><span class="pre">newKey</span></code>: The new key </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context11AddDeletionERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Context::AddDeletion__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1aecc609d6afedde6f8c05d13b836d7d04"></span>void <code class="descname">AddDeletion</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context11AddDeletionERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add deletion. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context16CreateSubcontextEv">
+<span id="cpporm::__cxx11::db::Context::CreateSubcontext"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a95841726a865a638f1c17ed56382b79e"></span><em class="property">virtual</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_context.html#_CPPv2N6cpporm7__cxx112db7ContextE" title="cpporm::__cxx11::db::Context">Context</a> *<code class="descname">CreateSubcontext</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context16CreateSubcontextEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create subcontext. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The newly created subcontext </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context7ContextEP7Context">
+<span id="cpporm::__cxx11::db::Context::Context__ContextP"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1af2c7593cc33c4a1d049556139cad986e"></span><code class="descname">Context</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db7Context7ContextEP7Context" title="cpporm::__cxx11::db::Context::Context">Context</a> *<em>parent</em> = nullptr<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context7ContextEP7Context" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">parent</span></code>: The parent context </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context11InnerCommitEv">
+<span id="cpporm::__cxx11::db::Context::InnerCommit"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1abcfdafd59bc1427413edb78de10bf4e4"></span><em class="property">virtual</em> void <code class="descname">InnerCommit</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context11InnerCommitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Inner commit. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context13InnerRollbackEv">
+<span id="cpporm::__cxx11::db::Context::InnerRollback"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1afc37acc3f844fc5b0a470616fb2f86f2"></span><em class="property">virtual</em> void <code class="descname">InnerRollback</code><span class="sig-paren">(</span><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context13InnerRollbackEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Inner rollback. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context12InnerReleaseER7Context">
+<span id="cpporm::__cxx11::db::Context::InnerRelease__ContextR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1ae1a9070c7b2ee94a0c5ae34af550cfc8"></span><em class="property">virtual</em> void <code class="descname">InnerRelease</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_context.html#_CPPv2N6cpporm7__cxx112db7ContextE" title="cpporm::__cxx11::db::Context">Context</a> &amp;<em>context</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context12InnerReleaseER7Context" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Inner release. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">context</span></code>: The context to release to </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context17InnerAddInsertionERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Context::InnerAddInsertion__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a35ae891d82d126d9b4fc02a128cd5f2f"></span><em class="property">virtual</em> void <code class="descname">InnerAddInsertion</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context17InnerAddInsertionERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Inner add insertion. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context14InnerAddUpdateERKNSt6stringERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Context::InnerAddUpdate__ssCR.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a22f7ee236949f9d3b9639c55016f870f"></span><em class="property">virtual</em> void <code class="descname">InnerAddUpdate</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>oldKey</em>, <em class="property">const</em> std::string &amp;<em>newKey</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context14InnerAddUpdateERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Inner add update. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">oldKey</span></code>: The old key </li>
+<li><code class="docutils literal"><span class="pre">newKey</span></code>: The new key </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context16InnerAddDeletionERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Context::InnerAddDeletion__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1abcc1cef17f09d048cf35ecc22c30b565"></span><em class="property">virtual</em> void <code class="descname">InnerAddDeletion</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>key</em><span class="sig-paren">)</span> = 0<a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context16InnerAddDeletionERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Inner add deletion. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context9CommitAllEv">
+<span id="cpporm::__cxx11::db::Context::CommitAll"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a3f1fde24c9f62756793656efbc697dc1"></span>void <code class="descname">CommitAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context9CommitAllEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Commit all contexts. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context11RollbackAllEv">
+<span id="cpporm::__cxx11::db::Context::RollbackAll"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1aefb1e3aee37a238491863aac72e8e50b"></span>void <code class="descname">RollbackAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context11RollbackAllEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rollback all contexts. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context14RollbackToThisENSt8functionI15ContextFunctionEE">
+<span id="cpporm::__cxx11::db::Context::RollbackToThis__std::function:ContextFunction:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1aedab377a70ca4f43a4c8610b69100874"></span>void <code class="descname">RollbackToThis</code><span class="sig-paren">(</span>std::function&lt;ContextFunction&gt; <em>function</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context14RollbackToThisENSt8functionI15ContextFunctionEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rollback to this context. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">function</span></code>: The callback function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context11ReleaseThisEv">
+<span id="cpporm::__cxx11::db::Context::ReleaseThis"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a3f4f0e88e748965bf395f71afd7569ee"></span>void <code class="descname">ReleaseThis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context11ReleaseThisEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Release this. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context14mParentContextE">
+<span id="cpporm::__cxx11::db::Context::mParentContext__ContextP"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a9f21ba36fef1037b6abe7559444c6209"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_context.html#_CPPv2N6cpporm7__cxx112db7ContextE" title="cpporm::__cxx11::db::Context">Context</a> *<code class="descname">mParentContext</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context14mParentContextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The parent context. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context11mSubcontextE">
+<span id="cpporm::__cxx11::db::Context::mSubcontext__ContextP"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1ae92d453578bb2f7f57423a4b0fa18724"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_context.html#_CPPv2N6cpporm7__cxx112db7ContextE" title="cpporm::__cxx11::db::Context">Context</a> *<code class="descname">mSubcontext</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context11mSubcontextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The subcontext. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db7Context7mActiveE">
+<span id="cpporm::__cxx11::db::Context::mActive__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context_1a568b05478e2d65e277acf6c2174685f3"></span>bool <code class="descname">mActive</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7Context7mActiveE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The subcontext. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

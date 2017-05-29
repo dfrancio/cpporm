@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::Error
+============================
+
+.. doxygenclass:: cpporm::__cxx11::Error

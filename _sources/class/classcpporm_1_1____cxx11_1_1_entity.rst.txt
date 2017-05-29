@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::Entity
+=============================
+
+.. doxygenclass:: cpporm::__cxx11::Entity

@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::backend::soci::Statement
+===============================================
+
+.. doxygenclass:: cpporm::__cxx11::backend::soci::Statement

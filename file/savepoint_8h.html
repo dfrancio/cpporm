@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File savepoint.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File savepoint.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File savepoint.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/savepoint_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-savepoint-h">
+<h1>File savepoint.h<a class="headerlink" href="#file-savepoint-h" title="Permalink to this headline">¶</a></h1>
+<p>SavePoint class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePointE">
+<span id="cpporm::__cxx11::db::SavePoint"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point"></span><em class="property">class </em><code class="descname">SavePoint</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePointE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;savepoint.h&gt;</em><p>Class that represents a database savepoint. </p>
+<p>Savepoints are similar to transactions, but are intended to be used inside a transaction as a more fine-grained mechanism. It allows one to save the state of a transaction at a specific point and then rollback to this point, reverting everything that happened since, without losing what happened before. Altough savepoints can be released, the transaction can still be rolled back independently of the internal savepoints. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePoint9SavePointER11TransactionRKNSt6stringE">
+<span id="cpporm::__cxx11::db::SavePoint::SavePoint__TransactionR.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point_1a7f8a0ac7a390d722970b2ab5b77fcf94"></span><code class="descname">SavePoint</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_transaction.html#_CPPv2N6cpporm7__cxx112db11TransactionE" title="cpporm::__cxx11::db::Transaction">Transaction</a> &amp;<em>transaction</em>, <em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePoint9SavePointER11TransactionRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">transaction</span></code>: The transaction </li>
+<li><code class="docutils literal"><span class="pre">name</span></code>: The name of the savepoint </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePointD0Ev">
+<span id="cpporm::__cxx11::db::SavePoint::~SavePoint"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point_1a61de960a31b0dcc86cca4dee7a21319d"></span><code class="descname">~SavePoint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePointD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePoint7ReleaseEv">
+<span id="cpporm::__cxx11::db::SavePoint::Release"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point_1a045e7bc4219b811181773ec590a02f96"></span>void <code class="descname">Release</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePoint7ReleaseEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Release. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePoint12mTransactionE">
+<span id="cpporm::__cxx11::db::SavePoint::mTransaction__TransactionR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point_1a132883de63d7f515a8b3ecf04d5f786c"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_transaction.html#_CPPv2N6cpporm7__cxx112db11TransactionE" title="cpporm::__cxx11::db::Transaction">Transaction</a> &amp;<code class="descname">mTransaction</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePoint12mTransactionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The transaction object. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePoint5mNameE">
+<span id="cpporm::__cxx11::db::SavePoint::mName__ss"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point_1a773f35c369a0cd6cd7d6b05dcf14aaad"></span>std::string <code class="descname">mName</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePoint5mNameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The name of the savepoint. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePoint9mReleasedE">
+<span id="cpporm::__cxx11::db::SavePoint::mReleased__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point_1a721de90e4123419b49f732763535dee0"></span>bool <code class="descname">mReleased</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePoint9mReleasedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A flag to indicate whether the savepoint was released. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

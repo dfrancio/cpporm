@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File criteria.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File criteria.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File criteria.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/criteria_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-criteria-h">
+<h1>File criteria.h<a class="headerlink" href="#file-criteria-h" title="Permalink to this headline">¶</a></h1>
+<p>Criteria interface. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Typedefs</p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db8JoinSpecE">
+<span id="cpporm::__cxx11::db::JoinSpec"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a5d7959918ad70bed55e174317ab71543"></span><em class="property">typedef </em>std::tuple&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db8JoinTypeE" title="cpporm::__cxx11::db::JoinType">JoinType</a>, std::string, std::string, std::string, std::string&gt; <code class="descname">JoinSpec</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8JoinSpecE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Join specification. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db13ConditionSpecE">
+<span id="cpporm::__cxx11::db::ConditionSpec"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a953fcc6f9e1e18f523a916ab386787fe"></span><em class="property">typedef </em>std::tuple&lt;std::string, std::string, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9ConditionE" title="cpporm::__cxx11::db::Condition">Condition</a>, std::string&gt; <code class="descname">ConditionSpec</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db13ConditionSpecE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Condition specification. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db11OrderBySpecE">
+<span id="cpporm::__cxx11::db::OrderBySpec"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1afc404ce8ac93ed191982bd2538ff844c"></span><em class="property">typedef </em>std::tuple&lt;std::string, std::string, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9SortOrderE" title="cpporm::__cxx11::db::SortOrder">SortOrder</a>&gt; <code class="descname">OrderBySpec</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11OrderBySpecE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Order-by specification. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Enums</p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE">
+<span id="cpporm::__cxx11::db::LogicalConnective"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1af3c3aa69db1b97627e53e088ea8ecaf3"></span><em class="property">enum </em><code class="descname">LogicalConnective</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Logical connective. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db11conjunctionE">
+<span id="cpporm::__cxx11::db::conjunction"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1af3c3aa69db1b97627e53e088ea8ecaf3aa3c1d30ba2c088f00b27a3f104913a21"></span><code class="descname">conjunction</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11conjunctionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>and connective </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db11disjunctionE">
+<span id="cpporm::__cxx11::db::disjunction"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1af3c3aa69db1b97627e53e088ea8ecaf3a0df45ab8d924494dcb19bf3567e0d336"></span><code class="descname">disjunction</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11disjunctionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>or connective </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db8CriteriaE">
+<span id="cpporm::__cxx11::db::Criteria"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria"></span><em class="property">class </em><code class="descname">Criteria</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;criteria.h&gt;</em><p>Class that represents database search criteria. </p>
+<p>The criteria is composed of sets of clauses, of which there are four types:<ol class="arabic simple">
+<li>Join</li>
+<li>Condition</li>
+<li>Order by</li>
+<li>Limit/offset</li>
+</ol>
+</p>
+<p>The clauses will be used to construct an SQL query that uses them as search criteria. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria7AddJoinE8JoinTypeRKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringE">
+<span id="cpporm::__cxx11::db::Criteria::AddJoin__JoinType.ssCR.ssCR.ssCR.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a5fda4d6a8b56fe585223f9ea0b323530"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">AddJoin</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db8JoinTypeE" title="cpporm::__cxx11::db::JoinType">JoinType</a> <em>join</em>, <em class="property">const</em> std::string &amp;<em>table</em>, <em class="property">const</em> std::string &amp;<em>column</em> = &quot;&quot;, <em class="property">const</em> std::string &amp;<em>conditionTable</em> = &quot;&quot;, <em class="property">const</em> std::string &amp;<em>conditionColumn</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria7AddJoinE8JoinTypeRKNSt6stringERKNSt6stringERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria12AddConditionERKNSt6stringERKNSt6stringE9ConditionRKNSt6stringE">
+<span id="cpporm::__cxx11::db::Criteria::AddCondition__ssCR.ssCR.Condition.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1aa77b540479eb215f8001fc5b1a3f5c89"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">AddCondition</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>table</em>, <em class="property">const</em> std::string &amp;<em>column</em>, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9ConditionE" title="cpporm::__cxx11::db::Condition">Condition</a> <em>condition</em>, <em class="property">const</em> std::string &amp;<em>value</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria12AddConditionERKNSt6stringERKNSt6stringE9ConditionRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria12AddConditionERKNSt6stringE9ConditionRKNSt6stringE">
+<span id="cpporm::__cxx11::db::Criteria::AddCondition__ssCR.Condition.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a24c15e6309b5f37c0f41baf46365129e"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">AddCondition</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>column</em>, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9ConditionE" title="cpporm::__cxx11::db::Condition">Condition</a> <em>condition</em>, <em class="property">const</em> std::string &amp;<em>value</em> = &quot;&quot;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria12AddConditionERKNSt6stringE9ConditionRKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria9OpenScopeE17LogicalConnective">
+<span id="cpporm::__cxx11::db::Criteria::OpenScope__LogicalConnective"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1af8fe1de2ce2b01d3c57ad14208f7bfd8"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">OpenScope</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE" title="cpporm::__cxx11::db::LogicalConnective">LogicalConnective</a> <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria9OpenScopeE17LogicalConnective" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria10CloseScopeEv">
+<span id="cpporm::__cxx11::db::Criteria::CloseScope"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1ae231fb8d64330b537c852286f5972d89"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">CloseScope</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria10CloseScopeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria10AddOrderByERKNSt6stringERKNSt6stringE9SortOrder">
+<span id="cpporm::__cxx11::db::Criteria::AddOrderBy__ssCR.ssCR.SortOrder"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a0de09ae16b54926619fc9aeaf569c4f8"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">AddOrderBy</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>table</em>, <em class="property">const</em> std::string &amp;<em>column</em>, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9SortOrderE" title="cpporm::__cxx11::db::SortOrder">SortOrder</a> <em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria10AddOrderByERKNSt6stringERKNSt6stringE9SortOrder" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria10AddOrderByERKNSt6stringE9SortOrder">
+<span id="cpporm::__cxx11::db::Criteria::AddOrderBy__ssCR.SortOrder"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a4eed070bd7c86bff5bbef389028590b5"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">AddOrderBy</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>column</em>, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9SortOrderE" title="cpporm::__cxx11::db::SortOrder">SortOrder</a> <em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria10AddOrderByERKNSt6stringE9SortOrder" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria13SetLimitCountEj">
+<span id="cpporm::__cxx11::db::Criteria::SetLimitCount__unsigned-i"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1af70966a2714a099193d4b6999632b440"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">SetLimitCount</code><span class="sig-paren">(</span>unsigned int <em>count</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria13SetLimitCountEj" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria14SetLimitOffsetEj">
+<span id="cpporm::__cxx11::db::Criteria::SetLimitOffset__unsigned-i"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a5565ca6715234e50b9f945ca762a6c57"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">SetLimitOffset</code><span class="sig-paren">(</span>unsigned int <em>offset</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria14SetLimitOffsetEj" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria13SetCachedOnlyEb">
+<span id="cpporm::__cxx11::db::Criteria::SetCachedOnly__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a69c0258f5812106f4daa68406e46b2f0"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">SetCachedOnly</code><span class="sig-paren">(</span>bool <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria13SetCachedOnlyEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria7ComposeER5Query">
+<span id="cpporm::__cxx11::db::Criteria::Compose__QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1ae301f2f41aa2f16b39f0ba489d5e8929"></span>void <code class="descname">Compose</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria7ComposeER5Query" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria4BindER9Statement">
+<span id="cpporm::__cxx11::db::Criteria::Bind__StatementRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1aa578af1c7f4d38779b355e00e37f59e1"></span>void <code class="descname">Bind</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_statement.html#_CPPv2N6cpporm7__cxx112db9StatementE" title="cpporm::__cxx11::db::Statement">Statement</a> &amp;<em>statement</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria4BindER9Statement" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria5ResetEv">
+<span id="cpporm::__cxx11::db::Criteria::Reset"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a2f344f12b164506ff5e090d0601ecf61"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_criteria.html#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="cpporm::__cxx11::db::Criteria">Criteria</a> &amp;<code class="descname">Reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria5ResetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Functions</p>
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria13GetCachedOnlyEv">
+<span id="cpporm::__cxx11::db::Criteria::GetCachedOnlyC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a7ccb21c546db2ce2664097d3b844deea"></span>bool <code class="descname">GetCachedOnly</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria13GetCachedOnlyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria12ProcessJoinsER5Query">
+<span id="cpporm::__cxx11::db::Criteria::ProcessJoins__QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1ab978436917e2239acaed39100cf56953"></span>void <code class="descname">ProcessJoins</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria12ProcessJoinsER5Query" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria17ProcessConditionsER5Query">
+<span id="cpporm::__cxx11::db::Criteria::ProcessConditions__QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1ad4e70d48f8aa5268116e1776d7bb2770"></span>void <code class="descname">ProcessConditions</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria17ProcessConditionsER5Query" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria22ProcessOrderByAndLimitER5Query">
+<span id="cpporm::__cxx11::db::Criteria::ProcessOrderByAndLimit__QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a61aead442f4e8fac7a725eda0294d0b3"></span>void <code class="descname">ProcessOrderByAndLimit</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria22ProcessOrderByAndLimitER5Query" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria20ProcessScopeOpeningsER5QueryRNSt5stackI17LogicalConnectiveEENSt6size_tE">
+<span id="cpporm::__cxx11::db::Criteria::ProcessScopeOpenings__QueryR.std::stack:LogicalConnective:R.std::sC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a7fcd91a2a29ef574fc3ef9e07a207fbc"></span>void <code class="descname">ProcessScopeOpenings</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em>, std::stack&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE" title="cpporm::__cxx11::db::LogicalConnective">LogicalConnective</a>&gt; &amp;<em>connectives</em>, std::size_t <em>i</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria20ProcessScopeOpeningsER5QueryRNSt5stackI17LogicalConnectiveEENSt6size_tE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db8Criteria19ProcessScopeEndingsER5QueryRNSt5stackI17LogicalConnectiveEENSt6size_tE">
+<span id="cpporm::__cxx11::db::Criteria::ProcessScopeEndings__QueryR.std::stack:LogicalConnective:R.std::sC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a645de9c43b67f093f8d14e8360d694bc"></span>void <code class="descname">ProcessScopeEndings</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em>, std::stack&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE" title="cpporm::__cxx11::db::LogicalConnective">LogicalConnective</a>&gt; &amp;<em>connectives</em>, std::size_t <em>i</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db8Criteria19ProcessScopeEndingsER5QueryRNSt5stackI17LogicalConnectiveEENSt6size_tE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria11mConditionsE">
+<span id="cpporm::__cxx11::db::Criteria::mConditions__std::vector:ConditionSpec:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a6e7e04fba51ea997895ae1a094aed918"></span>std::vector&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db13ConditionSpecE" title="cpporm::__cxx11::db::ConditionSpec">ConditionSpec</a>&gt; <code class="descname">mConditions</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria11mConditionsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The set of condition specifications. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria14mScopeOpeningsE">
+<span id="cpporm::__cxx11::db::Criteria::mScopeOpenings__std::multimap:std::s.LogicalConnective:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a45d425d5e2a35a705888d37bfaed0917"></span>std::multimap&lt;std::size_t, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE" title="cpporm::__cxx11::db::LogicalConnective">LogicalConnective</a>&gt; <code class="descname">mScopeOpenings</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria14mScopeOpeningsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The set of scope openings. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria13mScopeEndingsE">
+<span id="cpporm::__cxx11::db::Criteria::mScopeEndings__std::multiset:std::s:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a8fac1462fa9943839282700f296f88b0"></span>std::multiset&lt;std::size_t&gt; <code class="descname">mScopeEndings</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria13mScopeEndingsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The set of scope endings. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria6mJoinsE">
+<span id="cpporm::__cxx11::db::Criteria::mJoins__std::vector:JoinSpec:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a8d57a6fe9440fd1067bfb7b13781c20f"></span>std::vector&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db8JoinSpecE" title="cpporm::__cxx11::db::JoinSpec">JoinSpec</a>&gt; <code class="descname">mJoins</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria6mJoinsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The set of join specifications. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria9mOrderBysE">
+<span id="cpporm::__cxx11::db::Criteria::mOrderBys__std::vector:OrderBySpec:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a25df27cafff9375e279939706ef202ca"></span>std::vector&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db11OrderBySpecE" title="cpporm::__cxx11::db::OrderBySpec">OrderBySpec</a>&gt; <code class="descname">mOrderBys</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria9mOrderBysE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The set of order-by specifications. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria11mLimitCountE">
+<span id="cpporm::__cxx11::db::Criteria::mLimitCount__unsigned-i"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a1e63b12d506c478ad6b8970d8ff03dd4"></span>unsigned int <code class="descname">mLimitCount</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria11mLimitCountE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The limit count. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria12mLimitOffsetE">
+<span id="cpporm::__cxx11::db::Criteria::mLimitOffset__unsigned-i"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a0d50f56f758d703a17754799dbd72139"></span>unsigned int <code class="descname">mLimitOffset</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria12mLimitOffsetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The limit offset. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8Criteria11mCachedOnlyE">
+<span id="cpporm::__cxx11::db::Criteria::mCachedOnly__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1af95cfb110e68764e9759a3cc01d36295"></span>bool <code class="descname">mCachedOnly</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8Criteria11mCachedOnlyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cached only flag. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Friends</p>
+<dl class="function">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1afbdd63a566878ce30072e785ca7e7740"></span><em class="property">friend </em><code class="descname">cpporm::__cxx11::db::Session</code></dt>
+<dd><p>Befriend class <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">Session</span></a>. </p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria_1a37bb5cd436b9ae650375999ffeed937c"></span><em class="property">friend </em><code class="descname">cpporm::__cxx11::db::cpporm::Relationship</code></dt>
+<dd><p>Befriend class <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_relationship"><span class="std std-ref">Relationship</span></a>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

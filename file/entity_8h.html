@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File entity.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File entity.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File entity.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/entity_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-entity-h">
+<h1>File entity.h<a class="headerlink" href="#file-entity-h" title="Permalink to this headline">¶</a></h1>
+<p>Entity class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx116EntityE">
+<span id="cpporm::__cxx11::Entity"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity"></span><em class="property">class </em><code class="descname">Entity</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116EntityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;entity.h&gt;</em><p>Abstract class to represent database tables. </p>
+<p>An entity maps a C++ object to an entry in a database table. All entities should derive from this class. It has a name, a set of properties and a set of indices, all being static members of the derived class. It contains an internal state comprised of:<ol class="arabic simple">
+<li>a set of attributes, which correspond to the table cloumns</li>
+<li>a set of relationships, which correspond to the table foreign keys</li>
+</ol>
+</p>
+<p>Transactions and savepoints can be used with entities. The entity attributes can be accessed and modified polymorhpically by means of a container which maps column names to attributes. Relationships can be accessed in a similar manner. This effectively implements a (rather primitive) kind of object introspection mechanism.</p>
+<p>An entity can have a primary key. If there is no primary key declared in the database table, then all attributes combined are considered as the primary key. This is needed to guarantee uniqueness within the session cache.</p>
+<p>An entity can also have a version field. A version field is a set of attributes which indicates the version of an entity. This is required for the optimistic locking strategy used in concurrency control.</p>
+<p>One can loop through the entity relationships recusrively using a depth-first search procedure.</p>
+<p>There is a database session with which an entity can be associated, and a unique identifier for the entity in the session cache. The nature of this identifier is implementation detail, and should not matter for most users. There are methods for obtaining and resetting the ID.</p>
+<p>One can check if any of the entity attributes was modified since the last commit or since it was constructed. It is also possible to rollback or save the internal state when using transactions.</p>
+<p>Some of the methods help in the construction of prepared statements, while others have to do with the database schema of the database table being represented. Still others have do to with the entity relationships.</p>
+<p>Finally, some convenience methods are provided which help in copying attributes from other entities.</p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_attribute"><span class="std std-ref">Attribute</span></a> </dd>
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Types</p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx1114TraverseResultE">
+<span id="cpporm::__cxx11::TraverseResult"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ad547199c70d4e454a27bb751c3163665"></span><em class="property">enum </em><code class="descname">TraverseResult</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx1114TraverseResultE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Traverse result. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112okE">
+<span id="cpporm::__cxx11::ok"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ad547199c70d4e454a27bb751c3163665a444bcb3a3fcf8389296c49467f27e1d6"></span><code class="descname">ok</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112okE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>continue iterating </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx114skipE">
+<span id="cpporm::__cxx11::skip"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ad547199c70d4e454a27bb751c3163665a08b43519a7e36ee4c6c5615d1663bcfd"></span><code class="descname">skip</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114skipE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>skip this entity </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx114haltE">
+<span id="cpporm::__cxx11::halt"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ad547199c70d4e454a27bb751c3163665a4a1bde0ea8bcda2a591f42646813c477"></span><code class="descname">halt</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114haltE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>halt the iteration and return </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116EntityD0Ev">
+<span id="cpporm::__cxx11::Entity::~Entity"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aeba29433c11d13d08d1261c6abc4d0e4"></span><code class="descname">~Entity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116EntityD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity5CloneEv">
+<span id="cpporm::__cxx11::Entity::CloneC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1af02b4c5c8013911ec4d5ce9590727a6a"></span><em class="property">virtual</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a> *<code class="descname">Clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity5CloneEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clone entity. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The cloned entity </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity7GetNameEv">
+<span id="cpporm::__cxx11::Entity::GetNameC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a0ec2c1ff47a8d6c5c15a8c3e4757901e"></span><em class="property">virtual</em> <em class="property">const</em> std::string &amp;<code class="descname">GetName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity7GetNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity name. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity name </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity13GetPropertiesEv">
+<span id="cpporm::__cxx11::Entity::GetPropertiesC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a37f53b29d62cda5550cf967fea6f88a8"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_property_map.html#_CPPv2N6cpporm7__cxx1111PropertyMapE" title="cpporm::__cxx11::PropertyMap">PropertyMap</a> &amp;<code class="descname">GetProperties</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity13GetPropertiesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity properties. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity properties </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity13GetAttributesEv">
+<span id="cpporm::__cxx11::Entity::GetAttributesC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a459b28524f8f677e75b7a165b4982677"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute_map.html#_CPPv2N6cpporm7__cxx1112AttributeMapE" title="cpporm::__cxx11::AttributeMap">AttributeMap</a> &amp;<code class="descname">GetAttributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity13GetAttributesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entityattributes. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity attributes </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity16GetRelationshipsEv">
+<span id="cpporm::__cxx11::Entity::GetRelationshipsC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a02eac8a92650ab603b1a5f7a4eeafcc2"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_relationship_map.html#_CPPv2N6cpporm7__cxx1115RelationshipMapE" title="cpporm::__cxx11::RelationshipMap">RelationshipMap</a> &amp;<code class="descname">GetRelationships</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity16GetRelationshipsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity relationships. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity relationships </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity10GetIndicesEv">
+<span id="cpporm::__cxx11::Entity::GetIndicesC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aed32e6842c7ad2567a85930ec401a7b6"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_index_map.html#_CPPv2N6cpporm7__cxx118IndexMapE" title="cpporm::__cxx11::IndexMap">IndexMap</a> &amp;<code class="descname">GetIndices</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity10GetIndicesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity indices. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity indices </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity13GetPrimaryKeyEv">
+<span id="cpporm::__cxx11::Entity::GetPrimaryKeyC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a4286d8529734690af3fc1fe24d7addac"></span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute_map.html#_CPPv2N6cpporm7__cxx1112AttributeMapE" title="cpporm::__cxx11::AttributeMap">AttributeMap</a> &amp;<code class="descname">GetPrimaryKey</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity13GetPrimaryKeyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity primary key. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity primary key </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity16GetVersionFieldsEv">
+<span id="cpporm::__cxx11::Entity::GetVersionFieldsC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ac2144b6c8a873709125ae686f0d40d10"></span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute_map.html#_CPPv2N6cpporm7__cxx1112AttributeMapE" title="cpporm::__cxx11::AttributeMap">AttributeMap</a> &amp;<code class="descname">GetVersionFields</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity16GetVersionFieldsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity version fields. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity version fields </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116EntityixERKNSt6stringE">
+<span id="cpporm::__cxx11::Entity::subscript-operator__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a45e14ab7f1abfb945e200922402cec9a"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute.html#_CPPv2N6cpporm7__cxx119AttributeE" title="cpporm::__cxx11::Attribute">Attribute</a> &amp;<code class="descname">operator[]</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116EntityixERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity attribute by name. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The attribute </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">name</span></code>: The attribute name </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116EntityixERKNSt6stringE">
+<span id="cpporm::__cxx11::Entity::subscript-operator__ssCRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ac2ff6696a5250e0f88f141e2eb874f13"></span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute.html#_CPPv2N6cpporm7__cxx119AttributeE" title="cpporm::__cxx11::Attribute">Attribute</a> &amp;<code class="descname">operator[]</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116EntityixERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity attribute by name (const version) </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The attribute </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">name</span></code>: The attribute name </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity15GetRelationshipERKNSt6stringE">
+<span id="cpporm::__cxx11::Entity::GetRelationship__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a5c72c4344f1712677b22a8f3502077a0"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_relationship.html#_CPPv2N6cpporm7__cxx1112RelationshipE" title="cpporm::__cxx11::Relationship">Relationship</a> &amp;<code class="descname">GetRelationship</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity15GetRelationshipERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity relationship by name. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The relationship </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">name</span></code>: The relationship name </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity21TraverseRelationshipsENSt8functionIF14TraverseResultR6EntityEEE">
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a1371589e921f8244fa3b8cd65523c3a9"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a>::<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx116Entity14TraverseResultE" title="cpporm::__cxx11::Entity::TraverseResult">TraverseResult</a> <code class="descname">TraverseRelationships</code><span class="sig-paren">(</span>std::function&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx116Entity14TraverseResultE" title="cpporm::__cxx11::Entity::TraverseResult">TraverseResult</a><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a>&amp;<span class="sig-paren">)</span>&gt; <em>function</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity21TraverseRelationshipsENSt8functionIF14TraverseResultR6EntityEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Traverse entity relationships. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The traverse result </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">function</span></code>: The function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity10SetSessionEPN2db7SessionE">
+<span id="cpporm::__cxx11::Entity::SetSession__db::SessionP"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aba8d5ac498b1fa7e2e99e43d07e0ed75"></span>void <code class="descname">SetSession</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_session.html#_CPPv2N6cpporm7__cxx112db7SessionE" title="cpporm::__cxx11::db::Session">Session</a> *<em>session</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity10SetSessionEPN2db7SessionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Associate entity with a database session. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">session</span></code>: The database session </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity5GetIdEv">
+<span id="cpporm::__cxx11::Entity::GetId"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a6423e4f5f36253366cd15c0f4e267410"></span><em class="property">const</em> std::string &amp;<code class="descname">GetId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity5GetIdEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get entity unique ID. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The entity unique ID </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity7ResetIdEv">
+<span id="cpporm::__cxx11::Entity::ResetId"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ac8033724f9671f01f8af331130f0af3a"></span>void <code class="descname">ResetId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity7ResetIdEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset entity unique ID. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity11WasModifiedEv">
+<span id="cpporm::__cxx11::Entity::WasModified"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a95d09bd64a890535f4cbde3b70690cda"></span>bool <code class="descname">WasModified</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity11WasModifiedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the entity was modified since last commit. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the entity was modified; false otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity14MarkForRemovalEv">
+<span id="cpporm::__cxx11::Entity::MarkForRemoval"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1afcb56adbdab5209c0e5bcbdcf9f5e1c9"></span>bool <code class="descname">MarkForRemoval</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity14MarkForRemovalEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Mark entity for removal. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the entity was previously marked for removal; false otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity8RollbackEv">
+<span id="cpporm::__cxx11::Entity::Rollback"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aa08d0c0f5457a2f5e80ecb997df21658"></span>void <code class="descname">Rollback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity8RollbackEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rollback entity internal state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity6CommitEv">
+<span id="cpporm::__cxx11::Entity::Commit"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a19c24d8a0da2d1d6e3c02d683bb7d5d1"></span>void <code class="descname">Commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity6CommitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Commit entity internal state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity9PushStateEv">
+<span id="cpporm::__cxx11::Entity::PushState"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1af843b2090642f34f8dc046a57c0256be"></span>void <code class="descname">PushState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity9PushStateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Push entity internal state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity7ExtractERN2db6CursorE">
+<span id="cpporm::__cxx11::Entity::Extract__db::CursorR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1af53cae3f6925d240c8b67d0c74b1668c"></span>void <code class="descname">Extract</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_cursor.html#_CPPv2N6cpporm7__cxx112db6CursorE" title="cpporm::__cxx11::db::Cursor">Cursor</a> &amp;<em>cursor</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity7ExtractERN2db6CursorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Extract entity attributes. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cursor</span></code>: The database cursor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity17ExtractPrimaryKeyERN2db6CursorE">
+<span id="cpporm::__cxx11::Entity::ExtractPrimaryKey__db::CursorR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a1995fb6fbba9a970304348290682bc61"></span>void <code class="descname">ExtractPrimaryKey</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_cursor.html#_CPPv2N6cpporm7__cxx112db6CursorE" title="cpporm::__cxx11::db::Cursor">Cursor</a> &amp;<em>cursor</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity17ExtractPrimaryKeyERN2db6CursorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Extract entity primary key. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cursor</span></code>: The database cursor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity14SavePrimaryKeyEv">
+<span id="cpporm::__cxx11::Entity::SavePrimaryKey"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a8d9c414553380ccc97d05f38ec049241"></span>void <code class="descname">SavePrimaryKey</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity14SavePrimaryKeyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Save entity primary key. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity5FetchERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::Fetch__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a8527e9af7a476f4cabb5a2f26436551d"></span>void <code class="descname">Fetch</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity5FetchERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to fetch the entity from the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity11FetchLastIdERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::FetchLastId__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1acde67da16a8071844461c985d4cc7359"></span>bool <code class="descname">FetchLastId</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity11FetchLastIdERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to fetch the last inserted ID from the database. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if there is a last insert id to be fetched; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity15FetchPrimaryKeyERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::FetchPrimaryKey__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a893fee51b7aa6ef43c59dd708d1bf709"></span>void <code class="descname">FetchPrimaryKey</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity15FetchPrimaryKeyERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to fetch the entity primary key from the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity6InsertERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::Insert__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ad9c4b4b8053a142736de7f47cee5f780"></span>void <code class="descname">Insert</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity6InsertERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to insert the entity into the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity14InsertIntoTempERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::InsertIntoTemp__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aa4df664ad230266310c2de0d089b4e9d"></span>void <code class="descname">InsertIntoTemp</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity14InsertIntoTempERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to insert the entity into a temporary database table. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity8JoinTempERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::JoinTemp__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a3a79a00f373222791a14213d99f4509e"></span>void <code class="descname">JoinTemp</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity8JoinTempERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to join the temporary database table. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity6UpdateERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::Update__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aa7f65f82affb0b7a7f31093bdbc8dd96"></span>void <code class="descname">Update</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity6UpdateERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to update the entity in the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity6DeleteERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::Delete__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a170392514e4291d4b07dffc19ce623ca"></span>void <code class="descname">Delete</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity6DeleteERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to delete the entity from the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity5WhereERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::Where__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ac339fd3d657d9c3f598b0067c016b0b4"></span>void <code class="descname">Where</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity5WhereERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to lookup the entity in the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity4BindERN2db9StatementE">
+<span id="cpporm::__cxx11::Entity::Bind__db::StatementR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a0225f5cc4020dfc86a9b74474f6fc6f6"></span>void <code class="descname">Bind</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_statement.html#_CPPv2N6cpporm7__cxx112db9StatementE" title="cpporm::__cxx11::db::Statement">Statement</a> &amp;<em>statement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity4BindERN2db9StatementE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bind the entity attributes to a prepared statement. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">statement</span></code>: The database statement </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity14BindPrimaryKeyERN2db9StatementE">
+<span id="cpporm::__cxx11::Entity::BindPrimaryKey__db::StatementR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ab91bf221138530712266c63b1d0dfcdf"></span>void <code class="descname">BindPrimaryKey</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_statement.html#_CPPv2N6cpporm7__cxx112db9StatementE" title="cpporm::__cxx11::db::Statement">Statement</a> &amp;<em>statement</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity14BindPrimaryKeyERN2db9StatementE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bind the primary key attributes of this entity to a prepared statement. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">statement</span></code>: The database statement </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity14ValidateSchemaEv">
+<span id="cpporm::__cxx11::Entity::ValidateSchemaC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a765f39cb05c1a0691f031402b3dae781"></span>void <code class="descname">ValidateSchema</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity14ValidateSchemaEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Validate the database schema of this entity. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity12CreateSchemaERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::CreateSchema__db::QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aa3f818f401cff71d932b83d3ce414c11"></span>void <code class="descname">CreateSchema</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity12CreateSchemaERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to create the database schema of this entity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity16CreateTempSchemaERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::CreateTempSchema__db::QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1afd0adeae4dcfdd4ceebfa6b6682edf02"></span>void <code class="descname">CreateTempSchema</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity16CreateTempSchemaERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to create the temporary database schema. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only the primary key attributes make up the temporary table </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity10EraseTableERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::EraseTable__db::QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a03708bb3cd52e6384c1b4247f29aece6"></span>void <code class="descname">EraseTable</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity10EraseTableERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to erase the table associated with this entity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity14EraseTempTableERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::EraseTempTable__db::QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ae58fb4793249213d4efdc544e4dc357b"></span>void <code class="descname">EraseTempTable</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity14EraseTempTableERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to erase the temporary table associated with this entity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity10DropSchemaERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::DropSchema__db::QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a319bcf200f6738fb29ec3ba2f0c9e2fa"></span>void <code class="descname">DropSchema</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity10DropSchemaERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to drop the database schema associated with this entity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx116Entity14DropTempSchemaERN2db5QueryE">
+<span id="cpporm::__cxx11::Entity::DropTempSchema__db::QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a95799a9707c0df93f96161dc9df0e4f1"></span>void <code class="descname">DropTempSchema</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx116Entity14DropTempSchemaERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to drop the temporary database schema associated with this entity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity19ReloadRelationshipsEv">
+<span id="cpporm::__cxx11::Entity::ReloadRelationships"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aaf512024a7816fc235361e00a28bd40d"></span>void <code class="descname">ReloadRelationships</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity19ReloadRelationshipsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reload the entity relationships. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity21DissolveRelationshipsEv">
+<span id="cpporm::__cxx11::Entity::DissolveRelationships"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a5d06d0f856b500f92c8497c9e601b785"></span>void <code class="descname">DissolveRelationships</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity21DissolveRelationshipsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dissolve the entity relationships. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity8CopyFromER6Entity">
+<span id="cpporm::__cxx11::Entity::CopyFrom__EntityR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a7e0c7364afbab8c75bd95c4f8528b1b6"></span>void <code class="descname">CopyFrom</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a> &amp;<em>entity</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity8CopyFromER6Entity" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Copy all attributes except primary key and version fields from another entity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">entity</span></code>: The other entity </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx116Entity11CopyAllFromER6Entity">
+<span id="cpporm::__cxx11::Entity::CopyAllFrom__EntityR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a957da06153f9e5075dca3d3c4c1338fe"></span>void <code class="descname">CopyAllFrom</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_entity.html#_CPPv2N6cpporm7__cxx116EntityE" title="cpporm::__cxx11::Entity">Entity</a> &amp;<em>entity</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity11CopyAllFromER6Entity" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Copy all attributes (including primary key and version fields) from another entity. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">entity</span></code>: The other entity </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx116Entity8mSessionE">
+<span id="cpporm::__cxx11::Entity::mSession__db::SessionP"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1aa62bc8d9d39825eb433045d875d1ac6f"></span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_session.html#_CPPv2N6cpporm7__cxx112db7SessionE" title="cpporm::__cxx11::db::Session">Session</a> *<code class="descname">mSession</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity8mSessionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The database session. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx116Entity9mUniqueIdE">
+<span id="cpporm::__cxx11::Entity::mUniqueId__ss"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a7909aaa34d983f5d02e424bf13d1bfe6"></span>std::string <code class="descname">mUniqueId</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity9mUniqueIdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The entity unique ID. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx116Entity18mIsMarkedForUpdateE">
+<span id="cpporm::__cxx11::Entity::mIsMarkedForUpdate__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1abb9deeb8ae0999e9c9e70749fad2e65f"></span>bool <code class="descname">mIsMarkedForUpdate</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity18mIsMarkedForUpdateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A flag to indicate whether the entity is marked for update. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx116Entity19mIsMarkedForRemovalE">
+<span id="cpporm::__cxx11::Entity::mIsMarkedForRemoval__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1ac45d56ee337a3762231953045aad59b6"></span>bool <code class="descname">mIsMarkedForRemoval</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116Entity19mIsMarkedForRemovalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>A flag to indicate whether the entity is marked for removal. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Friends</p>
+<dl class="function">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity_1a76ecfdcdf2f5187a619139525c59c315"></span><em class="property">friend </em><code class="descname">cpporm::__cxx11::Relationship</code></dt>
+<dd><p>Befriend class <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_relationship"><span class="std std-ref">Relationship</span></a>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

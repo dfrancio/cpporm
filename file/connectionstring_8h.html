@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File connectionstring.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File connectionstring.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File connectionstring.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/connectionstring_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-connectionstring-h">
+<h1>File connectionstring.h<a class="headerlink" href="#file-connectionstring-h" title="Permalink to this headline">¶</a></h1>
+<p>Connection string class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionStringE">
+<span id="cpporm::__cxx11::db::ConnectionString"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string"></span><em class="property">class </em><code class="descname">ConnectionString</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionStringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;connectionstring.h&gt;</em><p>Class that helps build connection strings. </p>
+<p>A connection string is a list of parameters passed to a database driver in the establishment of a connection. The parameters are specified in name-and-value pairs, separated by a separator character. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionString16ConnectionStringEv">
+<span id="cpporm::__cxx11::db::ConnectionString::ConnectionString"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1a40fc263204c656735d6b8aa4b32df075"></span><code class="descname">ConnectionString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionString16ConnectionStringEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionString12SetSeparatorEc">
+<span id="cpporm::__cxx11::db::ConnectionString::SetSeparator__c"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1ad45d4b15f669de7c03450577c66beee2"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_connection_string.html#_CPPv2N6cpporm7__cxx112db16ConnectionStringE" title="cpporm::__cxx11::db::ConnectionString">ConnectionString</a> &amp;<code class="descname">SetSeparator</code><span class="sig-paren">(</span>char <em>separator</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionString12SetSeparatorEc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set separator. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A reference to *this </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">separator</span></code>: The separator character </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionString13SetParametersERKNSt3mapINSt6stringENSt6stringEEE">
+<span id="cpporm::__cxx11::db::ConnectionString::SetParameters__std::map:ss.ss:CR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1a99dacebc0dc8d544f083e7972d0e60e6"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_connection_string.html#_CPPv2N6cpporm7__cxx112db16ConnectionStringE" title="cpporm::__cxx11::db::ConnectionString">ConnectionString</a> &amp;<code class="descname">SetParameters</code><span class="sig-paren">(</span><em class="property">const</em> std::map&lt;std::string, std::string&gt; &amp;<em>parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionString13SetParametersERKNSt3mapINSt6stringENSt6stringEEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set parameters. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A reference to *this </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">parameters</span></code>: The connection parameters </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionString12SetParameterERKNSt6stringERKNSt6stringE">
+<span id="cpporm::__cxx11::db::ConnectionString::SetParameter__ssCR.ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1a369aa0b3bb2f8ea9409c5df24d8101d6"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_connection_string.html#_CPPv2N6cpporm7__cxx112db16ConnectionStringE" title="cpporm::__cxx11::db::ConnectionString">ConnectionString</a> &amp;<code class="descname">SetParameter</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>name</em>, <em class="property">const</em> std::string &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionString12SetParameterERKNSt6stringERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set parameter. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A reference to *this </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">name</span></code>: The parameter name </li>
+<li><code class="docutils literal"><span class="pre">value</span></code>: The parameter value </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx112db16ConnectionString3GetEv">
+<span id="cpporm::__cxx11::db::ConnectionString::GetC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1a9e744c0da514f5baf6e1ee15630fb39f"></span><em class="property">const</em> std::string &amp;<code class="descname">Get</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx112db16ConnectionString3GetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get connection string. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The resulting connection string </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionString5ResetEv">
+<span id="cpporm::__cxx11::db::ConnectionString::Reset"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1a4f2f52dfc70b2167d8849c49971a3de2"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_connection_string.html#_CPPv2N6cpporm7__cxx112db16ConnectionStringE" title="cpporm::__cxx11::db::ConnectionString">ConnectionString</a> &amp;<code class="descname">Reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionString5ResetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset connection string. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A reference to *this </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionString8mProductE">
+<span id="cpporm::__cxx11::db::ConnectionString::mProduct__ss"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1a243943d1e6d5955b775180102b309efb"></span>std::string <code class="descname">mProduct</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionString8mProductE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The product. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionString10mSeparatorE">
+<span id="cpporm::__cxx11::db::ConnectionString::mSeparator__c"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string_1ae5fcef3ddce7c58d80c85b9bb4509a52"></span>char <code class="descname">mSeparator</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionString10mSeparatorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The separator character. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

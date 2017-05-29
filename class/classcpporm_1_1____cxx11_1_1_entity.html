@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Class cpporm::__cxx11::Entity &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Class cpporm::__cxx11::Entity</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>Class cpporm::__cxx11::Entity</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/class/classcpporm_1_1____cxx11_1_1_entity.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="class-cpporm-cxx11-entity">
+<h1>Class cpporm::__cxx11::Entity<a class="headerlink" href="#class-cpporm-cxx11-entity" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx116EntityE">
+<span id="cpporm::__cxx11::Entity"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_entity"></span><em class="property">class </em><code class="descclassname">cpporm::__cxx11::</code><code class="descname">Entity</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx116EntityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Abstract class to represent database tables. </p>
+<p>An entity maps a C++ object to an entry in a database table. All entities should derive from this class. It has a name, a set of properties and a set of indices, all being static members of the derived class. It contains an internal state comprised of:<ol class="arabic simple">
+<li>a set of attributes, which correspond to the table cloumns</li>
+<li>a set of relationships, which correspond to the table foreign keys</li>
+</ol>
+</p>
+<p>Transactions and savepoints can be used with entities. The entity attributes can be accessed and modified polymorhpically by means of a container which maps column names to attributes. Relationships can be accessed in a similar manner. This effectively implements a (rather primitive) kind of object introspection mechanism.</p>
+<p>An entity can have a primary key. If there is no primary key declared in the database table, then all attributes combined are considered as the primary key. This is needed to guarantee uniqueness within the session cache.</p>
+<p>An entity can also have a version field. A version field is a set of attributes which indicates the version of an entity. This is required for the optimistic locking strategy used in concurrency control.</p>
+<p>One can loop through the entity relationships recusrively using a depth-first search procedure.</p>
+<p>There is a database session with which an entity can be associated, and a unique identifier for the entity in the session cache. The nature of this identifier is implementation detail, and should not matter for most users. There are methods for obtaining and resetting the ID.</p>
+<p>One can check if any of the entity attributes was modified since the last commit or since it was constructed. It is also possible to rollback or save the internal state when using transactions.</p>
+<p>Some of the methods help in the construction of prepared statements, while others have to do with the database schema of the database table being represented. Still others have do to with the entity relationships.</p>
+<p>Finally, some convenience methods are provided which help in copying attributes from other entities.</p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11.html#cppormclasscpporm_1_1____cxx11_1_1_attribute"><span class="std std-ref">Attribute</span></a> </dd>
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

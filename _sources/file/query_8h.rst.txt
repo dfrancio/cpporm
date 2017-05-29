@@ -1,0 +1,4 @@
+File query.h
+============
+
+.. doxygenfile:: query.h

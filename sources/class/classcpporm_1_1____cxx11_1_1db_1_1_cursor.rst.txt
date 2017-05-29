@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::db::Cursor
+=================================
+
+.. doxygenclass:: cpporm::__cxx11::db::Cursor

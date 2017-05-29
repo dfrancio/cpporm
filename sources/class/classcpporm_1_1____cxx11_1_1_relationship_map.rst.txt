@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::RelationshipMap
+======================================
+
+.. doxygenclass:: cpporm::__cxx11::RelationshipMap

@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::SavePointNonExistentError
+================================================
+
+.. doxygenclass:: cpporm::__cxx11::SavePointNonExistentError

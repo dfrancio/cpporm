@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Namespace cpporm::__cxx11::backend::soci &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Namespace cpporm::__cxx11::backend::soci</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>Namespace cpporm::__cxx11::backend::soci</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/namespace/namespacecpporm_1_1____cxx11_1_1backend_1_1soci.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="namespace-cpporm-cxx11-backend-soci">
+<h1>Namespace cpporm::__cxx11::backend::soci<a class="headerlink" href="#namespace-cpporm-cxx11-backend-soci" title="Permalink to this headline">¶</a></h1>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx117backend4sociE">
+<span id="cpporm::__cxx11::backend::soci"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci"></span><em class="property">namespace </em><code class="descclassname">cpporm::__cxx11::backend::</code><code class="descname">soci</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4sociE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The soci namespace. </p>
+<p>SOCI is a database access library for C++. It is one of the few open source libraries which can connect with drivers from several database vendors without resorting to ODBC (altough it supports ODBC also). It is the easiest to use and has good support for binary columns. The only downside is that it does not treat dates and times separately, only date-and-time as one generic data type. SOCI is licensed under the Boost Software License.</p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><a class="reference external" href="http://soci.sourceforge.net/">http://soci.sourceforge.net/</a> </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Functions</p>
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;<em class="property">typename</em> T&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci7ConvertERK1T">
+<span id="cpporm::__cxx11::backend::soci::Convert__TCR"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a9955131de3161d6410cb78592e6e3e2d"></span>std::string <code class="descname">Convert</code><span class="sig-paren">(</span><em class="property">const</em> T &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci7ConvertERK1T" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Convert to string. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The converted value </dd>
+<dt><strong>Template Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">T</span></code>: The type of the input value </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">value</span></code>: The value </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci21ProcessParameterNamesERKNSt6stringE">
+<span id="cpporm::__cxx11::backend::soci::ProcessParameterNames__ssCR"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a94a25fa1ea6d4ee5b4fb49a7f2453534"></span>std::string <code class="descname">ProcessParameterNames</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>sql</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci21ProcessParameterNamesERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Process parameter names in an SQL query. </p>
+<p>This function parses the input SQL searching for placeholders (?) and replaces them by parameters, giving each parameter a name corresponding to the order of occurrence in the query.</p>
+<p>For example: </p>
+<p>Turns into: </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The processed SQL string </dd>
+<dt><strong>See</strong></dt>
+<dd><a class="reference internal" href="#cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a284b27ff5ab11520b2295122680a31aa"><span class="std std-ref">MakeParameterName</span></a> </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">sql</span></code>: The SQL text </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci17MakeParameterNameEs">
+<span id="cpporm::__cxx11::backend::soci::MakeParameterName__short"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a284b27ff5ab11520b2295122680a31aa"></span>std::string <code class="descname">MakeParameterName</code><span class="sig-paren">(</span>short <em>param</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci17MakeParameterNameEs" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Make parameter name from parameter index. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The parameter name </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">param</span></code>: The parameter index </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKd">
+<span id="cpporm::__cxx11::backend::soci::Convert__doubleCR"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a83903fde645e7deffc7c4b56f2fea70d"></span>std::string <code class="descname">Convert</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKd" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKi">
+<span id="cpporm::__cxx11::backend::soci::Convert__iCR"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a463f9b16a6ad5e63720217bd6ae47e9d"></span>std::string <code class="descname">Convert</code><span class="sig-paren">(</span><em class="property">const</em> int &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKi" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKx">
+<span id="cpporm::__cxx11::backend::soci::Convert__l-lCR"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a31bc2ce28cf28a3a1b50a02118095e28"></span>std::string <code class="descname">Convert</code><span class="sig-paren">(</span><em class="property">const</em> long long &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKx" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKy">
+<span id="cpporm::__cxx11::backend::soci::Convert__unsigned-l-lCR"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1abd35397b331821c198b6c4645bf86fa0"></span>std::string <code class="descname">Convert</code><span class="sig-paren">(</span><em class="property">const</em> unsigned long long &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKy" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKNSt2tmE">
+<span id="cpporm::__cxx11::backend::soci::Convert__std::tmCR"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1backend_1_1soci_1a37c8b207d2f5d18266433ec30c5676a3"></span>std::string <code class="descname">Convert</code><span class="sig-paren">(</span><em class="property">const</em> std::tm &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci7ConvertERKNSt2tmE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci10ConnectionE">
+<span id="cpporm::__cxx11::backend::soci::Connection"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_connection"></span><em class="property">class </em><code class="descname">Connection</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci10ConnectionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;connection.h&gt;</em><p>Class that implements a database connection for the SOCI backend. </p>
+<p>Inherits from <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection"><span class="std std-ref">cpporm::__cxx11::db::Connection</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci6CursorE">
+<span id="cpporm::__cxx11::backend::soci::Cursor"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_cursor"></span><em class="property">class </em><code class="descname">Cursor</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci6CursorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;cursor.h&gt;</em><p>Class that implements a database cursor for the SOCI backend. </p>
+<p>Inherits from <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_cursor"><span class="std std-ref">cpporm::__cxx11::db::Cursor</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci7SessionE">
+<span id="cpporm::__cxx11::backend::soci::Session"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_session"></span><em class="property">class </em><code class="descname">Session</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci7SessionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;session.h&gt;</em><p>Class that implements a database session for the SOCI backend. </p>
+<p>Inherits from <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">cpporm::__cxx11::db::Session</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci9StatementE">
+<span id="cpporm::__cxx11::backend::soci::Statement"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_statement"></span><em class="property">class </em><code class="descname">Statement</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci9StatementE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;statement.h&gt;</em><p>Database statement. </p>
+<p>Inherits from <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_statement"><span class="std std-ref">cpporm::__cxx11::db::Statement</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx117backend4soci11TransactionE">
+<span id="cpporm::__cxx11::backend::soci::Transaction"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_transaction"></span><em class="property">class </em><code class="descname">Transaction</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx117backend4soci11TransactionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;transaction.h&gt;</em><p>Class that implements a database transaction for the SOCI backend. </p>
+<p>Inherits from <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_transaction"><span class="std std-ref">cpporm::__cxx11::db::Transaction</span></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

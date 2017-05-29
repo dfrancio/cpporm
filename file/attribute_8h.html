@@ -1,0 +1,650 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File attribute.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File attribute.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File attribute.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/attribute_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-attribute-h">
+<h1>File attribute.h<a class="headerlink" href="#file-attribute-h" title="Permalink to this headline">¶</a></h1>
+<p>Attribute class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx119AttributeE">
+<span id="cpporm::__cxx11::Attribute"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute"></span><em class="property">class </em><code class="descname">Attribute</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119AttributeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;attribute.h&gt;</em><p>Abstract class to represent database columns. </p>
+<p>An attribute maps a C++ object to a database column in a database table. All attributes should derive from this class. It has a name and a set of properties, both being static members of the derived class. It also contains a state: the current attribute value. This value is always cached as a string and is guaranteed to be the actual value stored in the database, during the course of a database session. Transactions and savepoints can be used with attributes.</p>
+<p>The attribute value can be read and assigned, or it can be set NULL. Assigning an empty string is the same as setting it NULL. Equality comparisons are made upon the cached attribute value only. A history of values that were assigned to the attribute is kept within, in order to accomplish transaction and savepoint semantics. Thus, the internal state can be rolled back if necessary without breaking consistency. The state can also be queried as to whether it was modified since the last commit.</p>
+<p>Some of the methods help in the construction of prepared statements, while others have to do with the database schema of the database column being represented.</p>
+<p>Finally, a couple of methods have to do with Globally Unique Identifiers (GUID). Use of these only make sense for GUID-compliant database columns.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Copy and move semantics are the compiler default. </dd>
+<dt><strong>Note</strong></dt>
+<dd>Transaction atomicity is ensured by means of the RAII idiom and use of exceptions. </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119AttributeD0Ev">
+<span id="cpporm::__cxx11::Attribute::~Attribute"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1ae8f3fa56fcb0a0044604cd98f0da62b4"></span><code class="descname">~Attribute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119AttributeD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute7GetNameEv">
+<span id="cpporm::__cxx11::Attribute::GetNameC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a26944c1ebba78b933d944c136ec934d4"></span><em class="property">virtual</em> <em class="property">const</em> std::string &amp;<code class="descname">GetName</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute7GetNameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get attribute name. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The attribute name </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute13GetPropertiesEv">
+<span id="cpporm::__cxx11::Attribute::GetPropertiesC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1aae3761309a614db633e0d140775ad954"></span><em class="property">virtual</em> <em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_property_map.html#_CPPv2N6cpporm7__cxx1111PropertyMapE" title="cpporm::__cxx11::PropertyMap">PropertyMap</a> &amp;<code class="descname">GetProperties</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> = 0<a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute13GetPropertiesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get attribute properties. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The attribute properties </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute3GetEv">
+<span id="cpporm::__cxx11::Attribute::GetC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a76ac8925a6c66b74c77a10cba32c1d71"></span><em class="property">const</em> std::string &amp;<code class="descname">Get</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute3GetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get attribute value. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The attribute value </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119AttributeptEv">
+<span id="cpporm::__cxx11::Attribute::pointer-operatorC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1ab04f7da273bdbc6435342d33ea684a38"></span><em class="property">const</em> std::string *<code class="descname">operator-&gt;</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119AttributeptEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get attribute value (dereference operator) </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The attribute value </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute3SetERKNSt6stringE">
+<span id="cpporm::__cxx11::Attribute::Set__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a45360abe5b9c01aa48293b028644b6b2"></span>void <code class="descname">Set</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute3SetERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set attribute value. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">value</span></code>: The new attribute value </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute7SetNullEv">
+<span id="cpporm::__cxx11::Attribute::SetNull"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a6bb031690d9293d3522a8649c38514ef"></span>void <code class="descname">SetNull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute7SetNullEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set attribute NULL. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute6IsNullEv">
+<span id="cpporm::__cxx11::Attribute::IsNullC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1aaa3fa9ad269eff45a57287afb33bb7c6"></span>bool <code class="descname">IsNull</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute6IsNullEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the attribute is NULL. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the attribute is NULL; false otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute9AttributeEv">
+<span id="cpporm::__cxx11::Attribute::Attribute"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a823dbc46adbf40aa07c8ea317b3abc98"></span><code class="descname">Attribute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute9AttributeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct a new attribute. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute9AttributeERKNSt6stringE">
+<span id="cpporm::__cxx11::Attribute::Attribute__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a3d57f23de772722c68c839be1edb1a14"></span><code class="descname">Attribute</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute9AttributeERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct a new attribute. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">value</span></code>: The initial attribute value </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119AttributeaSERKNSt6stringE">
+<span id="cpporm::__cxx11::Attribute::assign-operator__ssCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a86cf5db270c7c97f80622474e77e721c"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute.html#_CPPv2N6cpporm7__cxx119AttributeE" title="cpporm::__cxx11::Attribute">Attribute</a> &amp;<code class="descname">operator=</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp;<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119AttributeaSERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set attribute value. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The attribute object (*this) </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">value</span></code>: The new attribute value </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119AttributeeqERK9Attribute">
+<span id="cpporm::__cxx11::Attribute::eq-operator__AttributeCRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a7d5dbddcbaa5f3dbc5e029a2f80059c9"></span>bool <code class="descname">operator==</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute.html#_CPPv2N6cpporm7__cxx119AttributeE" title="cpporm::__cxx11::Attribute">Attribute</a> &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119AttributeeqERK9Attribute" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether two attributes are equal. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the attribute values are equal; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">other</span></code>: The other attribute </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119AttributeneERK9Attribute">
+<span id="cpporm::__cxx11::Attribute::neq-operator__AttributeCRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1ae3250c8dcc6667d5294bb117be653de1"></span>bool <code class="descname">operator!=</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1_attribute.html#_CPPv2N6cpporm7__cxx119AttributeE" title="cpporm::__cxx11::Attribute">Attribute</a> &amp;<em>other</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119AttributeneERK9Attribute" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether two attributes are different. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the attribute values are different; false otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">other</span></code>: The other attribute </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute11WasModifiedEv">
+<span id="cpporm::__cxx11::Attribute::WasModified"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1aa2ad0ecf9d0baf13ae7dbbc1f7dd7ac0"></span>bool <code class="descname">WasModified</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute11WasModifiedEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check whether the attribute was modified since last commit or since it was constructed. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>True if the attribute was modified; false otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute8RollbackEv">
+<span id="cpporm::__cxx11::Attribute::Rollback"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a4c7a42711e8e8ca564ccfd7dddfe60c1"></span>void <code class="descname">Rollback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute8RollbackEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Rollback attribute internal state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute6CommitEv">
+<span id="cpporm::__cxx11::Attribute::Commit"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a9d21dd447b905c42fb8f59d82ffdb952"></span>void <code class="descname">Commit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute6CommitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Commit attribute internal state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute9PushStateEv">
+<span id="cpporm::__cxx11::Attribute::PushState"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a276e58f655857411b94d3da9600fe56f"></span>void <code class="descname">PushState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute9PushStateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Push attribute internal state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute9SaveStateEv">
+<span id="cpporm::__cxx11::Attribute::SaveState"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a4c788b8def222a4c1b546c3efcd6957c"></span>void <code class="descname">SaveState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute9SaveStateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Save attribute internal state. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute7ExtractERN2db6CursorE">
+<span id="cpporm::__cxx11::Attribute::Extract__db::CursorR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1aa45a6743f3d2265ad84bae68dd5defc5"></span>void <code class="descname">Extract</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_cursor.html#_CPPv2N6cpporm7__cxx112db6CursorE" title="cpporm::__cxx11::db::Cursor">Cursor</a> &amp;<em>cursor</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute7ExtractERN2db6CursorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Extract attribute value from database cursor. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cursor</span></code>: The database cursor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute6InsertERN2db5QueryE">
+<span id="cpporm::__cxx11::Attribute::Insert__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a04f7f213099c49c3c8f0c6fb65b755a6"></span>void <code class="descname">Insert</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute6InsertERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to insert the attribute value into the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute6UpdateERN2db5QueryE">
+<span id="cpporm::__cxx11::Attribute::Update__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a99b66964e1f091f007c8baa498027986"></span>void <code class="descname">Update</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute6UpdateERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to update the attribute value in the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute5WhereERN2db5QueryE">
+<span id="cpporm::__cxx11::Attribute::Where__db::QueryR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a471accad78b3918cd581492e730318af"></span>void <code class="descname">Where</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute5WhereERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to lookup the attribute value in the database. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute4BindERN2db9StatementEb">
+<span id="cpporm::__cxx11::Attribute::Bind__db::StatementR.b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1ae8a24a78eed865c0bd007a4bfce4fc7b"></span>void <code class="descname">Bind</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_statement.html#_CPPv2N6cpporm7__cxx112db9StatementE" title="cpporm::__cxx11::db::Statement">Statement</a> &amp;<em>statement</em>, bool <em>useSavedValue</em> = false<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute4BindERN2db9StatementEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bind the attribute value to a prepared statement. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">statement</span></code>: The database statement </li>
+<li><code class="docutils literal"><span class="pre">useSavedValue</span></code>: A flag to indicate whether a previously saved attribute value should be used instead of the current (if applicable) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute14ValidateSchemaERN2db6CursorE">
+<span id="cpporm::__cxx11::Attribute::ValidateSchema__db::CursorRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a6da1e491e63ffb9ba79be687fbaa4df5"></span>void <code class="descname">ValidateSchema</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_cursor.html#_CPPv2N6cpporm7__cxx112db6CursorE" title="cpporm::__cxx11::db::Cursor">Cursor</a> &amp;<em>cursor</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute14ValidateSchemaERN2db6CursorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Validate the database schema of this attribute. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">cursor</span></code>: The database cursor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute12CreateSchemaERN2db5QueryE">
+<span id="cpporm::__cxx11::Attribute::CreateSchema__db::QueryRC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1af1cee47a6bd8a585739b88a61b80d29f"></span>void <code class="descname">CreateSchema</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112dbE" title="cpporm::__cxx11::db">db</a>::<a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1db_1_1_query.html#_CPPv2N6cpporm7__cxx112db5QueryE" title="cpporm::__cxx11::db::Query">Query</a> &amp;<em>query</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute12CreateSchemaERN2db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compose part of query needed to create the database schema of this attribute. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">query</span></code>: The database query </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute7GetGuidEv">
+<span id="cpporm::__cxx11::Attribute::GetGuidC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a88b4fc1dc880c1f11c5e97f021fdc198"></span>std::string <code class="descname">GetGuid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute7GetGuidEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get GUID string. </p>
+<p>The GUID is always returned as a 36-character string in the following format: 8-4-4-4-12 (xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx). This is independent of the column data type. In other words, even if the column is declared as binary(16), the GUID will be returned as a string.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The GUID string </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute12GenerateGuidEv">
+<span id="cpporm::__cxx11::Attribute::GenerateGuid"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a070a3ad7b9e574754854d08f5831a40c"></span>void <code class="descname">GenerateGuid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute12GenerateGuidEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Generate a standard version 4 UUID and set it as the new attribute value. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute11initializedE">
+<span id="cpporm::__cxx11::Attribute::initialized__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a5b6ca864de3ec683c5cc5a25aaa4a436"></span>bool <code class="descname">initialized</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute11initializedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute7notNullE">
+<span id="cpporm::__cxx11::Attribute::notNull__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a7886b30c8daec3107ede3f1a101635fc"></span>bool <code class="descname">notNull</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute7notNullE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute15isGuidCompliantE">
+<span id="cpporm::__cxx11::Attribute::isGuidCompliant__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1ab8920fea17c8fdb0e482a326c686c2ce"></span>bool <code class="descname">isGuidCompliant</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute15isGuidCompliantE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute13checkDatetimeE">
+<span id="cpporm::__cxx11::Attribute::checkDatetime__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a0b21a7ffea1f206f8f7f656062be422b"></span>bool <code class="descname">checkDatetime</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute13checkDatetimeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute17skipInsertIfEmptyE">
+<span id="cpporm::__cxx11::Attribute::skipInsertIfEmpty__b"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a32365a4d8f1a0153a139b980cc9c498d"></span>bool <code class="descname">skipInsertIfEmpty</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute17skipInsertIfEmptyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute6mValueE">
+<span id="cpporm::__cxx11::Attribute::mValue__ss"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a97278a380e60c4bcb7c3d43e83648a91"></span>std::string <code class="descname">mValue</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute6mValueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The current attribute value. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Functions</p>
+<dl class="function">
+<dt id="_CPPv2NK6cpporm7__cxx119Attribute15InitializeFlagsEv">
+<span id="cpporm::__cxx11::Attribute::InitializeFlagsC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a2024905ef346d200f7ef126d7da67b04"></span>void <code class="descname">InitializeFlags</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx119Attribute15InitializeFlagsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize attribute flags. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Private Members</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute9mOldValueE">
+<span id="cpporm::__cxx11::Attribute::mOldValue__ss"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1aa95263b99740723325edc0fb66b33221"></span>std::string <code class="descname">mOldValue</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute9mOldValueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The old attribute value. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute11mSavedValueE">
+<span id="cpporm::__cxx11::Attribute::mSavedValue__ss"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1ae1de4bb04c6e15f35c5b943054802d5c"></span>std::string <code class="descname">mSavedValue</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute11mSavedValueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The saved attribute value. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute8mHistoryE">
+<span id="cpporm::__cxx11::Attribute::mHistory__std::stack:ss:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a2e38e46ee481979c432efe107e023851"></span>std::stack&lt;std::string&gt; <code class="descname">mHistory</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute8mHistoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The history of attribute values. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx119Attribute15mBindingIndicesE">
+<span id="cpporm::__cxx11::Attribute::mBindingIndices__std::stack:short:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a3b674b7cc30f9a6f70baa2c26d6dfd49"></span>std::stack&lt;short&gt; <code class="descname">mBindingIndices</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx119Attribute15mBindingIndicesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The binding indices (for prepared statements) </p>
+</dd></dl>
+
+<dl class="member">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1_attribute_1a1ac92bbc503585a95eb8a1a5c0d91458"></span><code class="descname">struct cpporm::__cxx11::Attribute::&#64;0  cpporm::__cxx11::Attribute::mFlags</code></dt>
+<dd><p>Internal flags. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1db.html#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

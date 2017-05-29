@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::db::Query
+================================
+
+.. doxygenclass:: cpporm::__cxx11::db::Query

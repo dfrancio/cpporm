@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::DatabaseCursorQueryError
+===============================================
+
+.. doxygenclass:: cpporm::__cxx11::DatabaseCursorQueryError

@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::backend::soci::Cursor
+============================================
+
+.. doxygenclass:: cpporm::__cxx11::backend::soci::Cursor

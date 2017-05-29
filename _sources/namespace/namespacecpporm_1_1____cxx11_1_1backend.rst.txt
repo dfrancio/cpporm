@@ -1,0 +1,4 @@
+Namespace cpporm::__cxx11::backend
+==================================
+
+.. doxygennamespace:: cpporm::__cxx11::backend

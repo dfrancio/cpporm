@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Namespace cpporm::__cxx11::db &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Namespace cpporm::__cxx11::db</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>Namespace cpporm::__cxx11::db</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/namespace/namespacecpporm_1_1____cxx11_1_1db.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="namespace-cpporm-cxx11-db">
+<h1>Namespace cpporm::__cxx11::db<a class="headerlink" href="#namespace-cpporm-cxx11-db" title="Permalink to this headline">¶</a></h1>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112dbE">
+<span id="cpporm::__cxx11::db"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db"></span><em class="property">namespace </em><code class="descclassname">cpporm::__cxx11::</code><code class="descname">db</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112dbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The db namespace. </p>
+<p>This is where all database related classes are located. These classes provide an interface to connect/query/modify databases from any vendor supported by a backend. Furthermore, transaction functionalty is implemented in a generic fashion using context objects. There is also a convenience class to construct queries using different sets of criteria. The <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">db::Session</span></a> is the main class in this namespace. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Typedefs</p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db8JoinSpecE">
+<span id="cpporm::__cxx11::db::JoinSpec"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a5d7959918ad70bed55e174317ab71543"></span><em class="property">typedef </em>std::tuple&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db8JoinTypeE" title="cpporm::__cxx11::db::JoinType">JoinType</a>, std::string, std::string, std::string, std::string&gt; <code class="descname">JoinSpec</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8JoinSpecE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Join specification. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db13ConditionSpecE">
+<span id="cpporm::__cxx11::db::ConditionSpec"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a953fcc6f9e1e18f523a916ab386787fe"></span><em class="property">typedef </em>std::tuple&lt;std::string, std::string, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9ConditionE" title="cpporm::__cxx11::db::Condition">Condition</a>, std::string&gt; <code class="descname">ConditionSpec</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db13ConditionSpecE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Condition specification. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db11OrderBySpecE">
+<span id="cpporm::__cxx11::db::OrderBySpec"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1afc404ce8ac93ed191982bd2538ff844c"></span><em class="property">typedef </em>std::tuple&lt;std::string, std::string, <a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx112db9SortOrderE" title="cpporm::__cxx11::db::SortOrder">SortOrder</a>&gt; <code class="descname">OrderBySpec</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11OrderBySpecE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Order-by specification. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Enums</p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db8JoinTypeE">
+<span id="cpporm::__cxx11::db::JoinType"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a0f8647d3663c837006c644e3d2d71764"></span><em class="property">enum </em><code class="descname">JoinType</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8JoinTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Join type. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db5crossE">
+<span id="cpporm::__cxx11::db::cross"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a0f8647d3663c837006c644e3d2d71764a22aadb26447d87b550b155a4d764fad0"></span><code class="descname">cross</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5crossE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>cross join </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db5innerE">
+<span id="cpporm::__cxx11::db::inner"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a0f8647d3663c837006c644e3d2d71764aea97586b4aa0c141e4456912f3325f7f"></span><code class="descname">inner</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5innerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>inner join </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db7naturalE">
+<span id="cpporm::__cxx11::db::natural"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a0f8647d3663c837006c644e3d2d71764a8f4ef05b543fb6157b374099100574b3"></span><code class="descname">natural</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7naturalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>natural join </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db9leftouterE">
+<span id="cpporm::__cxx11::db::leftouter"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a0f8647d3663c837006c644e3d2d71764af0255ec7b124d1d59480a549cf320ee1"></span><code class="descname">leftouter</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9leftouterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>left outer join </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db10rightouterE">
+<span id="cpporm::__cxx11::db::rightouter"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a0f8647d3663c837006c644e3d2d71764a205841d89b8a0e787c91d8213f7c5b68"></span><code class="descname">rightouter</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db10rightouterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>right outer join </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db9fullouterE">
+<span id="cpporm::__cxx11::db::fullouter"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a0f8647d3663c837006c644e3d2d71764aaad4312dadb784281239d36d1d2e75f8"></span><code class="descname">fullouter</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9fullouterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>full outer join </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db9SortOrderE">
+<span id="cpporm::__cxx11::db::SortOrder"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a23b1f8ab3eb3565dc84f54b53e34b58e"></span><em class="property">enum </em><code class="descname">SortOrder</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SortOrderE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sort order. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db9ascendingE">
+<span id="cpporm::__cxx11::db::ascending"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a23b1f8ab3eb3565dc84f54b53e34b58ea9c9ab624360885fcf93b7643c93b6748"></span><code class="descname">ascending</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9ascendingE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db10descendingE">
+<span id="cpporm::__cxx11::db::descending"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a23b1f8ab3eb3565dc84f54b53e34b58eab19e9805fd7727c52ca04dfa3d24a2e5"></span><code class="descname">descending</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db10descendingE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db9ConditionE">
+<span id="cpporm::__cxx11::db::Condition"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7c"></span><em class="property">enum </em><code class="descname">Condition</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9ConditionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Database condition. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db5equalE">
+<span id="cpporm::__cxx11::db::equal"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca465289687a70db7aa7217cc240c29f0f"></span><code class="descname">equal</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5equalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8notEqualE">
+<span id="cpporm::__cxx11::db::notEqual"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca80bfff5241ffe1f0c9eb31d4e01a3581"></span><code class="descname">notEqual</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8notEqualE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db8lessThanE">
+<span id="cpporm::__cxx11::db::lessThan"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca780e005c3e913bb8e9c250ac38c3a3f6"></span><code class="descname">lessThan</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8lessThanE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db11greaterThanE">
+<span id="cpporm::__cxx11::db::greaterThan"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca6d86bbcbc6646e952e3b0b2829ad6a23"></span><code class="descname">greaterThan</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11greaterThanE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db11lessOrEqualE">
+<span id="cpporm::__cxx11::db::lessOrEqual"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca132bbce596e8a2890a3169a69b974df1"></span><code class="descname">lessOrEqual</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11lessOrEqualE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db14greaterOrEqualE">
+<span id="cpporm::__cxx11::db::greaterOrEqual"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca983fffc48fe482979946425745c8c26c"></span><code class="descname">greaterOrEqual</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db14greaterOrEqualE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db4likeE">
+<span id="cpporm::__cxx11::db::like"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7cabe1ab1632e4285edc3733b142935c60b"></span><code class="descname">like</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db4likeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db6isNullE">
+<span id="cpporm::__cxx11::db::isNull"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca771318a7d90a3f8a1d88be5db9ce456c"></span><code class="descname">isNull</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db6isNullE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db7notNullE">
+<span id="cpporm::__cxx11::db::notNull"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1a47ceea0a8708deeb8ea04a16ee41eb7ca78a62b57a46b05718f1fc38e9be60223"></span><code class="descname">notNull</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7notNullE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db6VendorE">
+<span id="cpporm::__cxx11::db::Vendor"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1ab659d7ebe723a26b96de7cf6183ff2ca"></span><em class="property">enum </em><code class="descname">Vendor</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db6VendorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Database vendor. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db7unknownE">
+<span id="cpporm::__cxx11::db::unknown"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1ab659d7ebe723a26b96de7cf6183ff2caaad921d60486366258809553a3db49a4a"></span><code class="descname">unknown</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7unknownE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>unknown vendor </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db6sqliteE">
+<span id="cpporm::__cxx11::db::sqlite"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1ab659d7ebe723a26b96de7cf6183ff2caa786d348e95448121dc5b7387e22e4fff"></span><code class="descname">sqlite</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db6sqliteE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SQLite </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db5mssqlE">
+<span id="cpporm::__cxx11::db::mssql"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1ab659d7ebe723a26b96de7cf6183ff2caaa0589ddd20d56ac0fd4c8f1c83177672"></span><code class="descname">mssql</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5mssqlE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Microsoft SQL Server </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db5mysqlE">
+<span id="cpporm::__cxx11::db::mysql"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1ab659d7ebe723a26b96de7cf6183ff2caa81c3b080dad537de7e10e0987a4bf52e"></span><code class="descname">mysql</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5mysqlE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MySQL </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db10postgresqlE">
+<span id="cpporm::__cxx11::db::postgresql"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1ab659d7ebe723a26b96de7cf6183ff2caae4728f444b24839e3f80adf3829bcba9"></span><code class="descname">postgresql</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db10postgresqlE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PostgreSQL </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE">
+<span id="cpporm::__cxx11::db::LogicalConnective"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1af3c3aa69db1b97627e53e088ea8ecaf3"></span><em class="property">enum </em><code class="descname">LogicalConnective</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db17LogicalConnectiveE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Logical connective. </p>
+<p><em>Values:</em></p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db11conjunctionE">
+<span id="cpporm::__cxx11::db::conjunction"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1af3c3aa69db1b97627e53e088ea8ecaf3aa3c1d30ba2c088f00b27a3f104913a21"></span><code class="descname">conjunction</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11conjunctionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>and connective </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx112db11disjunctionE">
+<span id="cpporm::__cxx11::db::disjunction"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1db_1af3c3aa69db1b97627e53e088ea8ecaf3a0df45ab8d924494dcb19bf3567e0d336"></span><code class="descname">disjunction</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11disjunctionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>or connective </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db5CacheE">
+<span id="cpporm::__cxx11::db::Cache"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cache"></span><em class="property">class </em><code class="descname">Cache</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5CacheE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;cache.h&gt;</em><p>Class that implements database caching. </p>
+<p>The cache maintains a copy of the information stored in a database. It does not have all the data, but only that which was fetched from the database. Once this data is loaded to the cache, it will remain in memory for the lifetime of the cache instance. It is possible to update or remove the data associated with a database entity. Each entity has a unique ID which identifies the entity in the cache. Itis also possible to change the ID of an entity.</p>
+<p><a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_transaction"><span class="std std-ref">Transaction</span></a> and savepoint semantics are valid for cache objects. </p>
+<p>Inherits from <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1util.html#cppormclasscpporm_1_1____cxx11_1_1util_1_1_string_map"><span class="std std-ref">cpporm::__cxx11::util::StringMap&lt; std::shared_ptr&lt; Entity &gt; &gt;</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db10ConnectionE">
+<span id="cpporm::__cxx11::db::Connection"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection"></span><em class="property">class </em><code class="descname">Connection</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db10ConnectionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;connection.h&gt;</em><p>Abstract class that represent a database connection. </p>
+<p>Database connections are be established by first specifying connection parameters. The connection canbe opened, closed and reopened at any time. There is a timeout mechanism which will try to close and open the connection again in a specified time interval.</p>
+<p>The connection object is used to create polymorhpic instances of <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_query"><span class="std std-ref">Query</span></a> and <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_statement"><span class="std std-ref">Statement</span></a> classes. It can also be used to execute arbitrary SQL commands in the database. </p>
+<p>Subclassed by <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1backend_1_1soci.html#cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_connection"><span class="std std-ref">cpporm::__cxx11::backend::soci::Connection</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db16ConnectionStringE">
+<span id="cpporm::__cxx11::db::ConnectionString"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_connection_string"></span><em class="property">class </em><code class="descname">ConnectionString</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db16ConnectionStringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;connectionstring.h&gt;</em><p>Class that helps build connection strings. </p>
+<p>A connection string is a list of parameters passed to a database driver in the establishment of a connection. The parameters are specified in name-and-value pairs, separated by a separator character. </p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db7ContextE">
+<span id="cpporm::__cxx11::db::Context"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_context"></span><em class="property">class </em><code class="descname">Context</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7ContextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;context.h&gt;</em><p>Class that represents a database context. </p>
+<p>The database context is a set of actions performed in the database to manipulate its data. There are three main actionss:<ol class="arabic simple">
+<li>Insertion;</li>
+<li>Update</li>
+<li>Deletion</li>
+</ol>
+</p>
+<p>A parent context can have any number of sub-contexts.</p>
+<p><a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_transaction"><span class="std std-ref">Transaction</span></a> and savepoint semantics apply to context objects. </p>
+<p>Subclassed by <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_iud_context"><span class="std std-ref">cpporm::__cxx11::db::IudContext</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db8CriteriaE">
+<span id="cpporm::__cxx11::db::Criteria"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_criteria"></span><em class="property">class </em><code class="descname">Criteria</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db8CriteriaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;criteria.h&gt;</em><p>Class that represents database search criteria. </p>
+<p>The criteria is composed of sets of clauses, of which there are four types:<ol class="arabic simple">
+<li>Join</li>
+<li>Condition</li>
+<li>Order by</li>
+<li>Limit/offset</li>
+</ol>
+</p>
+<p>The clauses will be used to construct an SQL query that uses them as search criteria. </p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db6CursorE">
+<span id="cpporm::__cxx11::db::Cursor"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_cursor"></span><em class="property">class </em><code class="descname">Cursor</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db6CursorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;cursor.h&gt;</em><p>Abstract class that represents a database cursor/result set. </p>
+<p>The cursor holds data fetched from the database as the result of an SQL query. It allows the data to be iterated through and extracted. The information is divided in records, each record being a data row in the result set from the query.</p>
+<p>One can ask for the next record, the number of affected rows, if a column exists in the result set or if a field is null.</p>
+<p>Data can only be extracted in string form. Conversions to specific data types must be performed externally. </p>
+<p>Subclassed by <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1backend_1_1soci.html#cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_cursor"><span class="std std-ref">cpporm::__cxx11::backend::soci::Cursor</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db10IudContextE">
+<span id="cpporm::__cxx11::db::IudContext"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_iud_context"></span><em class="property">class </em><code class="descname">IudContext</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db10IudContextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;iudcontext.h&gt;</em><p>Insertion/Update/Deletion context. </p>
+<p>In this specific type of context, insertions, updates and deletions are kept in separate internal caches. </p>
+<p>Inherits from <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_context"><span class="std std-ref">cpporm::__cxx11::db::Context</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db10MySqlQueryE">
+<span id="cpporm::__cxx11::db::MySqlQuery"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_my_sql_query"></span><em class="property">class </em><code class="descname">MySqlQuery</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db10MySqlQueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;query.h&gt;</em><p>MySQL query. </p>
+<p>Inherits from <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_query"><span class="std std-ref">cpporm::__cxx11::db::Query</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db15PostgreSqlQueryE">
+<span id="cpporm::__cxx11::db::PostgreSqlQuery"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_postgre_sql_query"></span><em class="property">class </em><code class="descname">PostgreSqlQuery</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db15PostgreSqlQueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;query.h&gt;</em><p>PostgreSQL query. </p>
+<p>Inherits from <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_query"><span class="std std-ref">cpporm::__cxx11::db::Query</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db5QueryE">
+<span id="cpporm::__cxx11::db::Query"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_query"></span><em class="property">class </em><code class="descname">Query</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db5QueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;query.h&gt;</em><p>Class that is used to construct SQL queries. </p>
+<p>All queries must begin with one of the following clauses:<ol class="arabic simple">
+<li>SELECT</li>
+<li>INSERT</li>
+<li>UPDATE</li>
+<li>DELETE</li>
+</ol>
+</p>
+<p>Each of these main clauses may be followed by combinations of other commands, such as WHERE, INTO, FROM, JOIN, etc. depending on the type of query. The resulting query string is guaranteed to be valid for a speficic SQL flavor. At the time of this writing, the following flavors are implemented in derived classes:<ol class="arabic simple">
+<li>SQLite</li>
+<li>SQL Server</li>
+<li>MySQL</li>
+<li>PostgreSQL </li>
+</ol>
+</p>
+<p>Subclassed by <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_my_sql_query"><span class="std std-ref">cpporm::__cxx11::db::MySqlQuery</span></a>, <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_postgre_sql_query"><span class="std std-ref">cpporm::__cxx11::db::PostgreSqlQuery</span></a>, <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_sqlite_query"><span class="std std-ref">cpporm::__cxx11::db::SqliteQuery</span></a>, <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_sql_server_query"><span class="std std-ref">cpporm::__cxx11::db::SqlServerQuery</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db12QueryFactoryE">
+<span id="cpporm::__cxx11::db::QueryFactory"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_query_factory"></span><em class="property">class </em><code class="descname">QueryFactory</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db12QueryFactoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;connection.h&gt;</em><p><a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_query"><span class="std std-ref">Query</span></a> factory. </p>
+<p>Inherits from <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1util.html#cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory"><span class="std std-ref">cpporm::__cxx11::util::Factory&lt; QueryFactory, Query, Vendor &gt;</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db9SavePointE">
+<span id="cpporm::__cxx11::db::SavePoint"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_save_point"></span><em class="property">class </em><code class="descname">SavePoint</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9SavePointE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;savepoint.h&gt;</em><p>Class that represents a database savepoint. </p>
+<p>Savepoints are similar to transactions, but are intended to be used inside a transaction as a more fine-grained mechanism. It allows one to save the state of a transaction at a specific point and then rollback to this point, reverting everything that happened since, without losing what happened before. Altough savepoints can be released, the transaction can still be rolled back independently of the internal savepoints. </p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db7SessionE">
+<span id="cpporm::__cxx11::db::Session"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"></span><em class="property">class </em><code class="descname">Session</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db7SessionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;session.h&gt;</em><p>Class that represents a database session. </p>
+<p><a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_session"><span class="std std-ref">Session</span></a> is the central part of the library. Entities are inserted into the database, or fetched from it, or updated/deleted, through the session. When an entity is first manipulated using a session, it is associated with that session.</p>
+<p>It is possible to interact directly with the database connection, if necessary. </p>
+<p>Subclassed by <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1backend_1_1soci.html#cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_session"><span class="std std-ref">cpporm::__cxx11::backend::soci::Session</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db11SqliteQueryE">
+<span id="cpporm::__cxx11::db::SqliteQuery"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_sqlite_query"></span><em class="property">class </em><code class="descname">SqliteQuery</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11SqliteQueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;query.h&gt;</em><p>SQLite query. </p>
+<p>Inherits from <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_query"><span class="std std-ref">cpporm::__cxx11::db::Query</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db14SqlServerQueryE">
+<span id="cpporm::__cxx11::db::SqlServerQuery"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_sql_server_query"></span><em class="property">class </em><code class="descname">SqlServerQuery</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db14SqlServerQueryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;query.h&gt;</em><p>SQL Server query. </p>
+<p>Inherits from <a class="reference internal" href="#cppormclasscpporm_1_1____cxx11_1_1db_1_1_query"><span class="std std-ref">cpporm::__cxx11::db::Query</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db9StatementE">
+<span id="cpporm::__cxx11::db::Statement"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_statement"></span><em class="property">class </em><code class="descname">Statement</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db9StatementE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;statement.h&gt;</em><p>Abstract class that represents a database prepared statement. </p>
+<p>Prepared statements are used to execute dynamically bound SQL queries. The text of the query should contain parameters whose values are taken from external variables.</p>
+<p>A statement should first be prepared, then its parameters should be bound to variables according to the parameter indices. Batch execution can be activated, which allows successive bindings for the same parameter. </p>
+<p>Subclassed by <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1backend_1_1soci.html#cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_statement"><span class="std std-ref">cpporm::__cxx11::backend::soci::Statement</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv2N6cpporm7__cxx112db11TransactionE">
+<span id="cpporm::__cxx11::db::Transaction"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1db_1_1_transaction"></span><em class="property">class </em><code class="descname">Transaction</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx112db11TransactionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;transaction.h&gt;</em><p>Class that represents a database transaction. </p>
+<p>Transactions can be commited or rolled back. Savepoints can be created inside a transaction. </p>
+<p>Subclassed by <a class="reference internal" href="namespacecpporm_1_1____cxx11_1_1backend_1_1soci.html#cppormclasscpporm_1_1____cxx11_1_1backend_1_1soci_1_1_transaction"><span class="std std-ref">cpporm::__cxx11::backend::soci::Transaction</span></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

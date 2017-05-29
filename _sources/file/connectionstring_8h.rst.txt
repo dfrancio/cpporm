@@ -1,0 +1,4 @@
+File connectionstring.h
+=======================
+
+.. doxygenfile:: connectionstring.h

@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File factory.h &mdash; cpporm  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="cpporm  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> cpporm
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">File factory.h</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../contents.html">cpporm</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../contents.html">Docs</a> &raquo;</li>
+        
+      <li>File factory.h</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/file/factory_8h.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-factory-h">
+<h1>File factory.h<a class="headerlink" href="#file-factory-h" title="Permalink to this headline">¶</a></h1>
+<p>Builder class. </p>
+<p><dl class="docutils">
+<dt><strong>Author</strong></dt>
+<dd>Diego Sogari <a class="reference external" href="mailto:diego&#46;sogari&#37;&#52;&#48;gmail&#46;com">diego<span>&#46;</span>sogari<span>&#64;</span>gmail<span>&#46;</span>com</a> </dd>
+<dt><strong>Date</strong></dt>
+<dd>2016 </dd>
+<dt><strong>Copyright</strong></dt>
+<dd>All Rights Reserved </dd>
+</dl>
+</p>
+<dl class="type">
+<dt id="_CPPv26cpporm">
+<span id="cpporm"></span><span class="target" id="cppormnamespacecpporm"></span><em class="property">namespace </em><code class="descname">cpporm</code><a class="headerlink" href="#_CPPv26cpporm" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The cpporm namespace. </p>
+<p>This is the highest-level namespace. It contains the other namespaces and also some of the most important classes in this library. </p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx11E">
+<span id="cpporm::__cxx11"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11"></span><em class="property">namespace </em><code class="descname">__cxx11</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx11E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx114utilE">
+<span id="cpporm::__cxx11::util"></span><span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1util"></span><em class="property">namespace </em><code class="descname">util</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114utilE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The util namespace. </p>
+<p>This is where all utility funcions and classes are located. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Typedefs</p>
+<dl class="type">
+<dt>
+<span class="target" id="cppormnamespacecpporm_1_1____cxx11_1_1util_1a9a25e4359ef859b4068e94fd00b326e0"></span><em class="property">using </em><code class="descname">cpporm::__cxx11::util::CaseInsensitiveFactory = typedef Factory&lt;F, Base, std::string, CaseInsensitiveLess, Args...&gt;</code></dt>
+<dd><p>Specialized <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1util.html#cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory"><span class="std std-ref">Factory</span></a> for case-insensitive string keys. </p>
+</dd></dl>
+
+</div>
+<dl class="class">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory"></span><em class="property">template </em>&lt;typename <em>F</em>, typename <em>Base</em>, typename <em>Key</em>, typename <em>Comp</em> = std::less&lt;Key&gt;, typename... <em>Args</em>&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx114util7FactoryE">
+<span id="cpporm::__cxx11::util::Factory"></span><em class="property">class </em><code class="descname">Factory</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7FactoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;factory.h&gt;</em><p>A class to create polymorphic objects by means of keys. </p>
+<p>Factories serve to instantiate a derived class using a key that is known only at run-time. It is a singleton class. One can register a key with a derived type in three different forms:<ol class="arabic simple">
+<li>in the factory&#8217;s constructor;</li>
+<li>by accessing the singleton instance directly; or</li>
+<li>using a helper register class</li>
+</ol>
+</p>
+<p><dl class="docutils">
+<dt><strong>Template Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">The</span></code>: <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1util.html#cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory"><span class="std std-ref">Factory</span></a> type (CRTP) </li>
+<li><code class="docutils literal"><span class="pre">Base</span></code>: The base class of the polymorphic type </li>
+<li><code class="docutils literal"><span class="pre">Key</span></code>: The type of the keys </li>
+<li><code class="docutils literal"><span class="pre">Comp</span></code>: The type of the comparator used in the ordering of the keys </li>
+<li><code class="docutils literal"><span class="pre">Args</span></code>: The types of the arguments passed as parameters to the object constructor </li>
+</ul>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Types</p>
+<dl class="type">
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory10RawCreatorE">
+<span id="cpporm::__cxx11::util::Factory::RawCreator"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a8689a92d6ecbfacf0fc7e845bdd60434"></span><em class="property">typedef </em>std::function&lt;Base *<span class="sig-paren">(</span>Args...<span class="sig-paren">)</span>&gt; <code class="descname">RawCreator</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory10RawCreatorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The raw-pointer creator function type. </p>
+</dd></dl>
+
+<dl class="type">
+<dt>
+<span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1abf44d2d6027f0dc5164f3abbb8d224ee"></span><em class="property">typedef </em><code class="descname">std::function&lt;std::shared_ptr&lt;Base&gt;Args...)&gt; cpporm::__cxx11::util::Factory::SmartCreator</code></dt>
+<dd><p>The smart-pointer creator function type. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory7FactoryERR7Factory">
+<span id="cpporm::__cxx11::util::Factory::Factory__FactoryRR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a04d5448f1753cd6ecebb903802ec717a"></span><code class="descname">Factory</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx114util7Factory7FactoryERR7Factory" title="cpporm::__cxx11::util::Factory::Factory">Factory</a>&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory7FactoryERR7Factory" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory7FactoryER7Factory">
+<span id="cpporm::__cxx11::util::Factory::Factory__FactoryCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1adeb4ae6dd26cb4cd9274fe79b073944b"></span><code class="descname">Factory</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx114util7Factory7FactoryERR7Factory" title="cpporm::__cxx11::util::Factory::Factory">Factory</a> <em class="property">const</em>&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory7FactoryER7Factory" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx114util7FactoryaSERR7Factory">
+<span id="cpporm::__cxx11::util::Factory::assign-operator__FactoryRR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a7d8f14491a3355bcdf21cdc20b7a6b84"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1util_1_1_factory.html#_CPPv2N6cpporm7__cxx114util7FactoryE" title="cpporm::__cxx11::util::Factory">Factory</a> &amp;<code class="descname">operator=</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1util_1_1_factory.html#_CPPv2N6cpporm7__cxx114util7FactoryE" title="cpporm::__cxx11::util::Factory">Factory</a>&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7FactoryaSERR7Factory" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx114util7FactoryaSER7Factory">
+<span id="cpporm::__cxx11::util::Factory::assign-operator__FactoryCR"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1aa53f28af6f48eafb3b4ff009464e39bc"></span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1util_1_1_factory.html#_CPPv2N6cpporm7__cxx114util7FactoryE" title="cpporm::__cxx11::util::Factory">Factory</a> &amp;<code class="descname">operator=</code><span class="sig-paren">(</span><a class="reference internal" href="../class/classcpporm_1_1____cxx11_1_1util_1_1_factory.html#_CPPv2N6cpporm7__cxx114util7FactoryE" title="cpporm::__cxx11::util::Factory">Factory</a> <em class="property">const</em>&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7FactoryaSER7Factory" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx114util7FactoryD0Ev">
+<span id="cpporm::__cxx11::util::Factory::~Factory"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a8947c090a54e41702a7e0d4d80bc70bf"></span><em class="property">virtual</em> <code class="descname">~Factory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7FactoryD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destructor. </p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;<em class="property">class</em> Derived, class... <em>FArgs</em>&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory8RegisterEDpRR5FArgs">
+<span id="cpporm::__cxx11::util::Factory::Register__FArgsRRDp"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1ae697ce065fc16f0a7a883041f57683b0"></span>void <code class="descname">Register</code><span class="sig-paren">(</span>FArgs&amp;&amp;... <em>keys</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory8RegisterEDpRR5FArgs" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register. </p>
+<p><dl class="docutils">
+<dt><strong>Template Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">Derived</span></code>: The derived type </li>
+<li><code class="docutils literal"><span class="pre">FArgs</span></code>: The types of the function arguments</li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">keys</span></code>: The set of keys associated with the derived object type </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;class... <em>FArgs</em>&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory8RegisterE10RawCreator12SmartCreatorDpRR5FArgs">
+<span id="cpporm::__cxx11::util::Factory::Register__RawCreator.SmartCreator.FArgsRRDp"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a330f09b1d59849bb50675050e8045c58"></span>void <code class="descname">Register</code><span class="sig-paren">(</span><a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx114util7Factory10RawCreatorE" title="cpporm::__cxx11::util::Factory::RawCreator">RawCreator</a> <em>rawCreator</em>, SmartCreator <em>smartCreator</em>, FArgs&amp;&amp;... <em>keys</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory8RegisterE10RawCreator12SmartCreatorDpRR5FArgs" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register. </p>
+<p><dl class="docutils">
+<dt><strong>Template Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">FArgs</span></code>: The types of the function arguments</li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">rawCreator</span></code>: The raw-pointer creator function </li>
+<li><code class="docutils literal"><span class="pre">smartCreator</span></code>: The smart-pointer creator function </li>
+<li><code class="docutils literal"><span class="pre">keys</span></code>: The set of keys associated with the derived object type </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;class... <em>FArgs</em>&gt;</dt>
+<dt id="_CPPv2NK6cpporm7__cxx114util7Factory12CreateUniqueERK3KeyDpRR5FArgs">
+<span id="cpporm::__cxx11::util::Factory::CreateUnique__KeyCR.FArgsRRDpC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a104562c7aef8836ba564003126a3f95d"></span>std::unique_ptr&lt;Base&gt; <code class="descname">CreateUnique</code><span class="sig-paren">(</span><em class="property">const</em> Key &amp;<em>key</em>, FArgs&amp;&amp;... <em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx114util7Factory12CreateUniqueERK3KeyDpRR5FArgs" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create unique pointer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The unique pointer </dd>
+<dt><strong>Template Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">FArgs</span></code>: The types of the function arguments</li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key to determine which kind of object should be created </li>
+<li><code class="docutils literal"><span class="pre">args</span></code>: The constructor arguments </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;class... <em>FArgs</em>&gt;</dt>
+<dt id="_CPPv2NK6cpporm7__cxx114util7Factory12CreateSharedERK3KeyDpRR5FArgs">
+<span id="cpporm::__cxx11::util::Factory::CreateShared__KeyCR.FArgsRRDpC"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a141f8d08848d0271f128134cb320c55d"></span>std::shared_ptr&lt;Base&gt; <code class="descname">CreateShared</code><span class="sig-paren">(</span><em class="property">const</em> Key &amp;<em>key</em>, FArgs&amp;&amp;... <em>args</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK6cpporm7__cxx114util7Factory12CreateSharedERK3KeyDpRR5FArgs" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create shared pointer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The shared pointer </dd>
+<dt><strong>Template Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">FArgs</span></code>: The types of the function arguments</li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">key</span></code>: The key to determine which kind of object should be created </li>
+<li><code class="docutils literal"><span class="pre">args</span></code>: The constructor arguments </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Static Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory11GetInstanceEv">
+<span id="cpporm::__cxx11::util::Factory::GetInstance"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a76bb6a1bbebaf989da6b2f00d3c44e60"></span><em class="property">static</em> F &amp;<code class="descname">GetInstance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory11GetInstanceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get factory instance. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The factory instance </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Functions</p>
+<dl class="function">
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory7FactoryEv">
+<span id="cpporm::__cxx11::util::Factory::Factory"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a052a16c7a9ebd9542d5224bf1de26bf7"></span><code class="descname">Factory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory7FactoryEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct a new <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1util.html#cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory"><span class="std std-ref">Factory</span></a>. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory9mCreatorsE">
+<span id="cpporm::__cxx11::util::Factory::mCreators__std::map:Key.std::pair:RawCreator.SmartCreator:.Comp:"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a51cb1c6ac354b244f2414b370f9c14a5"></span>std::map&lt;Key, std::pair&lt;<a class="reference internal" href="../contents.html#_CPPv2N6cpporm7__cxx114util7Factory10RawCreatorE" title="cpporm::__cxx11::util::Factory::RawCreator">RawCreator</a>, SmartCreator&gt;, Comp&gt; <code class="descname">mCreators</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory9mCreatorsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The map of creator functions. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N6cpporm7__cxx114util7Factory6mMutexE">
+<span id="cpporm::__cxx11::util::Factory::mMutex__std::mutex"></span><span class="target" id="cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory_1a54c6b1aac3636338e267837b7de947ab"></span>std::mutex <code class="descname">mMutex</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util7Factory6mMutexE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The mutual exclusion device. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<span class="target" id="cppormstructcpporm_1_1____cxx11_1_1util_1_1_factory_register"></span><em class="property">template </em>&lt;<em class="property">typename</em> T, <em class="property">typename</em> U&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx114util15FactoryRegisterE">
+<span id="cpporm::__cxx11::util::FactoryRegister"></span><em class="property">struct </em><code class="descname">FactoryRegister</code><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util15FactoryRegisterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;factory.h&gt;</em><p>Helper class to register a key with a derived class in a factory. </p>
+<p><dl class="docutils">
+<dt><strong>Template Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">T</span></code>: The <a class="reference internal" href="../namespace/namespacecpporm_1_1____cxx11_1_1util.html#cppormclasscpporm_1_1____cxx11_1_1util_1_1_factory"><span class="std std-ref">Factory</span></a> type </li>
+<li><code class="docutils literal"><span class="pre">U</span></code>: The derived type </li>
+</ul>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Functions</p>
+<dl class="function">
+<dt>
+<em class="property">template </em>&lt;class... <em>Args</em>&gt;</dt>
+<dt id="_CPPv2N6cpporm7__cxx114util15FactoryRegister15FactoryRegisterEDpRR4Args">
+<span id="cpporm::__cxx11::util::FactoryRegister::FactoryRegister__ArgsRRDp"></span><span class="target" id="cppormstructcpporm_1_1____cxx11_1_1util_1_1_factory_register_1ac7b11b6ba6794f4ff68d27aee38366dc"></span><code class="descname">FactoryRegister</code><span class="sig-paren">(</span>Args&amp;&amp;... <em>keys</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N6cpporm7__cxx114util15FactoryRegister15FactoryRegisterEDpRR4Args" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Constructor. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal"><span class="pre">keys</span></code>: The set of keys associated with the object type </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright .
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

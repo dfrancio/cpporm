@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::db::IudContext
+=====================================
+
+.. doxygenclass:: cpporm::__cxx11::db::IudContext

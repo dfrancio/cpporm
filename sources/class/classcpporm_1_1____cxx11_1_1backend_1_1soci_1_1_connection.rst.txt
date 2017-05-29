@@ -1,0 +1,4 @@
+Class cpporm::__cxx11::backend::soci::Connection
+================================================
+
+.. doxygenclass:: cpporm::__cxx11::backend::soci::Connection

@@ -1,0 +1,4 @@
+File attribute.cpp
+==================
+
+.. doxygenfile:: attribute.cpp
